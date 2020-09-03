@@ -6,8 +6,8 @@ import './App.less'
 import DarkModeToggle from "react-dark-mode-toggle";
 import {Space} from "antd";
 import {reactLocalStorage} from 'reactjs-localstorage';
-
-
+import Callback from "./pages/callback/callback.page";
+import HomepageComponent from "./pages/homepage/homepage.component";
 const App = () => {
     useEffect(async () => {
         const dark = await reactLocalStorage.get('theme', 'light') !== 'light';
@@ -45,8 +45,14 @@ const App = () => {
 
 
             <Switch>
-                <Route path='/login'>
+                <Route exact path='/'>
+                    <HomepageComponent/>
+                </Route>
+                <Route exact path='/login'>
                     <SignIn/>
+                </Route>
+                <Route exact path='/callback'>
+                    <Callback/>
                 </Route>
             </Switch>
 

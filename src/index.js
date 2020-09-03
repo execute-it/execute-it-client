@@ -5,6 +5,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from "react-router-dom";
 import { ThemeSwitcherProvider } from "react-css-theme-switcher";
+import { CookiesProvider } from 'react-cookie';
 
 const themes = {
     dark: `${process.env.PUBLIC_URL}/dark-theme.css`,
@@ -14,7 +15,9 @@ ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>
             <ThemeSwitcherProvider themeMap={themes} defaultTheme="light">
-                <App />
+                <CookiesProvider>
+                    <App />
+                </CookiesProvider>
             </ThemeSwitcherProvider>
         </BrowserRouter>
   </React.StrictMode>,

@@ -1,9 +1,12 @@
 import React from 'react'
 import ReactHtmlParser from 'react-html-parser';
-
+import {withRouter} from "react-router-dom";
+import cookie from 'react-cookies'
 import {Card, Col, Row, Space, Typography} from 'antd';
 import GoogleButton from 'react-google-button'
 import './signIn.styles.css'
+
+const queryString = require('query-string');
 
 const {Title} = Typography;
 
@@ -11,8 +14,8 @@ const {Title} = Typography;
 class SignIn extends React.Component {
     url = process.env.REACT_APP_MAIN_SERVER + "/auth/google"
 
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             windowObjectReference: null,
             previousUrl: null,
@@ -53,22 +56,15 @@ class SignIn extends React.Component {
     };
 
 
-    receiveMessage = event => {
-        // Do we trust the sender of this message? (might be
-        // different from what we originally opened, for example).
-
-        // if (event.origin !== BASE_URL) {
-        //   return;
-        // }
-
+    receiveMessage = async event => {
         const {data} = event;
-        // if we trust the sender and the source is our popup
-        // get the URL params and redirect to our server to use Passport to auth/login
 
-        const {payload} = data;
-        //   const redirectUrl = `/auth/google/login${payload}`;
-        //   window.location.pathname = redirectUrl;
-
+        if (data.source !== 'react-devtools-bridge') {
+            const token = await queryString.parse(data).token
+            console.log(data)
+            await cookie.save('jwt', token, {path: '/'})
+            this.props.history.push("/");
+        }
     };
 
     render() {
@@ -83,22 +79,32 @@ class SignIn extends React.Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col  xs={24} sm={24} md={24} lg={16} xl={16}>
-                            <div>{ReactHtmlParser(`                            <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_sFBr0l/snscit.json"  background="transparent"  speed="1"  style="width: 600px; height: 600px;"  loop autoplay></lottie-player>
+                        <Col xs={24} sm={24} md={24} lg={16} xl={16}>
+                            <div>{ReactHtmlParser(`
+                                                        <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_sFBr0l/snscit.json"  
+                                                        background="transparent"  
+                                                        speed="1"  
+                                                        style="width: 600px; height: 600px;"  
+                                                        loop autoplay>
+                                                        </lottie-player>
 
 `)}</div>
 
                         </Col>
-                        <Col  xs={24} sm={24} md={24} lg={8} xl={8} style={{position: 'relative'}}>
-                            <div style={{textAlign: 'center', position: 'absolute',top: '38%',transform: 'translateY(-50%)'}}>
-                                <h2><em style={{fontSize: '150%'}}>Realtime Code Collabration Platform</em> </h2>
+                        <Col xs={24} sm={24} md={24} lg={8} xl={8} style={{position: 'relative'}}>
+                            <div style={{
+                                textAlign: 'center',
+                                position: 'absolute',
+                                top: '38%',
+                                transform: 'translateY(-50%)'
+                            }}>
+                                <h2><em style={{fontSize: '150%'}}>Realtime Code Collabration Platform</em></h2>
                                 <br/><br/><br/>
                                 <Space align="end"> <GoogleButton onClick={() => {
                                     this.openSignInWindow(this.url, 'Sign In')
                                 }}/>
                                 </Space>
                             </div>
-
 
 
                         </Col>
@@ -109,4 +115,4 @@ class SignIn extends React.Component {
     }
 }
 
-export default SignIn
+export default withRouter(SignIn)
