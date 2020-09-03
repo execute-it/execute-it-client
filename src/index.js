@@ -6,21 +6,25 @@ import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from "react-router-dom";
 import { ThemeSwitcherProvider } from "react-css-theme-switcher";
 import { CookiesProvider } from 'react-cookie';
+import { UserProvider } from './context/UserContext'
+import { EditorProvider } from './context/EditorContext'
 
 const themes = {
     dark: `${process.env.PUBLIC_URL}/dark-theme.css`,
     light: `${process.env.PUBLIC_URL}/light-theme.css`,
 };
 ReactDOM.render(
-    <React.StrictMode>
         <BrowserRouter>
             <ThemeSwitcherProvider themeMap={themes} defaultTheme="light">
                 <CookiesProvider>
-                    <App />
+                    <UserProvider>
+                        <EditorProvider>
+                        <App />
+                        </EditorProvider>
+                    </UserProvider>
                 </CookiesProvider>
             </ThemeSwitcherProvider>
-        </BrowserRouter>
-  </React.StrictMode>,
+        </BrowserRouter>,
   document.getElementById('root')
 );
 
