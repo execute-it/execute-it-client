@@ -9,6 +9,7 @@ import {reactLocalStorage} from 'reactjs-localstorage';
 
 
 const App = () => {
+
     const {switcher, status, themes} = useThemeSwitcher();
 
     const [isDarkMode, setIsDarkMode] = React.useState( async ()=>{

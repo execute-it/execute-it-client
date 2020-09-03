@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@craco/craco": "^5.6.4",
+    "@lottiefiles/react-lottie-player": "^2.1.8",
     "@testing-library/jest-dom": "^5.9.0",
     "@testing-library/react": "^10.2.1",
     "@testing-library/user-event": "^11.1.0",
@@ -15,6 +16,8 @@
     "react-dark-mode-toggle": "^0.0.9",
     "react-dom": "^16.13.1",
     "react-google-button": "^0.7.1",
+    "react-html-parser": "^2.0.2",
+    "react-lottie": "^1.2.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "reactjs-localstorage": "^1.0.1"
