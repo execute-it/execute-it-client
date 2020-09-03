@@ -1,14 +1,11 @@
 import React from 'react'
-import * as animationData from '../../assets/animation.json'
-import Lottie from 'react-lottie';
-import {Player, Controls} from '@lottiefiles/react-lottie-player';
-import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
+import ReactHtmlParser from 'react-html-parser';
 
-
-import {Row, Col, Space} from 'antd';
-import {Card} from 'antd';
+import {Card, Col, Row, Space, Typography} from 'antd';
 import GoogleButton from 'react-google-button'
 import './signIn.styles.css'
+
+const {Title} = Typography;
 
 // import v from "../../assets/video.mp4"
 class SignIn extends React.Component {
@@ -80,10 +77,9 @@ class SignIn extends React.Component {
             <div id="homepage">
 
                 <Card id="login-card" bordered={false}>
-                    <Row>
+                    <Row justify="center" align="middle">
                         <Col span={24}>
-                            <h1>Execute It</h1>
-                            <em>Realtime Code Collabration Platform</em>
+                            <Title>Execute It</Title>
                         </Col>
                     </Row>
                     <Row>
@@ -93,10 +89,18 @@ class SignIn extends React.Component {
 `)}</div>
 
                         </Col>
-                        <Col span={8}> <Space align="end"> <GoogleButton onClick={() => {
-                            this.openSignInWindow(this.url, 'Sign In')
-                        }}/>
-                        </Space>
+                        <Col span={8} style={{position: 'relative'}}>
+                            <div style={{textAlign: 'center', position: 'absolute',top: '38%',transform: 'translateY(-50%)'}}>
+                                <h2><em style={{fontSize: '150%'}}>Realtime Code Collabration Platform</em> </h2>
+                                <br/><br/><br/>
+                                <Space align="end"> <GoogleButton onClick={() => {
+                                    this.openSignInWindow(this.url, 'Sign In')
+                                }}/>
+                                </Space>
+                            </div>
+
+
+
                         </Col>
                     </Row>
                 </Card>
