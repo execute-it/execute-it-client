@@ -83,13 +83,13 @@ class SignIn extends React.Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col span={16}>
+                        <Col  xs={24} sm={24} md={24} lg={16} xl={16}>
                             <div>{ReactHtmlParser(`                            <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_sFBr0l/snscit.json"  background="transparent"  speed="1"  style="width: 600px; height: 600px;"  loop autoplay></lottie-player>
 
 `)}</div>
 
                         </Col>
-                        <Col span={8} style={{position: 'relative'}}>
+                        <Col  xs={24} sm={24} md={24} lg={8} xl={8} style={{position: 'relative'}}>
                             <div style={{textAlign: 'center', position: 'absolute',top: '38%',transform: 'translateY(-50%)'}}>
                                 <h2><em style={{fontSize: '150%'}}>Realtime Code Collabration Platform</em> </h2>
                                 <br/><br/><br/>

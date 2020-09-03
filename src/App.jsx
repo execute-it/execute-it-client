@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Route, Switch,} from "react-router-dom";
 import {useThemeSwitcher} from "react-css-theme-switcher";
 import SignIn from "./pages/sign-in/signIn.page"
@@ -9,14 +9,15 @@ import {reactLocalStorage} from 'reactjs-localstorage';
 
 
 const App = () => {
+    useEffect(async () => {
+        const dark = await reactLocalStorage.get('theme', 'light') !== 'light';
+        setIsDarkMode(dark)
+        await switcher({theme: dark ? themes.dark : themes.light});
+    }, [])
 
     const {switcher, status, themes} = useThemeSwitcher();
 
-    const [isDarkMode, setIsDarkMode] = React.useState( async ()=>{
-         const dark = await reactLocalStorage.get('theme', 'light') !== 'light';
-        await switcher({theme: dark ? themes.dark : themes.light});
-        return dark
-    })
+    const [isDarkMode, setIsDarkMode] = React.useState()
 
     const toggleTheme = (isChecked) => {
         setIsDarkMode(isChecked);
@@ -28,6 +29,9 @@ const App = () => {
     if (status === "loading") {
         return null;
     }
+
+
+
     return (
         <>
 
