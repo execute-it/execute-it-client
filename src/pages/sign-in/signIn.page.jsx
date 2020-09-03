@@ -82,7 +82,7 @@ class SignIn extends React.Component {
                     </Row>
                     <Row>
                         <Col span={16}>
-                            <video id="animation-video" src={v} playsinline autoplay muted loop />
+                            <video id="animation-video" src={v} playsInline autoPlay muted loop />
                         </Col>
                         <Col span={8}>  <Space align="end">                  <GoogleButton onClick={()=> {this.openSignInWindow(this.url,'Sign In')}} />
                         </Space>
