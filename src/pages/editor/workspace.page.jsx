@@ -1,11 +1,14 @@
 import React from 'react'
 import UserContext from '../../context/UserContext'
 import { Convergence } from "@convergence/convergence";
-import SplitPanel from 'react-split-pane';
+import SplitPane from 'react-split-pane';
 import EditorGoupComponent from "./editorGroup.component"
 import ChatComponent from '../../components/chatComponent/chat.component'
 import { DeliveredProcedureOutlined } from '@ant-design/icons';
 import {Spin} from 'antd'
+import TerminalComponent from '../../components/terminalComponent/terminal.component'
+import FileManagerComponent from "./fileManager.component" 
+import ParticipantsList from '../../components/participantsList/participantsList.component'
 
 export default class WorkspacePage extends React.Component {
 
@@ -19,7 +22,8 @@ export default class WorkspacePage extends React.Component {
     this.state = {
       domain: null,
       projectData: null,
-      isLoading: true
+      isLoading: true,
+      roomUrl:'rooms.localhost/84f2d307-b867-410c-a28e-a49fbd379112'
     }
 
   }
@@ -44,7 +48,7 @@ export default class WorkspacePage extends React.Component {
         }
       );
     } else {
-      this.props.history.push("/")
+      this.props.history.push("/login")
     }
 
   };
@@ -110,7 +114,7 @@ export default class WorkspacePage extends React.Component {
           user: projectModel.session().user(),
         };
         this.setState({ projectData });
-        console.log(this.state.projectData);
+        console.log(this.state.projectData,'11lkjasl');
         this.context.setProjectData(projectData)
       })
       .then(()=>{this.setState({ isLoading: false })})
@@ -129,15 +133,33 @@ export default class WorkspacePage extends React.Component {
           <div>    <Spin size="large" />
           </div> :
           <div>
+            <SplitPane
+              split="vertical"
+              minSize="60vw"            
+            >
+              <div>
+                <FileManagerComponent rtModel={this.context.projectData.projectModel} />
+                <EditorGoupComponent rtModel={this.context.projectData.projectModel} />
+              </div>
+              <div>
+                <SplitPane
+                  split='horizontal'
+                  minSize="40vh"
+                >
+                  <div><ParticipantsList activity={this.context.projectData.activity}/></div>
+                  <div><TerminalComponent roomUrl={this.state.roomUrl}/></div>
+
+                </SplitPane>
+              </div>
+            </SplitPane>
             <ChatComponent
               chatRoom={this.context.projectData.chatRoom}
               domain={this.context.domain} 
               user={this.context.projectData.user}              
               />
               
-      {this.context.projectData ? 
-      <EditorGoupComponent rtModel={this.context.projectData.projectModel}/>
-         : <div></div>}
+      
+  
           </div>
       }
 

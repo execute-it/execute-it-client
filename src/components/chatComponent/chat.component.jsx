@@ -63,6 +63,7 @@ class ChatComponent extends React.Component {
         return (
             <div>
             <Launcher
+            style={{zIndex: 1000000}}
             agentProfile={{
               teamName: 'react-chat-window',
               imageUrl: this.state.profilePhoto

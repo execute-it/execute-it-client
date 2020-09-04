@@ -3,6 +3,7 @@ import React from "react"
 import { Tabs, Button } from 'antd';
 
 import EditorContext from '../../context/EditorContext';
+import Editor from './editor.component'
 
 const { TabPane } = Tabs;
 
@@ -33,8 +34,13 @@ export default class EditorTabsComponent extends React.Component {
         this.context.CreateFile().then(()=>{
           const { panes } = this.state;
           const activeKey = `newTab${this.newTabIndex}`;
-          // Replace <div/> with <EditorPane />
-          panes.push({ title:  this.context.editors[this.newTabIndex].title , content: <div/>, key: activeKey });
+          
+          panes.push({ title:  this.context.editors[this.newTabIndex].title ,
+             content: <Editor fileName = {this.context.editors[this.newTabIndex].title}
+                              fileModel = {this.context.editors[this.newTabIndex].model}
+                              historical={this.context.editors[this.newTabIndex].historical}
+
+             />, key: activeKey });
           this.newTabIndex++;
           
           this.setState({ panes, activeKey });
