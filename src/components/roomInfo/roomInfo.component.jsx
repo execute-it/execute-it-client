@@ -11,8 +11,11 @@ const RoomInfo = (props) => {
                 <Text strong>Room Name: </Text><Typography.Text>{props.roomName}</Typography.Text>
 
             </div>
+            <br/>
             <div>
-                <Text strong>Invite Code: </Text><Typography.Text>{props.inviteCode}</Typography.Text>
+                <Text strong>Invite Code: </Text>
+                <br/>
+                <Typography.Text copyable>{props.inviteCode}</Typography.Text>
             </div>
 
         </div>

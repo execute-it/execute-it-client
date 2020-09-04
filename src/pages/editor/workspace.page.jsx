@@ -7,10 +7,12 @@ import ChatComponent from '../../components/chatComponent/chat.component'
 import { DeliveredProcedureOutlined } from '@ant-design/icons';
 import { Spin } from 'antd'
 import TerminalComponent from '../../components/terminalComponent/terminal.component'
-// import FileManagerComponent from "./fileManager.component"
+import FileManagerComponent from "./fileManager.component"
 import ParticipantsList from '../../components/participantsList/participantsList.component'
 import RoomInfo from '../../components/roomInfo/roomInfo.component'
-export default class WorkspacePage extends React.Component {
+import { withRouter } from 'react-router-dom';
+
+class WorkspacePage extends React.Component {
 
   static contextType = UserContext
 
@@ -29,7 +31,12 @@ export default class WorkspacePage extends React.Component {
 
   }
 
+  componentWillMount(){
+    console.log('DESTORY')
+  }
+
   componentDidMount() {
+    console.log(this.props)
     const { user, domain } = this.context
     console.log(user)
     this.tryAutoLogin(user)
@@ -136,10 +143,10 @@ export default class WorkspacePage extends React.Component {
           <div>
             <SplitPane
               split="vertical"
-              minSize="60vw"
+              minSize="70vw"
             >
               <div>
-                {/* <FileManagerComponent rtModel={this.context.projectData.projectModel} /> */}
+                <FileManagerComponent rtModel={this.context.projectData.projectModel} />
                 <EditorGoupComponent rtModel={this.context.projectData.projectModel} />
               </div>
               <div>
@@ -178,3 +185,6 @@ export default class WorkspacePage extends React.Component {
     )
   }
 }
+
+
+export default withRouter(WorkspacePage)

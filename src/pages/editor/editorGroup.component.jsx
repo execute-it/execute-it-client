@@ -1,11 +1,11 @@
 import React from "react"
-import EditorContext from '../../context/EditorContext';
+import GlobalContext from '../../context/GlobalContext';
 import EditorTabs from './editorTabs.component'
 
 
 export default class EditorGoupComponent extends React.Component {
 
-    static contextType = EditorContext
+    static contextType = GlobalContext
 
     constructor(props){
         super(props)

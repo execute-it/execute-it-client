@@ -44,8 +44,9 @@ class RoomPage extends React.Component {
             roomName: this.state.roomName
         }
 
-        await axios.post(`${process.env.REACT_APP_MAIN_SERVER}/rooms`, qs.stringify(requestBody))
+        axios.post(`${process.env.REACT_APP_MAIN_SERVER}/rooms`, qs.stringify(requestBody))
             .then(res => {
+                console.log(res, 'PRATIK')
                 this.setState(
                     { confirmLoading: false, visible: false, roomName: "" }
                 )
@@ -62,7 +63,15 @@ class RoomPage extends React.Component {
             })
             .then((data) => {
                 console.log(':LLL',data)
-                this.props.history.push(`/workspace?roomName=${data.roomName}&roomId=${data.roomId}`)
+                this.props.history.push({
+                    pathname: '/workspace',
+                    state:
+                    {
+                        roomName: data.roomName,
+                        inviteCode: data.inviteCode,
+                        roomId: data.roomId
+                    }
+                })
             })
             .catch((e, res) => {
                 this.setState(
@@ -116,7 +125,17 @@ class RoomPage extends React.Component {
                     return res.data
                 })
                 .then((data) => {
-                    this.props.history.push(`/workspace?roomName=${data.roomName}&roomId=${data.roomId}`)
+                    console.log(':LLL',data)
+
+                    this.props.history.push({
+                        pathname: '/workspace',
+                        state:
+                        {
+                            roomName: data.roomName,
+                            inviteCode: data.inviteCode,
+                            roomId: data.roomId
+                        }
+                    })
                 })
                 .catch(e => {
                     if (e.response.data.status === 'already_joined') {

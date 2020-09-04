@@ -7,8 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import { ThemeSwitcherProvider } from "react-css-theme-switcher";
 import { CookiesProvider } from 'react-cookie';
 import { UserProvider } from './context/UserContext'
-import { EditorProvider } from './context/EditorContext'
-import { TreeProvider } from './context/TreeContext'
+import { GlobalProvider } from './context/GlobalContext'
 
 
 const themes = {
@@ -20,12 +19,10 @@ ReactDOM.render(
             <ThemeSwitcherProvider themeMap={themes} defaultTheme="light">
                 <CookiesProvider>
                     <UserProvider>
-                    <TreeProvider>
+                    <GlobalProvider>
 
-                        <EditorProvider>
                         <App />
-                        </EditorProvider>
-                        </TreeProvider>
+                        </GlobalProvider>
                     </UserProvider>
                 </CookiesProvider>
             </ThemeSwitcherProvider>

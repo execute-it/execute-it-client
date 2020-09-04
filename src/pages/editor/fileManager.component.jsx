@@ -1,6 +1,5 @@
 import React from "react"
-import TreeContext from '../../context/TreeContext'
-import EditorContext from '../../context/EditorContext'
+import GlobalContext from '../../context/GlobalContext'
 import { isNodeFolder } from '../../utils/utils';
 import { Button, Popconfirm, message, Tree } from 'antd';
 import { QuestionCircleOutlined } from "@ant-design/icons";
@@ -9,7 +8,7 @@ const { DirectoryTree } = Tree;
 
 export default class FileManagerComponent extends React.Component {
 
-    static contextType = TreeContext
+    static contextType = GlobalContext
 
     constructor(props) {
         super(props)
@@ -21,9 +20,10 @@ export default class FileManagerComponent extends React.Component {
     }
 
     componentDidMount() {
-        this.context.setTreeInitStates(this.props.rtModel)
-        this.setState({ treeNodes :  this.context.getNodes() , treeState: this.context.getTreeState() })
-
+        this.context.setInitStates(this.props.rtModel)
+        if(this.context.rtModel){
+        this.setState({ treeNodes :  this.props.rtModel.elementAt(['tree', 'nodes']) , treeState: this.context.getTreeState() })
+    }
     }
 
     componentWillMount() {
@@ -38,9 +38,10 @@ export default class FileManagerComponent extends React.Component {
         this.context.addNewNode('folder', this.state.treeState.selectedId);
     }
 
-    handleDeleteFolderOk = () => {
-        const id = this.props.treeState.selectedId;
-        if (isNodeFolder(this.state.treeNodes, id)) {
+    handleDelete = () => {
+        const id = this.context.selectedId;
+        console.log(this.props.rtModel.elementAt(['tree', 'nodes']))
+        if (isNodeFolder(this.props.rtModel.elementAt(['tree', 'nodes']), id)) {
             this.context.markFolderForDelete(id);
         } else {
             this.context.deleteNode(id);
@@ -63,16 +64,17 @@ export default class FileManagerComponent extends React.Component {
             let node = nodes.get(id);
             if (node.hasKey('children'))
                 children.push(this.getFileTreeObject(node))
+            // console.log(node.hasKey('children'))    
             children.push({
-                title: node.get('name'), // Convert to string
-                key: node.value(), // Convert to string
+                title: node.get('name').value(), // Convert to string
+                key: id, // Convert to string
                 isLeaf: true
             })
         })
 
         let obj = {
             title: root.get('name').value(),
-            key: root.value(),
+            key: root.get('name').value(),
             // Error prone Zone
             children
         }
@@ -82,16 +84,24 @@ export default class FileManagerComponent extends React.Component {
 
     onSelect = (keys, event) => {
         console.log('Trigger Select', keys, event);
+        // keys[0] reqd ID
+        this.context.setSelectedId(keys[0])
+        this.context.openFile(keys[0])
     };
 
     onExpand = () => {
         console.log('Trigger Expand');
     };
 
+ 
+
     render() {
         const loading = this.state.isLoading;
-        const data = this.getFileTreeObject()
-        console.log(data)
+        const data = []
+        data.push(this.getFileTreeObject())
+        
+        // console.log(data)
+        // console.log("sID", this.context.selectedId)
 
         return (
             loading ?
@@ -99,13 +109,13 @@ export default class FileManagerComponent extends React.Component {
                 :
                 <div style={{ width: "200px", height: "600px" }} >
 
-                    <Button type="primary" shape="circle" onClick={this.handleNewFile} > Add </Button>
+                    <Button type="primary"  onClick={this.handleNewFile} > Add </Button>
 
-                    <Button type="primary" shape="circle" onClick={this.handleNewFolder} > New folder </Button>
+                    <Button type="primary" onClick={this.handleNewFolder} > New folder </Button>
 
-                    <Popconfirm placement="top" title="Are you sure？"
+                    <Popconfirm  disabled={!this.context.selectedId || this.context.selectedId==='temproom'} placement="top" title="Are you sure？"
                         icon={<QuestionCircleOutlined style={{ color: "red" }} />} onConfirm={this.handleDelete} >
-                        <Button type="primary" shape="circle" danger > Delete </Button>
+                        <Button type="primary" danger disabled={!this.context.selectedId || this.context.selectedId==='temproom'} > Delete </Button>
                     </Popconfirm>
 
                     <DirectoryTree

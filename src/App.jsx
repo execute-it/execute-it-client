@@ -15,6 +15,7 @@ import axios from 'axios'
 import { withRouter } from 'react-router-dom'
 import TestPage from './pages/test/test.page'
 import HeaderComponent from './components/headerComponent/headerComponent.component'
+import JoinPage from './pages/join/join.page'
 
 const { Header, Content, Footer } = Layout;
 const App = (props) => {
@@ -96,18 +97,21 @@ const App = (props) => {
                         {
             loading?<div></div>:
                             <>
+                            
                         <Route exact path='/rooms'>
                             <RoomPage />
                         </Route>
                         <Route exact path='/test'>
                             <TestPage />
-                        </Route>
-
-                        
+                        </Route>                        
                         <Route exact path='/workspace'>
                             <WorkspacePage />
                         </Route>
-                        </>
+                        <Route exact path='/join'>
+                            <JoinPage/>
+                        </Route>
+
+                    </>
 }
                     </Switch>
                 </Content>

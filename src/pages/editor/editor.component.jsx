@@ -1,5 +1,5 @@
 import React from "react"
-import EditorContext from '../../context/EditorContext';
+import GlobalContext from '../../context/GlobalContext';
 import * as ace from 'ace-builds';
 import AceBinder from './AceBinder.js';
 
@@ -10,7 +10,7 @@ import './editor.css'
 
 export default class EditorComponent extends React.Component {
 
-    static contextType = EditorContext
+    static contextType = GlobalContext
 
     constructor(props) {
         super(props);
