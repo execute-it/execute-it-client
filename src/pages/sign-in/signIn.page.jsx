@@ -63,7 +63,7 @@ class SignIn extends React.Component {
             const token = await queryString.parse(data).token
             console.log(data)
             await cookie.save('jwt', token, {path: '/'})
-            this.props.history.push("/");
+            window.location.replace('/rooms')
         }
     };
 

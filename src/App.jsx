@@ -48,6 +48,8 @@ const App = (props) => {
                     //if successfull then store user details in global state
                     console.log(res.data)
                     userContext.setUser(res.data)
+                    if (props.history.location.pathname === '/')
+                        props.history.push('/rooms')
                 })
                 .then(()=>{
                     setLoading(false)

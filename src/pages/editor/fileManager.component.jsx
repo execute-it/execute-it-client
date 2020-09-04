@@ -1,8 +1,8 @@
 import React from "react"
 import GlobalContext from '../../context/GlobalContext'
 import { isNodeFolder } from '../../utils/utils';
-import { Button, Popconfirm, message, Tree } from 'antd';
-import { QuestionCircleOutlined } from "@ant-design/icons";
+import { Button, Popconfirm, message, Tree,Space } from 'antd';
+import { QuestionCircleOutlined, FolderAddOutlined, FileAddOutlined,DeleteOutlined } from "@ant-design/icons";
 
 const { DirectoryTree } = Tree;
 
@@ -21,9 +21,9 @@ export default class FileManagerComponent extends React.Component {
 
     componentDidMount() {
         this.context.setInitStates(this.props.rtModel)
-        if(this.context.rtModel){
-        this.setState({ treeNodes :  this.props.rtModel.elementAt(['tree', 'nodes']) , treeState: this.context.getTreeState() })
-    }
+        if (this.context.rtModel) {
+            this.setState({ treeNodes: this.props.rtModel.elementAt(['tree', 'nodes']), treeState: this.context.getTreeState() })
+        }
     }
 
     componentWillMount() {
@@ -31,20 +31,24 @@ export default class FileManagerComponent extends React.Component {
     }
 
     handleNewFile = () => {
-        this.context.addNewNode('file', this.state.treeState.selectedId);
+        console.log(this.context.selectedId)
+        this.context.addNewNode('file', this.context.selectedId);
     }
 
     handleNewFolder = () => {
-        this.context.addNewNode('folder', this.state.treeState.selectedId);
+        this.context.addNewNode('folder', this.context.selectedId);
     }
 
     handleDelete = () => {
         const id = this.context.selectedId;
         console.log(this.props.rtModel.elementAt(['tree', 'nodes']))
         if (isNodeFolder(this.props.rtModel.elementAt(['tree', 'nodes']), id)) {
-            this.context.markFolderForDelete(id);
-        } else {
+            // TODO: delete & remove tab recursively
             this.context.deleteNode(id);
+        } else {
+            
+            this.context.deleteNode(id);
+            this.context.tabRemove(id)
         }
 
     }
@@ -54,9 +58,9 @@ export default class FileManagerComponent extends React.Component {
         const nodes = this.props.rtModel.elementAt(['tree', 'nodes']);  // == treeNodes of convergence code
         if (!root)
             root = nodes.get("root")
-        
+
         const childrenObj = root.get('children');
-        
+
         let children = []
 
         childrenObj.forEach(child => {
@@ -74,7 +78,7 @@ export default class FileManagerComponent extends React.Component {
 
         let obj = {
             title: root.get('name').value(),
-            key: root.get('name').value(),
+            key: "root",
             // Error prone Zone
             children
         }
@@ -85,21 +89,23 @@ export default class FileManagerComponent extends React.Component {
     onSelect = (keys, event) => {
         console.log('Trigger Select', keys, event);
         // keys[0] reqd ID
-        this.context.setSelectedId(keys[0])
-        this.context.openFile(keys[0])
+            this.context.setSelectedId(keys[0])
+        if((!isNodeFolder(this.props.rtModel.elementAt(['tree', 'nodes']), keys[0]))){
+            this.context.openFile(keys[0])
+        }
     };
 
     onExpand = () => {
         console.log('Trigger Expand');
     };
 
- 
+
 
     render() {
         const loading = this.state.isLoading;
         const data = []
         data.push(this.getFileTreeObject())
-        
+
         // console.log(data)
         // console.log("sID", this.context.selectedId)
 
@@ -107,18 +113,22 @@ export default class FileManagerComponent extends React.Component {
             loading ?
                 <div></div>
                 :
-                <div style={{ width: "200px", height: "600px" }} >
+                <div  style={{marginTop: "1rem"}}>
+                    <Space>
 
-                    <Button type="primary"  onClick={this.handleNewFile} > Add </Button>
+                        <Button size="small" icon={<FileAddOutlined/>}  type="primary" onClick={this.handleNewFile} > File </Button>
 
-                    <Button type="primary" onClick={this.handleNewFolder} > New folder </Button>
+                        <Button size="small"  icon={<FolderAddOutlined/>} type="primary" onClick={this.handleNewFolder} > Folder </Button>
 
-                    <Popconfirm  disabled={!this.context.selectedId || this.context.selectedId==='temproom'} placement="top" title="Are you sure？"
-                        icon={<QuestionCircleOutlined style={{ color: "red" }} />} onConfirm={this.handleDelete} >
-                        <Button type="primary" danger disabled={!this.context.selectedId || this.context.selectedId==='temproom'} > Delete </Button>
-                    </Popconfirm>
+                        <Popconfirm disabled={!this.context.selectedId || this.context.selectedId === 'temproom'} placement="top" title="Are you sure？"
+                            icon={<QuestionCircleOutlined style={{ color: "red" }} />} onConfirm={this.handleDelete} >
+                            <Button size="small"  icon={<DeleteOutlined />} type="primary" danger disabled={!this.context.selectedId || this.context.selectedId === 'temproom'} > Delete </Button>
+                        </Popconfirm>
+                    </Space>
+
 
                     <DirectoryTree
+                    style={{marginTop: "1rem"}}
                         multiple
                         defaultExpandAll
                         onSelect={this.onSelect}

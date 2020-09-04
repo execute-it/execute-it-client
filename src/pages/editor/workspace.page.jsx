@@ -5,7 +5,7 @@ import SplitPane from 'react-split-pane';
 import EditorGoupComponent from "./editorGroup.component"
 import ChatComponent from '../../components/chatComponent/chat.component'
 import { DeliveredProcedureOutlined } from '@ant-design/icons';
-import { Spin } from 'antd'
+import { Spin,Col,Row } from 'antd'
 import TerminalComponent from '../../components/terminalComponent/terminal.component'
 import FileManagerComponent from "./fileManager.component"
 import ParticipantsList from '../../components/participantsList/participantsList.component'
@@ -31,7 +31,7 @@ class WorkspacePage extends React.Component {
 
   }
 
-  componentWillMount(){
+  componentWillMount() {
     console.log('DESTORY')
   }
 
@@ -146,8 +146,16 @@ class WorkspacePage extends React.Component {
               minSize="70vw"
             >
               <div>
-                <FileManagerComponent rtModel={this.context.projectData.projectModel} />
-                <EditorGoupComponent rtModel={this.context.projectData.projectModel} />
+                <Row>
+                  <Col span={6} style={{borderRight: "2px solid #505050"}} >
+                    <FileManagerComponent rtModel={this.context.projectData.projectModel} />
+                  </Col>
+                  <Col span={18} style={{    height: "calc(100vh - 64px)"
+}}>
+                    <EditorGoupComponent rtModel={this.context.projectData.projectModel} />
+
+                  </Col>
+                </Row>
               </div>
               <div>
                 <SplitPane
@@ -157,7 +165,7 @@ class WorkspacePage extends React.Component {
                   <div>
                     <SplitPane allowResize={false} split="vertical" minSize="50%">
                       <ParticipantsList activity={this.context.projectData.activity} />
-                      <RoomInfo roomName={this.room.name} inviteCode={this.inviteCode}/>  
+                      <RoomInfo roomName={this.room.name} inviteCode={this.inviteCode} />
                     </SplitPane>
                   </div>
                   <div><TerminalComponent roomUrl={this.state.roomUrl} /></div>
@@ -166,7 +174,7 @@ class WorkspacePage extends React.Component {
               </div>
             </SplitPane>
             <ChatComponent
-              style={{zIndex: '100000'}}
+              style={{ zIndex: '100000' }}
               chatRoom={this.context.projectData.chatRoom}
               domain={this.context.domain}
               user={this.context.projectData.user}

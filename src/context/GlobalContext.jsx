@@ -17,7 +17,8 @@ class GlobalProvider extends Component {
       modelService: null,
       collectionId: null,
       username: null,
-      selectedId: null
+      selectedId: null,
+      activeKey: null
 
     }
   }
@@ -37,7 +38,8 @@ class GlobalProvider extends Component {
       collectionId: null,
       username: null,
       rtModel: null,
-      selectedId: null
+      selectedId: null,
+      activeKey: null 
     })
   }
 
@@ -51,7 +53,7 @@ class GlobalProvider extends Component {
     const editor = new EditorData(id, this.getFileName(id), model, historical);
     let editors = this.state.editors;
     editors.push(editor);
-    console.log(editors[0].title)
+    console.log(editors[0].modelId)
     this.setState({ activeEditor: editor, editors })
   }
 
@@ -78,12 +80,12 @@ class GlobalProvider extends Component {
 
 
   //CREATE_FILE
-  CreateFile = () => {
+  CreateFile = (name, parentId) => {
     const uuid = generateUUID()
 
     const nodes = this.state.rtModel.elementAt(['tree', 'nodes']);
-    nodes.set(uuid, { name: "newF.js" });
-    const parentFolder = this.state.rtModel.elementAt(['tree', 'nodes', "root", 'children']);
+    nodes.set(uuid, { name });
+    const parentFolder = this.state.rtModel.elementAt(['tree', 'nodes', parentId, 'children']);
     parentFolder.push(uuid);
 
     return new Promise((resolve, reject) => {
@@ -91,9 +93,17 @@ class GlobalProvider extends Component {
         return this.openModel(uuid);
       }).then(model => {
         this.createEditor(uuid, model, false);
-        resolve()
+        resolve({id: uuid})
       });
     })
+  }
+
+
+  CreateFolder(name, parentId) {
+    const newId = generateUUID()
+    const nodes = this.getNodes();
+    nodes.set(newId, {name: name, children: []});
+    nodes.elementAt([parentId, 'children']).push(newId);
   }
 
 
@@ -107,11 +117,25 @@ class GlobalProvider extends Component {
     if (!this.isFileOpen(id)) {
       this.openModel(id).then(model => {
         this.createEditor(id, model, false);
+        this.setState({activeKey : id})
       });
     }
   }
   
+  setActiveKey= (id) => {
+    this.setState({activeKey : id})
+  }
+
+  tabRemove= (id) => {
+
+    let editors = this.state.editors;
+    editors = editors.filter(editor => editor.modelId !== id);
+    this.setState({ activeKey : editors.length>0 ? editors[0].modelId : null , editors })
+
+  }
   
+
+
 // -----------------Tree---------------------
 
   getTreeState = () => {
@@ -123,27 +147,43 @@ class GlobalProvider extends Component {
   }
 
   addNewNode = (type, nodeId) => {
+    console.log("1")
     const nodes = this.getNodes();
+    console.log("2")
+
     nodeId = nodeId || "root";
     let parentFolderId = nodeId;
     if (!isNodeFolder(nodes, nodeId)) {
+      console.log("3")
+
       parentFolderId = findChildParentId(nodes, nodeId);
     }
-    this.newNode = { type, folderId: parentFolderId };
+    console.log("5")
+    let name = "main.py"
+    if(type === "file"){
+      this.CreateFile(name , parentFolderId).then((data)=>{
+        console.log(data.id)
+        this.openFile(data.id)
+        this.setActiveKey(data.id)
+      })
+    }else{
+      this.CreateFolder("folderPratik", parentFolderId)
+    }
   }
+
 
   setSelectedId= (id) => {
     console.log(id)
 
     this.setState({ selectedId : id })
-    console.log(this.state.selectedId)
+    console.log(this.state.selectedId)  
   }
 
   markFolderForDelete = (id) => {
     this.setState({ folderMarkedForDeletion: id })
   }
 
-  deleteNode = (id) => {
+  deleteNode = (id) => {  
     const nodes = this.getNodes();
     const parent = findChildParentId(nodes, id);
 
@@ -172,8 +212,10 @@ class GlobalProvider extends Component {
 
   render() {
     const { children } = this.props
-    const { rtModel, editors, activeEditor, modelService, collectionId, username,selectedId } = this.state
-    const { dispose, setInitStates, getNodes, getNode, getTreeState, addNewNode, markFolderForDelete, deleteNode, createEditor, CreateFile, getStateFromContext,setSelectedId, openFile } = this
+    const { rtModel, editors, activeEditor, modelService, collectionId, username,selectedId, activeKey } = this.state
+    const { dispose, setInitStates, getNodes, getNode, getTreeState, addNewNode, markFolderForDelete,
+             deleteNode, createEditor, CreateFile, getStateFromContext,setSelectedId, openFile,
+             setActiveKey, tabRemove } = this
 
     return (<GlobalContext.Provider value={
       {
@@ -195,7 +237,10 @@ class GlobalProvider extends Component {
         setInitStates,
         CreateFile,
         setSelectedId,
-        openFile
+        openFile,
+        activeKey,
+        setActiveKey,
+        tabRemove
       }
     } > {children} </GlobalContext.Provider>)
   }

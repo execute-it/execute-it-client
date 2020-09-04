@@ -1,8 +1,8 @@
 import React from "react"
 import GlobalContext from '../../context/GlobalContext';
 import EditorTabs from './editorTabs.component'
-
-
+import {Result} from 'antd'
+import newFile from '../../assets/file.svg'
 export default class EditorGoupComponent extends React.Component {
 
     static contextType = GlobalContext
@@ -37,10 +37,18 @@ export default class EditorGoupComponent extends React.Component {
 //   };
 
     render(){
-
-        return( <EditorTabs
+      const editors = this.context.editors  
+        return(
+                  editors.length >0 ?
+          <EditorTabs
                     editors={this.context.editors}
                     activeEditor={this.context.activeEditor}
-                />)
+                />
+                : <Result
+                title="Create or Open New File"
+                icon={<img width={600} src={newFile}/>}
+              />
+                
+                )
     }
 }

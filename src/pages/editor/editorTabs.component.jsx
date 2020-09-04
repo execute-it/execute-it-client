@@ -22,7 +22,7 @@ export default class EditorTabsComponent extends React.Component {
   }
 
   onChange = activeKey => {
-    this.setState({ activeKey });
+    this.context.setActiveKey(activeKey);
   };
 
   onEdit = (targetKey, action) => {
@@ -40,7 +40,7 @@ export default class EditorTabsComponent extends React.Component {
         content: <Editor fileName={this.context.editors[this.newTabIndex].title}
           fileModel={this.context.editors[this.newTabIndex].model}
           historical={this.context.editors[this.newTabIndex].historical}
-
+          // key={pane.key}
         />, key: activeKey
       });
       this.newTabIndex++;
@@ -54,28 +54,16 @@ export default class EditorTabsComponent extends React.Component {
 
 
   remove = targetKey => {
-    let { activeKey } = this.state;
-    let lastIndex;
-    this.state.panes.forEach((pane, i) => {
-      if (pane.key === targetKey) {
-        lastIndex = i - 1;
-      }
-    });
-    const panes = this.state.panes.filter(pane => pane.key !== targetKey);
-    if (panes.length && activeKey === targetKey) {
-      if (lastIndex >= 0) {
-        activeKey = panes[lastIndex].key;
-      } else {
-        activeKey = panes[0].key;
-      }
-    }
-    this.setState({ panes, activeKey });
+    this.context.tabRemove(targetKey)
   };
 
 
 
 
   render() {
+
+    console.log(this.context.editors && this.context.editors.map(pane => (pane.modelId)))
+
     return (
       <div>
         {/* <div style={{ marginBottom: 16 }}>
@@ -84,17 +72,19 @@ export default class EditorTabsComponent extends React.Component {
         <Tabs
           hideAdd
           onChange={this.onChange}
-          activeKey={this.state.activeKey}
+          activeKey={this.context.activeKey}
           type="editable-card"
-          onEdit={this.oneditorsEdit}
+          onEdit={this.onEdit}
         >
-          {this.context.editor && this.context.editor.map(pane => (
-            <TabPane tab={pane.title} key={pane.key}>
+          {this.context.editors && this.context.editors.map(pane => (
+            
+            <TabPane key={pane.modelId} tab={pane.title}>
               <Editor fileName={pane.title}
                 fileModel={pane.model}
                 historical={pane.historical}
-
-              />                </TabPane>
+                key={pane.modelId}
+              />                
+              </TabPane>
           ))}
         </Tabs>
       </div>
