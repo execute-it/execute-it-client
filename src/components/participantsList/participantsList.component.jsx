@@ -1,6 +1,7 @@
 import React from 'react';
 import colorAssigner from '../../utils/color-util';
 import Participant from '../participant/participant.component'
+import {Typography} from 'antd'
 
 export default class ParticipantsList extends React.Component {
   constructor(props) {
@@ -36,6 +37,14 @@ export default class ParticipantsList extends React.Component {
       return this.createParticipant(participant);
     });
 
-    return (<div className="participants-list">{participants}</div>);
+    return (
+      <div style={{padding: '1rem'}}>
+        <Typography.Title level={3}>Participants</Typography.Title>
+
+          <div className="participants-list">{participants}</div>
+      </div>
+    
+    
+    );
   }
 }

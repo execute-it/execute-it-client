@@ -15,30 +15,22 @@ const themes = {
     dark: `${process.env.PUBLIC_URL}/dark-theme.css`,
     light: `${process.env.PUBLIC_URL}/light-theme.css`,
 };
-ReactDOM.render( <
-    BrowserRouter >
-    <
-    ThemeSwitcherProvider themeMap = { themes }
-    defaultTheme = "light" >
-    <
-    CookiesProvider >
-    <
-    UserProvider >
-    <
-    TreeProvider >
+ReactDOM.render(
+        <BrowserRouter>
+            <ThemeSwitcherProvider themeMap={themes} defaultTheme="light">
+                <CookiesProvider>
+                    <UserProvider>
+                    <TreeProvider>
 
-    <
-    EditorProvider >
-    <
-    App / >
-    <
-    /EditorProvider> <
-    /TreeProvider> <
-    /UserProvider> <
-    /CookiesProvider> <
-    /ThemeSwitcherProvider> <
-    /BrowserRouter>,
-    document.getElementById('root')
+                        <EditorProvider>
+                        <App />
+                        </EditorProvider>
+                        </TreeProvider>
+                    </UserProvider>
+                </CookiesProvider>
+            </ThemeSwitcherProvider>
+        </BrowserRouter>,
+  document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change

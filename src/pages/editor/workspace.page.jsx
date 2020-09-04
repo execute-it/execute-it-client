@@ -5,11 +5,11 @@ import SplitPane from 'react-split-pane';
 import EditorGoupComponent from "./editorGroup.component"
 import ChatComponent from '../../components/chatComponent/chat.component'
 import { DeliveredProcedureOutlined } from '@ant-design/icons';
-import {Spin} from 'antd'
+import { Spin } from 'antd'
 import TerminalComponent from '../../components/terminalComponent/terminal.component'
-import FileManagerComponent from "./fileManager.component" 
+// import FileManagerComponent from "./fileManager.component"
 import ParticipantsList from '../../components/participantsList/participantsList.component'
-
+import RoomInfo from '../../components/roomInfo/roomInfo.component'
 export default class WorkspacePage extends React.Component {
 
   static contextType = UserContext
@@ -18,12 +18,13 @@ export default class WorkspacePage extends React.Component {
     super(props)
     // Temp
     this.room = { name: "temproom", id: "2233" }
+    this.inviteCode = '84f2d307-b867-410c-a28e-a49fbd379112'
     this.domainUrl = process.env.REACT_APP_DOMAIN_URL;
     this.state = {
       domain: null,
       projectData: null,
       isLoading: true,
-      roomUrl:'rooms.localhost/84f2d307-b867-410c-a28e-a49fbd379112'
+      roomUrl: 'rooms.localhost/84f2d307-b867-410c-a28e-a49fbd379112'
     }
 
   }
@@ -114,10 +115,10 @@ export default class WorkspacePage extends React.Component {
           user: projectModel.session().user(),
         };
         this.setState({ projectData });
-        console.log(this.state.projectData,'11lkjasl');
+        console.log(this.state.projectData, '11lkjasl');
         this.context.setProjectData(projectData)
       })
-      .then(()=>{this.setState({ isLoading: false })})
+      .then(() => { this.setState({ isLoading: false }) })
       .catch((e) => {
         console.error(e);
       });
@@ -126,7 +127,7 @@ export default class WorkspacePage extends React.Component {
 
 
   render() {
-    const loading = this.state.isLoading  
+    const loading = this.state.isLoading
     return (<div>
       {
         loading ?
@@ -135,10 +136,10 @@ export default class WorkspacePage extends React.Component {
           <div>
             <SplitPane
               split="vertical"
-              minSize="60vw"            
+              minSize="60vw"
             >
               <div>
-                <FileManagerComponent rtModel={this.context.projectData.projectModel} />
+                {/* <FileManagerComponent rtModel={this.context.projectData.projectModel} /> */}
                 <EditorGoupComponent rtModel={this.context.projectData.projectModel} />
               </div>
               <div>
@@ -146,20 +147,26 @@ export default class WorkspacePage extends React.Component {
                   split='horizontal'
                   minSize="40vh"
                 >
-                  <div><ParticipantsList activity={this.context.projectData.activity}/></div>
-                  <div><TerminalComponent roomUrl={this.state.roomUrl}/></div>
+                  <div>
+                    <SplitPane allowResize={false} split="vertical" minSize="50%">
+                      <ParticipantsList activity={this.context.projectData.activity} />
+                      <RoomInfo roomName={this.room.name} inviteCode={this.inviteCode}/>  
+                    </SplitPane>
+                  </div>
+                  <div><TerminalComponent roomUrl={this.state.roomUrl} /></div>
 
                 </SplitPane>
               </div>
             </SplitPane>
             <ChatComponent
+              style={{zIndex: '100000'}}
               chatRoom={this.context.projectData.chatRoom}
-              domain={this.context.domain} 
-              user={this.context.projectData.user}              
-              />
-              
-      
-  
+              domain={this.context.domain}
+              user={this.context.projectData.user}
+            />
+
+
+
           </div>
       }
 
@@ -167,7 +174,7 @@ export default class WorkspacePage extends React.Component {
     </div>
 
 
-      
+
     )
   }
 }

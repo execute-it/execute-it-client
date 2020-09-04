@@ -10,7 +10,7 @@ const TestPage = ()=>{
 
     return(
         <div>
-            <ChatComponent projectData={projectData} domain={domain}/>
+            
         </div>
     )
 }

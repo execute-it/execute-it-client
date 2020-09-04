@@ -78,35 +78,42 @@ const App = (props) => {
 
 
     return (
-        <>{
-            loading?<div></div>:
+        <>
         
             <Layout className="layout">
+                
                 <Header>
                     <HeaderComponent isDarkMode={isDarkMode} toggleTheme={toggleTheme}/>
                 </Header>
                 <Content>
                     <Switch>
+                    <Route exact path='/login'>
+                            <SignIn />
+                    </Route>
+                    <Route exact path='/callback'>
+                            <Callback />
+                    </Route>
+                        {
+            loading?<div></div>:
+                            <>
                         <Route exact path='/rooms'>
                             <RoomPage />
                         </Route>
                         <Route exact path='/test'>
                             <TestPage />
                         </Route>
-                        <Route exact path='/login'>
-                            <SignIn />
-                        </Route>
-                        <Route exact path='/callback'>
-                            <Callback />
-                        </Route>
+
+                        
                         <Route exact path='/workspace'>
                             <WorkspacePage />
                         </Route>
+                        </>
+}
                     </Switch>
                 </Content>
-            </Layout>}
-        </>
-    );
+            </Layout>
+           </>              
+    )
 }
-
-export default withRouter(App);
+                    
+export default withRouter(App)
