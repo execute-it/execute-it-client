@@ -25,7 +25,7 @@ const App = (props) => {
 
     // eslint-disable-next-line
     useEffect(async () => {
-        const dark = await reactLocalStorage.get('theme', 'light') !== 'light';
+        const dark = await reactLocalStorage.get('theme', 'dark') === 'dark';
         await checkCookie()
         setIsDarkMode(dark)
         await switcher({ theme: dark ? themes.dark : themes.light });
