@@ -26,7 +26,7 @@ const HeaderComponent = ({ isDarkMode, toggleTheme,history }) => {
       <img width={70} src={logo} alt="" href="/" />
 
       <Space style={{marginTop: '1rem', marginLeft: '1rem'}}>
-      <Title level={3}>{`< Execute It />`}</Title>
+      <Title style={{color: "white"}} level={3}>{`< Execute It />`}</Title>
 
         </Space> 
 

@@ -19,6 +19,7 @@ class WorkspacePage extends React.Component {
   constructor(props) {
     super(props)
     // Temp
+    if(typeof this.props.history.location.state !== 'undefined'){
     this.room = { name: this.props.history.location.state.roomName, id: this.props.history.location.state.roomId }
     this.inviteCode = this.props.history.location.state.inviteCode
     this.domainUrl = process.env.REACT_APP_DOMAIN_URL;
@@ -28,16 +29,28 @@ class WorkspacePage extends React.Component {
       isLoading: true,
       roomURL: this.props.history.location.state.roomURL
     }
+  }else{
+  this.state = {
+    isLoading: true,
+  }
+}
 
   }
 
+  componentWillMount(){
+    if(typeof this.props.history.location.state === 'undefined'){
+      this.props.history.push('/rooms')
+    }
+  }
 
   componentDidMount() {
     // const data = this.props.history.location.state
     // console.log(this.props)
+    
     const { user} = this.context
     // console.log(user)
     this.tryAutoLogin(user)
+
   }
 
 
@@ -136,9 +149,10 @@ class WorkspacePage extends React.Component {
     return (<div>
       {
         loading ?
-          <div  >    
-            
+          <div id="spinner" style={{fontSize:"110px"}} >    
+           
             <Spin size="large" />
+
           </div> :
           <div>
             <SplitPane
