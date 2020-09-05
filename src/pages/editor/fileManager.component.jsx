@@ -1,9 +1,8 @@
 import React from "react"
 import GlobalContext from '../../context/GlobalContext'
 import { isNodeFolder } from '../../utils/utils';
-import { Button, Popconfirm, message, Tree,Space } from 'antd';
-import { QuestionCircleOutlined, FolderAddOutlined, FileAddOutlined,DeleteOutlined } from "@ant-design/icons";
-
+import { Button, Popconfirm, message, Tree,Space, Input, Modal } from 'antd';
+import { QuestionCircleOutlined, FolderAddOutlined, FileAddOutlined,DeleteOutlined, CaretRightOutlined } from "@ant-design/icons";
 const { DirectoryTree } = Tree;
 
 export default class FileManagerComponent extends React.Component {
@@ -15,7 +14,10 @@ export default class FileManagerComponent extends React.Component {
         this.state = {
             treeNodes: null,
             treeState: null,
-            isLoading: true
+            isLoading: true,
+            newName: "",
+            visibleNewFileModal: false,
+            visibleNewFolderModal: false
         }
     }
 
@@ -32,11 +34,15 @@ export default class FileManagerComponent extends React.Component {
 
     handleNewFile = () => {
         console.log(this.context.selectedId)
-        this.context.addNewNode('file', this.context.selectedId);
+        this.handleCancel()
+        this.context.addNewNode('file', this.context.selectedId, this.state.newName);
+        this.setState({newName: ""})
     }
 
     handleNewFolder = () => {
-        this.context.addNewNode('folder', this.context.selectedId);
+        this.handleCancel()
+        this.context.addNewNode('folder', this.context.selectedId, this.state.newName);
+        this.setState({newName: ""})
     }
 
     handleDelete = () => {
@@ -106,7 +112,17 @@ export default class FileManagerComponent extends React.Component {
         console.log('Trigger Expand');
     };
 
+    handleCancel = () => {
+        console.log('Clicked cancel button');
+        this.setState({
+            visibleNewFileModal: false,
+            visibleNewFolderModal: false
+        });
+    };
 
+    changeNewName = (e) => {
+        this.setState({ newName: e.target.value })
+    }
 
     render() {
         const loading = this.state.isLoading;
@@ -120,19 +136,20 @@ export default class FileManagerComponent extends React.Component {
             loading ?
                 <div></div>
                 :
-                <div  style={{marginTop: "1rem"}}>
+                <div  style={{marginTop: "2rem", paddingLeft: '25px'}}>
                     <Space>
 
-                        <Button size="small" icon={<FileAddOutlined/>}  type="primary" onClick={this.handleNewFile} > File </Button>
+                        <Button size="small" icon={<FileAddOutlined/>}  type="primary" onClick={_=>this.setState({visibleNewFileModal: true})} > File </Button>
 
-                        <Button size="small"  icon={<FolderAddOutlined/>} type="primary" onClick={this.handleNewFolder} > Folder </Button>
-                        <Button size="small"  icon={<FolderAddOutlined/>} type="primary" disabled={!this.context.fileName || this.context.editors.length === 0 } onClick={this.context.runTerminal} > Run </Button>
-
-
+                        {/* <Button size="small"  icon={<FolderAddOutlined/>} type="primary" onClick={_=>this.setState({visibleNewFolderModal: true})} > Folder </Button> */}
                         <Popconfirm disabled={!this.context.selectedId || this.context.selectedId === 'temproom'} placement="top" title="Are you sure？"
                             icon={<QuestionCircleOutlined style={{ color: "red" }} />} onConfirm={this.handleDelete} >
                             <Button size="small"  icon={<DeleteOutlined />} type="primary" danger disabled={!this.context.selectedId || this.context.selectedId === 'temproom'} > Delete </Button>
                         </Popconfirm>
+                        <Button size="small"  icon={<CaretRightOutlined />} type="primary" disabled={!this.context.activeKey || this.context.termFileName === null} onClick={this.context.runTerminal} >Run </Button>
+
+
+                      
                     </Space>
 
 
@@ -145,6 +162,27 @@ export default class FileManagerComponent extends React.Component {
                         treeData={data}
                     />
 
+                    <Modal
+                        title="Create File"
+                        visible={this.state.visibleNewFileModal}
+                        onOk={this.handleNewFile}
+                        confirmLoading={this.state.confirmLoading}
+                        onCancel={this.handleCancel}
+                        okButtonProps={{ disabled: this.state.newName.length === 0 }}
+                    >
+                        <Input value={this.state.newName} onChange={this.changeNewName} placeholder="File Name" />
+                    </Modal>
+
+                    <Modal
+                    title="Create Folder"
+                    visible={this.state.visibleNewFolderModal}
+                    onOk={this.handleNewFolder}
+                    confirmLoading={this.state.confirmLoading}
+                    onCancel={this.handleCancel}
+                    okButtonProps={{ disabled: this.state.newName.length === 0 }}
+                >
+                    <Input value={this.state.newName} onChange={this.changeNewName} placeholder="Folder Name" />
+                </Modal>
                 </div>
         )
     }

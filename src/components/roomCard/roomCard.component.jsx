@@ -6,7 +6,7 @@ const { Paragraph } = Typography
 
 
 
-const RoomCardComponent = ({ roomName, inviteCode, isAdmin,roomId,history }) => {
+const RoomCardComponent = ({ roomName, inviteCode, isAdmin,roomId,history,roomURL }) => {
   const enterRoom = ()=>{
     history.push({
       pathname: '/workspace',
@@ -14,7 +14,8 @@ const RoomCardComponent = ({ roomName, inviteCode, isAdmin,roomId,history }) => 
       {
           roomName: roomName,
           inviteCode: inviteCode,
-          roomId: roomId
+          roomId: roomId,
+          roomURL: roomURL
       }
   })
   }

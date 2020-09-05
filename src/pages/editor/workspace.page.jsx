@@ -19,14 +19,14 @@ class WorkspacePage extends React.Component {
   constructor(props) {
     super(props)
     // Temp
-    this.room = { name: "temproom", id: "2233" }
-    this.inviteCode = '84f2d307-b867-410c-a28e-a49fbd379112'
+    this.room = { name: this.props.history.location.state.roomName, id: this.props.history.location.state.roomId }
+    this.inviteCode = this.props.history.location.state.inviteCode
     this.domainUrl = process.env.REACT_APP_DOMAIN_URL;
     this.state = {
       domain: null,
       projectData: null,
       isLoading: true,
-      roomUrl: 'rooms.localhost/d1d78b14-e40d-4d93-8f30-05e4ff249e39'
+      roomURL: this.props.history.location.state.roomURL
     }
 
   }
@@ -133,10 +133,10 @@ class WorkspacePage extends React.Component {
 
   render() {
     const loading = this.state.isLoading
-    return (<div style={{position: 'relative'}}>
+    return (<div>
       {
         loading ?
-          <div style={{position: 'relative', top: 50, left: 50}}  >    
+          <div  >    
             
             <Spin size="large" />
           </div> :
@@ -144,13 +144,14 @@ class WorkspacePage extends React.Component {
             <SplitPane
               split="vertical"
               minSize="70vw"
+              style={{position: 'relative'}}
             >
               <div>
                 <Row>
-                  <Col span={6} style={{borderRight: "2px solid #505050"}} >
+                  <Col span={5} style={{borderRight: "2px solid #505050"}} >
                     <FileManagerComponent rtModel={this.context.projectData.projectModel} />
                   </Col>
-                  <Col span={18} style={{    height: "calc(100vh - 64px)"
+                  <Col span={19} style={{    height: "calc(100vh - 64px)"
 }}>
                     <EditorGoupComponent rtModel={this.context.projectData.projectModel} />
 
@@ -160,7 +161,7 @@ class WorkspacePage extends React.Component {
               <div>
                 <SplitPane
                   split='horizontal'
-                  minSize="40vh"
+                  minSize="47vh"
                   allowResize={false}
                 >
                   <div>
@@ -169,7 +170,7 @@ class WorkspacePage extends React.Component {
                       <RoomInfo roomName={this.room.name} inviteCode={this.inviteCode} />
                     </SplitPane>
                   </div>
-                  <div><TerminalComponent roomUrl={this.state.roomUrl} /></div>
+                  <div><TerminalComponent roomUrl={this.state.roomURL} /></div>
 
                 </SplitPane>
               </div>
@@ -180,7 +181,6 @@ class WorkspacePage extends React.Component {
               domain={this.context.domain}
               user={this.context.projectData.user}
             />
-            <VoiceChatMainComponent />
 
 
 

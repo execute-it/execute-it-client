@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
-import { Switch, Space, Avatar } from 'antd'
+import { Switch, Space, Avatar,Typography } from 'antd'
 import logo from '../../logo.svg'
 import UserContext from '../../context/UserContext';
 import { Menu, Dropdown } from 'antd';
 import {withRouter} from 'react-router-dom'
-
+const {Title} = Typography
 const menu = (
   <Menu>
     <Menu.Item>
@@ -25,8 +25,14 @@ const HeaderComponent = ({ isDarkMode, toggleTheme,history }) => {
     <Space style={{width: '100%', height:'5vh'}}>
       <img width={70} src={logo} alt="" href="/" />
 
+      <Space style={{marginTop: '1rem', marginLeft: '1rem'}}>
+      <Title level={3}>{`< Execute It />`}</Title>
 
-      <Space size='middle' style={{marginLeft: '80vw'}}>
+        </Space> 
+
+
+
+      <Space size='middle' style={{marginLeft: '70vw'}}>
         <Switch checkedChildren="Dark Mode On" unCheckedChildren="Dark Mode Off" checked={isDarkMode} onChange={toggleTheme} />            
 
         {

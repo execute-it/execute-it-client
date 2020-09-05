@@ -1,6 +1,6 @@
 import React from 'react';
-import { Container, Button, lightColors, darkColors } from 'react-floating-action-button'
 import VoiceChannelComponent from "./voiceChannel.component";
+
 
 const socket = require('socket.io-client')
 
@@ -55,12 +55,6 @@ class VoiceChatMainComponent extends React.Component {
 
     render() {
         return (<div >
-            <Container>
-                <Button
-                tooltip="The big plus button!"
-                styles={{backgroundColor: darkColors.lighterRed, color: lightColors.white}}
-                />
-            </Container>
             {this.state.socket && <VoiceChannelComponent socket={this.state.socket} username={this.username}/>}
         </div>)
     }

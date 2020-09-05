@@ -1,7 +1,10 @@
 import React from "react";
 import PeerAudioComponent from "./peerAudio.component";
-const mediasoupClient = require('mediasoup-client');
+import {Button} from "antd"
+import {AudioOutlined, AudioMutedOutlined} from "@ant-design/icons"
 
+
+const mediasoupClient = require('mediasoup-client');
 
 export default class VoiceChannelComponent extends React.Component {
     constructor(props) {
@@ -155,8 +158,11 @@ export default class VoiceChannelComponent extends React.Component {
             {Object.keys(this.state.streams).map((peerName) => {
                 return <PeerAudioComponent key={peerName} stream={this.state.streams[peerName]}/>
             })}
-            Mic: {(this.state.selfAudioOn && "On") || "Off"}
-            <div style={{cursor: "pointer"}} onClick={_=>this.handleAudioToggle()}>Toggle mic</div>
+            <Button type="primary" shape="circle" onClick={_=>this.handleAudioToggle()} icon={
+            this.state.selfAudioOn ? <AudioOutlined /> : <AudioMutedOutlined />
+            } />
+            {/* Mic: {(this.state.selfAudioOn && "On") || "Off"}
+            <div style={{cursor: "pointer"}} onClick={_=>this.handleAudioToggle()}>Toggle mic</div> */}
         </div>
     }
 

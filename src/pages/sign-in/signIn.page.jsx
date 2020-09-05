@@ -74,13 +74,13 @@ class SignIn extends React.Component {
 
                 <Card id="login-card" bordered={false}>
                     <Row justify="center" align="middle">
-                        <Col span={24}>
-                            <Title>Execute It</Title>
+                        <Col style={{marginLeft: '3rem', marginTop: '1rem'}}  span={24}>
+                            <Title>{`< Execute It />`}</Title>
                         </Col>
                     </Row>
                     <Row>
                         <Col xs={24} sm={24} md={24} lg={16} xl={16}>
-                            <div>{ReactHtmlParser(`
+                            <div style={{transform:"translate(2rem,-2rem)"}}>{ReactHtmlParser(`
                                                         <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_sFBr0l/snscit.json"  
                                                         background="transparent"  
                                                         speed="1"  
@@ -95,10 +95,11 @@ class SignIn extends React.Component {
                             <div style={{
                                 textAlign: 'center',
                                 position: 'absolute',
-                                top: '38%',
-                                transform: 'translateY(-50%)'
+                                top: '31%',
+                                transform: 'translateY(-50%)',
+                                marginRight: '1rem'
                             }}>
-                                <h2><em style={{fontSize: '150%'}}>Realtime Code Collabration Platform</em></h2>
+                                <h2><em style={{fontSize: '177%'}}>Realtime Code Collabration Platform</em></h2>
                                 <br/><br/><br/>
                                 <Space align="end"> <GoogleButton onClick={() => {
                                     this.openSignInWindow(this.url, 'Sign In')
