@@ -99,7 +99,7 @@ class SignIn extends React.Component {
                                 transform: 'translateY(-50%)',
                                 marginRight: '1rem'
                             }}>
-                                <h2><em style={{fontSize: '177%'}}>Realtime Code Collabration Platform</em></h2>
+                                <h2><em style={{fontSize: '177%'}}>Realtime Code Collaboration Platform</em></h2>
                                 <br/><br/><br/>
                                 <Space align="end"> <GoogleButton onClick={() => {
                                     this.openSignInWindow(this.url, 'Sign In')

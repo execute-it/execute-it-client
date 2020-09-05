@@ -4,7 +4,7 @@ import { Convergence } from "@convergence/convergence";
 import SplitPane from 'react-split-pane';
 import EditorGoupComponent from "./editorGroup.component"
 import ChatComponent from '../../components/chatComponent/chat.component'
-import { Spin,Col,Row } from 'antd'
+import { Spin,Col,Row, notification } from 'antd'
 import TerminalComponent from '../../components/terminalComponent/terminal.component'
 import FileManagerComponent from "./fileManager.component"
 import ParticipantsList from '../../components/participantsList/participantsList.component'
@@ -38,7 +38,13 @@ class WorkspacePage extends React.Component {
 
   componentWillMount(){
     if(typeof this.props.history.location.state === 'undefined'){
+      notification.warning({
+        message: 'Room not joined !!',
+        description:
+            'Please join a room or create new room. !!',
+    });
       this.props.history.push('/rooms')
+
     }
   }
 
@@ -164,7 +170,7 @@ class WorkspacePage extends React.Component {
               <div>
                 <Row>
                   <Col span={5} style={{borderRight: "2px solid #505050"}} >
-                    <FileManagerComponent rtModel={this.context.projectData.projectModel} />
+                    <FileManagerComponent rtModel={this.context.projectData.projectModel} roomName={this.props.history.location.state.roomName} />
                   </Col>
                   <Col span={19} style={{    height: "calc(100vh - 64px)"
 }}>
