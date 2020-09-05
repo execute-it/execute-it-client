@@ -1,14 +1,14 @@
 import React, { useContext } from 'react'
-import { Switch, Button, Space, Avatar } from 'antd'
+import { Switch, Space, Avatar } from 'antd'
 import logo from '../../logo.svg'
 import UserContext from '../../context/UserContext';
-import { Menu, Dropdown,Typography } from 'antd';
+import { Menu, Dropdown } from 'antd';
 import {withRouter} from 'react-router-dom'
 
 const menu = (
   <Menu>
     <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href="#">
+      <a target="_blank" rel="noopener noreferrer" href="/#">
         Logout
       </a>
     </Menu.Item>

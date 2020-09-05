@@ -2,13 +2,12 @@ import React from 'react'
 import axios from 'axios'
 import cookie from 'react-cookies'
 import RoomCardComponent from '../../components/roomCard/roomCard.component'
-import { Card, Row, Col, Button, Space, Input, Modal, notification } from 'antd';
+import { Row, Col, Button, Space, Input, Modal, notification } from 'antd';
 import { PlusOutlined, CodeOutlined } from '@ant-design/icons';
 import qs from 'querystring'
 import { withRouter } from 'react-router-dom'
 import validator from 'validator';
 
-const { Meta } = Card;
 class RoomPage extends React.Component {
     constructor(props) {
         super(props)
@@ -185,7 +184,7 @@ class RoomPage extends React.Component {
                 </Space>
 
                 <br /><br />
-                <Row  align="middle" gutter={[,24]}>
+                <Row  align="middle" gutter={[24]}>
                     {
                         rooms.map((x) => (
                             <Col key={x.inviteCode} span={6} ><RoomCardComponent

@@ -3,8 +3,7 @@ import { Route, Switch, } from "react-router-dom";
 import { useThemeSwitcher } from "react-css-theme-switcher";
 import SignIn from "./pages/sign-in/signIn.page"
 import './App.less'
-import DarkModeToggle from "react-dark-mode-toggle";
-import { Space, Layout, Button, Switch as Sw } from "antd";
+import {Layout} from "antd";
 import { reactLocalStorage } from 'reactjs-localstorage';
 import Callback from "./pages/callback/callback.page";
 import WorkspacePage from "./pages/editor/workspace.page";
@@ -13,22 +12,24 @@ import UserContext from './context/UserContext';
 import cookie from 'react-cookies'
 import axios from 'axios'
 import { withRouter } from 'react-router-dom'
-import TestPage from './pages/test/test.page'
+// import TestPage from './pages/test/test.page'
 import HeaderComponent from './components/headerComponent/headerComponent.component'
 import JoinPage from './pages/join/join.page'
 
-const { Header, Content, Footer } = Layout;
+const { Header, Content } = Layout;
 const App = (props) => {
     const [loading, setLoading] = useState(true);
 
 
     const userContext = useContext(UserContext)
 
+    // eslint-disable-next-line
     useEffect(async () => {
         const dark = await reactLocalStorage.get('theme', 'light') !== 'light';
         await checkCookie()
         setIsDarkMode(dark)
         await switcher({ theme: dark ? themes.dark : themes.light });
+    // eslint-disable-next-line
     }, [])
 
     const checkCookie = async () => {
@@ -103,9 +104,9 @@ const App = (props) => {
                         <Route exact path='/rooms'>
                             <RoomPage />
                         </Route>
-                        <Route exact path='/test'>
+                        {/* <Route exact path='/test'>
                             <TestPage />
-                        </Route>                        
+                        </Route>                         */}
                         <Route exact path='/workspace'>
                             <WorkspacePage />
                         </Route>

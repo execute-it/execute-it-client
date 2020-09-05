@@ -212,7 +212,7 @@ class GlobalProvider extends Component {
 
   render() {
     const { children } = this.props
-    const { rtModel, editors, activeEditor, modelService, collectionId, username,selectedId, activeKey } = this.state
+    const { rtModel, editors, activeEditor, selectedId, activeKey } = this.state
     const { dispose, setInitStates, getNodes, getNode, getTreeState, addNewNode, markFolderForDelete,
              deleteNode, createEditor, CreateFile, getStateFromContext,setSelectedId, openFile,
              setActiveKey, tabRemove } = this
@@ -232,9 +232,7 @@ class GlobalProvider extends Component {
         editors,
         activeEditor,
         createEditor,
-        dispose,
         getStateFromContext,
-        setInitStates,
         CreateFile,
         setSelectedId,
         openFile,

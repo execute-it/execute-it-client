@@ -1,7 +1,7 @@
 import React from 'react'
 import { Typography } from 'antd'
 
-const { Title, Text } = Typography
+const { Text } = Typography
 
 const RoomInfo = (props) => {
     return (

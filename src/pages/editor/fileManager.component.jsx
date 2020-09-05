@@ -49,7 +49,8 @@ export default class FileManagerComponent extends React.Component {
             
             this.context.deleteNode(id);
             this.context.tabRemove(id)
-        }
+            message.success('File Deleted !!');
+        }        
 
     }
 
@@ -67,7 +68,7 @@ export default class FileManagerComponent extends React.Component {
             const id = child.value();
             let node = nodes.get(id);
             if (node.hasKey('children'))
-                children.push(this.getFileTreeObject(node))
+                children = (this.getFileTreeObject(node))
             // console.log(node.hasKey('children'))    
             children.push({
                 title: node.get('name').value(), // Convert to string
@@ -76,12 +77,12 @@ export default class FileManagerComponent extends React.Component {
             })
         })
 
-        let obj = {
+        let obj = [{
             title: root.get('name').value(),
             key: "root",
             // Error prone Zone
             children
-        }
+        }]
 
         return obj
     }
@@ -103,8 +104,7 @@ export default class FileManagerComponent extends React.Component {
 
     render() {
         const loading = this.state.isLoading;
-        const data = []
-        data.push(this.getFileTreeObject())
+        const data = this.getFileTreeObject()
 
         // console.log(data)
         // console.log("sID", this.context.selectedId)

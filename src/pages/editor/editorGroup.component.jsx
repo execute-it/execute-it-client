@@ -1,8 +1,7 @@
 import React from "react"
 import GlobalContext from '../../context/GlobalContext';
 import EditorTabs from './editorTabs.component'
-import {Result} from 'antd'
-import newFile from '../../assets/file.svg'
+
 export default class EditorGoupComponent extends React.Component {
 
     static contextType = GlobalContext
@@ -10,7 +9,7 @@ export default class EditorGoupComponent extends React.Component {
     constructor(props){
         super(props)
         this.state = {
-
+          loading: false    
         }
 
         //----------USE GLOBAL STATES---------
@@ -21,11 +20,19 @@ export default class EditorGoupComponent extends React.Component {
         // console.log(props.rtModel)
   }
 
-  componentDidMount() {
+  componentWillMount() {
 
     // this.store.addChangeListener(this.onChange);
-    this.context.setInitStates(this.props.rtModel);
+    this.loadData()
+    
   }
+
+  loadData = async ()=>{
+    await this.context.setInitStates(this.props.rtModel);
+    await this.setState({loading: true })
+  }
+
+ 
 
   componentWillUnmount() {
     // this.store.removeChangeListener(this.onChange);
@@ -37,17 +44,16 @@ export default class EditorGoupComponent extends React.Component {
 //   };
 
     render(){
-      const editors = this.context.editors  
+      const loading = this.state.loading
+         
         return(
-                  editors.length >0 ?
+          loading?
+    
           <EditorTabs
                     editors={this.context.editors}
                     activeEditor={this.context.activeEditor}
-                />
-                : <Result
-                title="Create or Open New File"
-                icon={<img width={600} src={newFile}/>}
-              />
+                />:<div></div>
+        
                 
                 )
     }

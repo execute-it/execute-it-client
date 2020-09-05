@@ -4,7 +4,6 @@ import { Convergence } from "@convergence/convergence";
 import SplitPane from 'react-split-pane';
 import EditorGoupComponent from "./editorGroup.component"
 import ChatComponent from '../../components/chatComponent/chat.component'
-import { DeliveredProcedureOutlined } from '@ant-design/icons';
 import { Spin,Col,Row } from 'antd'
 import TerminalComponent from '../../components/terminalComponent/terminal.component'
 import FileManagerComponent from "./fileManager.component"
@@ -31,14 +30,12 @@ class WorkspacePage extends React.Component {
 
   }
 
-  componentWillMount() {
-    console.log('DESTORY')
-  }
 
   componentDidMount() {
-    console.log(this.props)
-    const { user, domain } = this.context
-    console.log(user)
+    // const data = this.props.history.location.state
+    // console.log(this.props)
+    const { user} = this.context
+    // console.log(user)
     this.tryAutoLogin(user)
   }
 
@@ -161,6 +158,7 @@ class WorkspacePage extends React.Component {
                 <SplitPane
                   split='horizontal'
                   minSize="40vh"
+                  allowResize={false}
                 >
                   <div>
                     <SplitPane allowResize={false} split="vertical" minSize="50%">

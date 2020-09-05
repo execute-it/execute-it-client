@@ -1,5 +1,4 @@
 import React from 'react'
-import { render } from 'react-dom'
 import { Card, Typography, Button } from 'antd'
 import { EditOutlined, EllipsisOutlined, SettingOutlined, RightOutlined } from '@ant-design/icons';
 import {withRouter} from 'react-router-dom'
