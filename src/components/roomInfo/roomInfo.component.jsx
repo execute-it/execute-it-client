@@ -1,11 +1,11 @@
-import React, {useState]} from 'react'
+import React, {useState} from 'react'
 import { Typography } from 'antd'
 
 const { Text } = Typography
 
 const RoomInfo = (props) => {
 
-    const [ link , setLink ] = useState({` "https" `})
+    const [ link , setLink ] = useState(`https://executeit.ml/join?inviteCode=${props.inviteCode}`)
 
     return (
         <div style={{ padding: '1rem' }}>
@@ -16,9 +16,9 @@ const RoomInfo = (props) => {
             </div>
             <br/>
             <div>
-                <Text strong>Invite Code: </Text>
+                <Text strong>Invite Link: </Text>
                 <br/>
-                <Typography.Text copyable>{props.inviteCode}</Typography.Text>
+                <Typography.Text copyable> {link}</Typography.Text>
             </div>
 
         </div>

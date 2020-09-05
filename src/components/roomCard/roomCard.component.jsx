@@ -21,20 +21,21 @@ const RoomCardComponent = ({ roomName, inviteCode, isAdmin,roomId,history,roomUR
   }
   return (
     <Card
-      size="small"
+      
       title={roomName}
-      style={{ width: 300 }}
-      actions={[
-        <SettingOutlined key="setting" />,
-        <EditOutlined key="edit" />,
-        <EllipsisOutlined key="ellipsis" />,
-      ]}
+      style={{ width: 270 }}
+      // actions={[
+      //   <SettingOutlined key="setting" />,
+      //   <EditOutlined key="edit" />,
+      //   <EllipsisOutlined key="ellipsis" />,
+      // ]}
     >
       <div>
-        <Paragraph copyable={{ text: inviteCode }}>{`Invite Code:${inviteCode} `}.</Paragraph>
+        
+        <Paragraph copyable={{ text: inviteCode }}>{`Invite Code: ${inviteCode} `}.</Paragraph>
         <Paragraph>Role: {isAdmin ? 'Admin' : 'Participant'}</Paragraph>
         <Button onClick={enterRoom} icon={<RightOutlined />} type='primary' size='middle'>Enter</Button>
-
+      <br/>
       </div>
 
     </Card>
