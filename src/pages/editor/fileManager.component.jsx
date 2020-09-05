@@ -2,7 +2,7 @@ import React from "react"
 import GlobalContext from '../../context/GlobalContext'
 import { isNodeFolder } from '../../utils/utils';
 import { Button, Popconfirm, message, Tree,Space, Input, Modal } from 'antd';
-import { QuestionCircleOutlined, FolderAddOutlined, FileAddOutlined,DeleteOutlined, CaretRightOutlined } from "@ant-design/icons";
+import { QuestionCircleOutlined, FileAddOutlined,DeleteOutlined, CaretRightOutlined } from "@ant-design/icons";
 const { DirectoryTree } = Tree;
 
 export default class FileManagerComponent extends React.Component {

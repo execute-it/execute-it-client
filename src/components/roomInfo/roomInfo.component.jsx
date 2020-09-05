@@ -1,9 +1,12 @@
-import React from 'react'
+import React, {useState]} from 'react'
 import { Typography } from 'antd'
 
 const { Text } = Typography
 
 const RoomInfo = (props) => {
+
+    const [ link , setLink ] = useState({` "https" `})
+
     return (
         <div style={{ padding: '1rem' }}>
             <Typography.Title level={3}>Room Info</Typography.Title>

@@ -10,7 +10,6 @@ import FileManagerComponent from "./fileManager.component"
 import ParticipantsList from '../../components/participantsList/participantsList.component'
 import RoomInfo from '../../components/roomInfo/roomInfo.component'
 import { withRouter } from 'react-router-dom';
-import VoiceChatMainComponent from "../../components/voiceChannel/voiceChatMain.component"
 
 class WorkspacePage extends React.Component {
 
@@ -46,10 +45,12 @@ class WorkspacePage extends React.Component {
   componentDidMount() {
     // const data = this.props.history.location.state
     // console.log(this.props)
-    
+    if(typeof this.props.history.location.state !== 'undefined'){
     const { user} = this.context
     // console.log(user)
     this.tryAutoLogin(user)
+  }
+
 
   }
 
