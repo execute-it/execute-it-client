@@ -29,16 +29,17 @@ export default class EditorComponent extends React.Component {
       componentDidMount() {
         console.log(this.props.fileName)
 
-        if (!this.props.historical) {
-          this._participantsSubscription = this.props.fileModel
-            .collaboratorsAsObservable()
-            .subscribe(participants => {
-              this.setState({participants: participants});
-            });
-        }
+        // if (!this.props.historical) {
+        //   this._participantsSubscription = this.props.fileModel
+        //     .collaboratorsAsObservable()
+        //     .subscribe(participants => {
+        //       this.setState({participants: participants});
+        //     });
+        // }
 
         // const modeList = ace.require("ace/ext/modelist");
         // const mode = modeList.getModeForPath(this.props.fileName);
+        this.context.setTerm( this.props.fileModel , this.props.fileName )
 
         this.initEditor();
 
@@ -48,23 +49,25 @@ export default class EditorComponent extends React.Component {
         if (this._participantsSubscription !== undefined) {
           this._participantsSubscription.unsubscribe();
         }
+
       }
 
       handleCursorMove = (cursor) => {
+        console.log(cursor , this.state.cursor)
         this.setState({cursor: cursor});
       };
 
 
       initEditor() {
         const contentModel = this.props.fileModel.root().get('content');
-        console.log(contentModel.value())
+        console.log(contentModel)
     
         this._editor = ace.edit(this._container);
         this._editor.setTheme("ace/theme/vibrant_ink");
 
         const modeList = ace.require("ace/ext/modelist");
         const mode = modeList.getModeForPath(this.props.fileName);
-
+        console.log(mode.mode)
         this._editor.getSession().setMode(mode.mode);
 
         this._editor.getSession().setValue(contentModel.value());

@@ -4,7 +4,7 @@ import { Tabs } from 'antd';
 
 import GlobalContext from '../../context/GlobalContext';
 import Editor from './editor.component'
-import {Result} from 'antd'
+import { Result } from 'antd'
 import newFile from '../../assets/file.svg'
 
 const { TabPane } = Tabs;
@@ -25,7 +25,9 @@ export default class EditorTabsComponent extends React.Component {
   }
 
   onChange = activeKey => {
+    if ( this.context.activeKey !== this.context.selectedId ){
     this.context.setActiveKey(activeKey);
+  }
   };
 
   onEdit = (targetKey, action) => {
@@ -43,16 +45,16 @@ export default class EditorTabsComponent extends React.Component {
         content: <Editor fileName={this.context.editors[this.newTabIndex].title}
           fileModel={this.context.editors[this.newTabIndex].model}
           historical={this.context.editors[this.newTabIndex].historical}
-          // key={pane.key}
+        // key={pane.key}
         />, key: activeKey
       });
       this.newTabIndex++;
 
       this.setState({ panes, activeKey });
     })
-    .catch(e => {
-      console.log(e)
-    })
+      .catch(e => {
+        console.log(e)
+      })
 
   };
 
@@ -69,32 +71,33 @@ export default class EditorTabsComponent extends React.Component {
     console.log(this.context.editors && this.context.editors.map(pane => (pane.modelId)))
 
     return (
-      this.context.editors > 0?
-      <div>
-        
-        <Tabs
-          hideAdd
-          onChange={this.onChange}
-          activeKey={this.context.activeKey}
-          type="editable-card"
-          onEdit={this.onEdit}
-        >
-          {this.context.editors && this.context.editors.map(pane => (
-            
-            <TabPane key={pane.modelId} tab={pane.title}>
-              <Editor fileName={pane.title}
-                fileModel={pane.model}
-                historical={pane.historical}
-                key={pane.modelId}
-              />                
-              </TabPane>
-          ))}
-        </Tabs>
-      </div>:<Result
-                title="Create or Open New File"
-                icon={<img alt='banner' width={600} src={newFile}/>}
-              />
-    );
+      <>
+        {this.props.editors.length > 0 ?
+          <div>
+
+            <Tabs
+              hideAdd
+              onChange={this.onChange}
+              activeKey={this.context.activeKey}
+              type="editable-card"
+              onEdit={this.onEdit}
+            >
+              {this.context.editors && this.context.editors.map(pane => (
+
+                <TabPane key={pane.modelId} tab={pane.title}>
+                  <Editor fileName={pane.title}
+                    fileModel={pane.model}
+                    historical={pane.historical}
+                    key={pane.modelId}
+                  />
+                </TabPane>
+              ))}
+            </Tabs>
+          </div> : <Result
+            title="Create or Open New File"
+            icon={<img alt='banner' width={600} src={newFile} />}
+          />}
+      </>);
   }
 
 }

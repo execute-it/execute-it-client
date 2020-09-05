@@ -131,7 +131,7 @@ export default class AceBinder {
     _addCursor(reference) {
         const color = colorAssigner.getColorAsHex(reference.sessionId());
         const remoteCursorIndex = reference.value();
-        this._cursorManager.addCursor(reference.sessionId(), reference.user().displayName, color, remoteCursorIndex);
+        this._cursorManager.addCursor(reference.sessionId(), JSON.parse(reference.user().displayName).displayName, color, remoteCursorIndex);
 
         reference.on("cleared", () => this._cursorManager.clearCursor(reference.sessionId()));
         reference.on("disposed", () => this._cursorManager.removeCursor(reference.sessionId()));
@@ -191,7 +191,7 @@ export default class AceBinder {
         // fixme we need the client to handle multi ranges
         const color = colorAssigner.getColorAsHex(reference.sessionId());
         const remoteSelection = reference.values().map(range => this._toAceRange(range));
-        this._selectionManager.addSelection(reference.sessionId(), reference.user().displayName, color, remoteSelection);
+        this._selectionManager.addSelection(reference.sessionId(), JSON.parse(reference.user().displayName).displayName, color, remoteSelection);
 
         reference.on("cleared", () => this._selectionManager.clearSelection(reference.sessionId()));
         reference.on("disposed", () => this._selectionManager.removeSelection(reference.sessionId()));
@@ -268,7 +268,7 @@ export default class AceBinder {
             viewRows = AceViewportUtil.indicesToRows(this._editor, remoteViewIndices.start, remoteViewIndices.end);
         }
 
-        this._radarView.addView(reference.sessionId(), reference.user().displayName, color, viewRows, cursorRow);
+        this._radarView.addView(reference.sessionId(), JSON.parse(reference.user().displayName).displayName, color, viewRows, cursorRow);
 
         // fixme need to implement this on the ace collab side
         reference.on("cleared", () => this._radarView.clearView(reference.sessionId()));

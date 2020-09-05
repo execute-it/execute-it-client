@@ -2,8 +2,13 @@ import React from 'react'
 import {XTerm} from "xterm-for-react"
 import { AttachAddon } from 'xterm-addon-attach';
 import cookie from 'react-cookies'
+import GlobalContext from '../../context/GlobalContext';
+
 
 export default class TerminalComponent extends React.Component {
+
+    static contextType = GlobalContext
+
     constructor(props) {
         super(props);
         this.state = {
@@ -27,6 +32,7 @@ export default class TerminalComponent extends React.Component {
                 ws.onopen = ()=>{
                     const attachAddon = new AttachAddon(ws);
                     terminal.loadAddon(attachAddon);
+                    this.context.setWS(ws)
                 }
 
                 ws.onclose = ()=>{

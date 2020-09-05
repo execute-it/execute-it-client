@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { findChildParentId, isNodeFolder, generateUUID } from '../utils/utils';
 import EditorData from "../utils/editorData"
-
+import axios from "axios"
 
 const GlobalContext = React.createContext()
 
@@ -18,7 +18,12 @@ class GlobalProvider extends Component {
       collectionId: null,
       username: null,
       selectedId: null,
-      activeKey: null
+      activeKey: null,
+      ws: null,
+      termFileModel: null,
+      termFileName: null,
+      roomUrl: 'rooms.localhost/d1d78b14-e40d-4d93-8f30-05e4ff249e39'
+
 
     }
   }
@@ -32,16 +37,78 @@ class GlobalProvider extends Component {
   dispose = () => {
 
     this.setState({
-      editors: null,
+      editors: [],
       activeEditor: null,
       modelService: null,
       collectionId: null,
       username: null,
       rtModel: null,
       selectedId: null,
-      activeKey: null 
+      activeKey: null,
+      termFileModel: null,
+      termFileName: null
     })
   }
+
+
+  setWS = (ws) => {
+    this.setState({ws : ws})
+  }
+
+  setTerm= (model , fileName)=>{
+    this.setState({ termFileModel : model , termFileName : fileName })
+  }
+
+  runTerminal = () => {
+
+    let data = this.state.termFileModel.root().get('content').value()
+    data = btoa(data)
+
+    axios
+    .post(
+      `http://${this.state.roomUrl}/file/${this.state.termFileName}`,
+      { data: data },
+      { "Content-Type": "application/json" }
+    )
+    .then((res) => {
+      console.log(res.data);
+
+      if (this.terminal) {
+        console.log("ter");
+        
+        this.ws.send("\x03"); // Simulate ^C to terminate previously running command if any
+        this.ws.send("clear\n"); // Clear Console
+
+        let fileName = this.state.termfileName
+        let type = fileName.split(".")[1]
+
+        if(type === 'py'){
+        
+          this.ws.send(`python3 ${this.state.termfileName}\n`);
+        
+        }else if(type === 'js'){}
+
+          this.ws.send(`node ${payload.fileName}\n`)
+        
+        }else if(type === 'c'){
+
+          this.ws.send(`gcc ${payload.fileName} && ./a.out\n`)
+
+        }else if(type === 'cpp'){
+
+          this.ws.send(`g++ ${payload.fileName} && ./a.out\n`)
+
+        }else{
+          this.ws.send('echo "FileNotSupported" ')
+        }
+
+    })
+    .catch((e) => {
+      console.log(e , 'term error');
+    });
+
+  }
+
 
   getStateFromContext = () => {
     return { editors: this.state.editors, activeEditor: this.state.activeEditor }
@@ -212,10 +279,10 @@ class GlobalProvider extends Component {
 
   render() {
     const { children } = this.props
-    const { rtModel, editors, activeEditor, selectedId, activeKey } = this.state
+    const { rtModel, editors, activeEditor, selectedId, activeKey, termFileModel, ws, termFileName, roomUrl } = this.state
     const { dispose, setInitStates, getNodes, getNode, getTreeState, addNewNode, markFolderForDelete,
              deleteNode, createEditor, CreateFile, getStateFromContext,setSelectedId, openFile,
-             setActiveKey, tabRemove } = this
+             setActiveKey, tabRemove, setWS, setTerm, runTerminal } = this
 
     return (<GlobalContext.Provider value={
       {
@@ -238,7 +305,9 @@ class GlobalProvider extends Component {
         openFile,
         activeKey,
         setActiveKey,
-        tabRemove
+        tabRemove,
+        setWS, runTerminal,
+        setTerm, termFileModel, ws, termFileName, roomUrl
       }
     } > {children} </GlobalContext.Provider>)
   }

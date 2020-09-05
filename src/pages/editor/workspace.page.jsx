@@ -10,6 +10,7 @@ import FileManagerComponent from "./fileManager.component"
 import ParticipantsList from '../../components/participantsList/participantsList.component'
 import RoomInfo from '../../components/roomInfo/roomInfo.component'
 import { withRouter } from 'react-router-dom';
+import VoiceChatMainComponent from "../../components/voiceChannel/voiceChatMain.component"
 
 class WorkspacePage extends React.Component {
 
@@ -25,7 +26,7 @@ class WorkspacePage extends React.Component {
       domain: null,
       projectData: null,
       isLoading: true,
-      roomUrl: 'rooms.localhost/84f2d307-b867-410c-a28e-a49fbd379112'
+      roomUrl: 'rooms.localhost/d1d78b14-e40d-4d93-8f30-05e4ff249e39'
     }
 
   }
@@ -132,10 +133,12 @@ class WorkspacePage extends React.Component {
 
   render() {
     const loading = this.state.isLoading
-    return (<div>
+    return (<div style={{position: 'relative'}}>
       {
         loading ?
-          <div>    <Spin size="large" />
+          <div style={{position: 'relative', top: 50, left: 50}}  >    
+            
+            <Spin size="large" />
           </div> :
           <div>
             <SplitPane
@@ -177,6 +180,7 @@ class WorkspacePage extends React.Component {
               domain={this.context.domain}
               user={this.context.projectData.user}
             />
+            <VoiceChatMainComponent />
 
 
 
