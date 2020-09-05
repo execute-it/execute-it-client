@@ -15,23 +15,30 @@ const RoomCardComponent = ({ roomName, inviteCode, isAdmin,roomId,history,roomUR
           roomName: roomName,
           inviteCode: inviteCode,
           roomId: roomId,
-          roomURL: roomURL
+          roomURL: roomURL,
+         
       }
   })
   }
+
+    
+
   return (
     <Card
       size="small"
       title={roomName}
       style={{ width: 300 }}
-      actions={[
-        <SettingOutlined key="setting" />,
-        <EditOutlined key="edit" />,
-        <EllipsisOutlined key="ellipsis" />,
-      ]}
+      // actions={[
+      //   <SettingOutlined key="setting" />,
+      //   <EditOutlined key="edit" />,
+      //   <EllipsisOutlined key="ellipsis" />,
+      // ]}
     >
       <div>
-        <Paragraph copyable={{ text: inviteCode }}>{`Invite Code:${inviteCode} `}.</Paragraph>
+        <Paragraph copyable={{ text: inviteCode }}>{`Invite Code: ${inviteCode} `}.</Paragraph>
+        <Paragraph copyable={{ text: `https://executeit.ml/join?inviteCode=${inviteCode}` }}> {"Invite Link: " + `https://executeit.ml/join?inviteCode=${inviteCode}` }</Paragraph>
+
+        
         <Paragraph>Role: {isAdmin ? 'Admin' : 'Participant'}</Paragraph>
         <Button onClick={enterRoom} icon={<RightOutlined />} type='primary' size='middle'>Enter</Button>
 
