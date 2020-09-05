@@ -12,8 +12,8 @@ export default class TerminalComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            ws : `ws://${this.props.roomUrl}`,
-            http : `http://${this.props.roomUrl}`
+            ws : `wss://${this.props.roomUrl}`,
+            http : `https://${this.props.roomUrl}`
         }
 
         this.xtermRef = React.createRef();
