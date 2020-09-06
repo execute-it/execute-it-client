@@ -41,7 +41,9 @@ class JoinPage extends React.Component {
                         {
                             roomName: data.roomName,
                             inviteCode: data.inviteCode,
-                            roomId: data.roomId
+                            roomId: data.roomId,
+                            roomURL: roomURL
+
                         }
                     })
                 })
