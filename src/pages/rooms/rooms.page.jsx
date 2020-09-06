@@ -174,8 +174,10 @@ class RoomPage extends React.Component {
 
                 <br/><br/>
 
+        {rooms.length > 4? <Typography.Text>You can only create 4 rooms</Typography.Text>:null}
+
                 <Space size={50}>
-                    <Button onClick={() => { this.setState({ visible: true }) }} type='primary' size='large' icon={<PlusOutlined />}>Create Room</Button>
+                    <Button onClick={() => { this.setState({ visible: true }) }} type='primary' size='large' icon={<PlusOutlined /> } disabled={rooms.length > 4}>Create Room</Button>
                     <Space size='middle'>
                         <Input
                             onChange={this.changeJoinRoomName}
