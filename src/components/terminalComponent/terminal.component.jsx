@@ -19,6 +19,15 @@ export default class TerminalComponent extends React.Component {
         this.xtermRef = React.createRef();
     }
 
+    sendPings = (ws)=>{
+        if(ws.readyState === WebSocket.OPEN) {
+            ws.send("e.x.e.p.i.n.g")
+            setTimeout(() => {
+                this.sendPings(ws)
+            }, 8 * 1000)
+        }
+    }
+
     componentDidMount() {        
         const terminal = this.xtermRef.current.terminal;
         const cols = terminal._core.element.offsetWidth/terminal._core._renderService.dimensions.actualCellWidth;
@@ -33,6 +42,7 @@ export default class TerminalComponent extends React.Component {
                     const attachAddon = new AttachAddon(ws);
                     terminal.loadAddon(attachAddon);
                     this.context.setWS(ws,this.state.http)
+                    // this.sendPings(ws)
                 }
 
                 ws.onclose = ()=>{
