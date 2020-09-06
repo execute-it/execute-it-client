@@ -36,7 +36,7 @@ export default class TerminalComponent extends React.Component {
                 }
 
                 ws.onclose = ()=>{
-                    terminal.write("\n\r\x1B[1;3;31mDisconnected from console!\x1B[0m")
+                    terminal.write("\n\r\x1B[1;3;31mDisconnected from console! Please Refresh the page\x1B[0m")
                 }
             })
         })
