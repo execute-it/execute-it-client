@@ -8,7 +8,7 @@ const {Title} = Typography
 const menu = (
   <Menu>
     <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href="/login">
+      <a href="/login">
         Logout
       </a>
     </Menu.Item>
