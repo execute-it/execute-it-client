@@ -111,9 +111,9 @@ const App = (props) => {
                                 <Route exact path="/workspace">
                                     <WorkspacePage />
                                 </Route>
-                                <Route path="/join">
+                                {/* <Route path="/join">
                                     <JoinPage />
-                                </Route>
+                                </Route> */}
                             </>
                         )}
                     </Switch>

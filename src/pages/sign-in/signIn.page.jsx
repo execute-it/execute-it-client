@@ -88,6 +88,7 @@ class SignIn extends React.Component {
                     `join?inviteCode=${this.inviteCode.inviteCode}`
                 );
             } else {
+                console.log("not join room");
                 window.location.replace("/rooms");
             }
         }
