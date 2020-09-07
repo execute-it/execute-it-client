@@ -11,7 +11,8 @@ class JoinPage extends React.Component {
         super(props);
 
         this.inviteCode = queryString.parse(this.props.history.location.search);
-
+        console.log(queryString.parse(this.props.history.location.search)
+        .inviteCode)
         axios.defaults.headers.common["x-api-key"] = cookie.load("jwt");
         axios.defaults.headers.common["Content-Type"] =
             "application/x-www-form-urlencoded";
@@ -20,7 +21,7 @@ class JoinPage extends React.Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         console.log("join room");
 
         this.correctRedirect();
@@ -35,9 +36,9 @@ class JoinPage extends React.Component {
                 .get(`${process.env.REACT_APP_MAIN_SERVER}/auth/verify`)
                 .then((res) => {
                     //if successfull then store user details in global state
+                    
                     this.checkInviteCode(
-                        queryString.parse(this.props.history.location.search)
-                            .inviteCode
+                        queryString.parse(this.props.history.location.search).inviteCode
                     );
                 })
 
@@ -63,9 +64,10 @@ class JoinPage extends React.Component {
     };
 
     checkInviteCode = async (inviteCode) => {
-        if (validator.isUUID(inviteCode)) {
+        console.log(inviteCode)
+        if (validator.isUUID(this.inviteCode.inviteCode) && typeof this.inviteCode.inviteCode !=="undefined") {
             //send put request and then redirect to workspace
-
+            console.log('check invite')
             await axios
                 .post(
                     `${process.env.REACT_APP_MAIN_SERVER}/rooms/join?inviteCode=${inviteCode}`
