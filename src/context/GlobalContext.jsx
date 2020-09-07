@@ -47,7 +47,8 @@ class GlobalProvider extends Component {
       selectedId: null,
       activeKey: null,
       termFileModel: null,
-      termFileName: null
+      termFileName: null,
+      roomUrl:''
     })
   }
 

@@ -1,46 +1,59 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 
-const UserContext = React.createContext()
+const UserContext = React.createContext();
 
 class UserProvider extends Component {
     // Context state
     state = {
         user: {},
         domain: null,
-        projectData: null
-    }
+        projectData: null,
+    };
 
     // Method to update state
     setUser = (user) => {
-        this.setState({ user })
-    }
+        this.setState({ user });
+    };
 
     setDomain = (domain) => {
-        this.setState({ domain })
-    }
+        this.setState({ domain });
+    };
 
     setProjectData = (projectData) => {
-        this.setState({ projectData })
+        this.setState({ projectData });
+    };
+
+    dispose = () => {
+        this.setState({
+            user:{},
+            domain: null,
+            projectData: null
+        })
     }
 
     render() {
-        const { children } = this.props
-        const { user, domain, projectData } = this.state
-        const { setUser, setDomain, setProjectData } = this
+        const { children } = this.props;
+        const { user, domain, projectData } = this.state;
+        const { setUser, setDomain, setProjectData, dispose } = this;
 
-        return (< UserContext.Provider value={
-            {
-                user,
-                domain,
-                projectData,
-                setUser,
-                setDomain,
-                setProjectData
-            }
-        } > {children} </UserContext.Provider>)
-        }
+        return (
+            <UserContext.Provider
+                value={{
+                    user,
+                    domain,
+                    projectData,
+                    setUser,
+                    setDomain,
+                    setProjectData,
+                    dispose
+                }}>
+                {" "}
+                {children}{" "}
+            </UserContext.Provider>
+        );
     }
+}
 
-    export default UserContext
+export default UserContext;
 
-    export { UserProvider}
+export { UserProvider };
