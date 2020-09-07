@@ -42,7 +42,7 @@ export default class TerminalComponent extends React.Component {
                     const attachAddon = new AttachAddon(ws);
                     terminal.loadAddon(attachAddon);
                     this.context.setWS(ws,this.state.http)
-                    // this.sendPings(ws)
+                    this.sendPings(ws)
                 }
 
                 ws.onclose = ()=>{
