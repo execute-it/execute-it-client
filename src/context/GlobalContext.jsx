@@ -36,7 +36,7 @@ class GlobalProvider extends Component {
 
 
   dispose = () => {
-
+    console.log('dispose')
     this.setState({
       editors: [],
       activeEditor: null,
