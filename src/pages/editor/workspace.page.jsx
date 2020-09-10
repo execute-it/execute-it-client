@@ -76,6 +76,7 @@ class WorkspacePage extends React.Component {
   };
 
   createOrJoinProject = (domain) => {
+      console.log(this.room)
     domain
       .models()
       .openAutoCreate({
@@ -97,15 +98,15 @@ class WorkspacePage extends React.Component {
       .then((model) => {
         console.log("project model open");
         // use the model
-        this.openProject(model);
+        this.openProject(model, domain);
       })
       .catch((error) => {
         console.log("Could not open the project model", error);
       });
   };
 
-  openProject = (projectModel) => {
-    const domain = this.state.domain;
+  openProject = (projectModel, domain) => {
+    // const domain = this.state.domain;
 
     let activity = null;
     let chatRoom = null;

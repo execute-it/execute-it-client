@@ -23,7 +23,7 @@ class GlobalProvider extends Component {
       ws: null,
       termFileModel: null,
       termFileName: null,
-      roomUrl: ''
+      roomUrl:''
 
 
     }
@@ -48,7 +48,9 @@ class GlobalProvider extends Component {
       activeKey: null,
       termFileModel: null,
       termFileName: null,
-      roomUrl:''
+      roomUrl:'',
+      folderMarkedForDeletion: null,
+
     })
   }
 
