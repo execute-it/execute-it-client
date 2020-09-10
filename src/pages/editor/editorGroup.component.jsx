@@ -1,60 +1,53 @@
-import React from "react"
-import GlobalContext from '../../context/GlobalContext';
-import EditorTabs from './editorTabs.component'
+import React from "react";
+import GlobalContext from "../../context/GlobalContext";
+import EditorTabs from "./editorTabs.component";
 
 export default class EditorGoupComponent extends React.Component {
+  static contextType = GlobalContext;
 
-    static contextType = GlobalContext
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: false,
+    };
 
-    constructor(props){
-        super(props)
-        this.state = {
-          loading: false    
-        }
+    //----------USE GLOBAL STATES---------
 
-        //----------USE GLOBAL STATES---------
+    // this.store = new EditorsStore(props.rtModel);
+    // this.state = this.context.getStateFromContext()
 
-        // this.store = new EditorsStore(props.rtModel);
-        // this.state = this.context.getStateFromContext()
-
-        // console.log(props.rtModel)
+    // console.log(props.rtModel)
   }
 
   componentWillMount() {
-
     // this.store.addChangeListener(this.onChange);
-    this.loadData()
-    
+    this.loadData();
   }
 
-  loadData = async ()=>{
+  loadData = async () => {
     await this.context.setInitStates(this.props.rtModel);
-    await this.setState({loading: true })
-  }
-
- 
+    await this.setState({ loading: true });
+  };
 
   componentWillUnmount() {
     // this.store.removeChangeListener(this.onChange);
     this.context.dispose();
   }
 
-//   onChange = () => {
-//     this.setState(this.context.getStateFromContext());
-//   };
+  //   onChange = () => {
+  //     this.setState(this.context.getStateFromContext());
+  //   };
 
-    render(){
-      const loading = this.state.loading
-         
-        return(
-          loading?
-    
-          <EditorTabs
-                    editors={this.context.editors}
-                    activeEditor={this.context.activeEditor}
-                />:<div></div>
-        
-                
-                )
-    }
+  render() {
+    const loading = this.state.loading;
+
+    return loading ? (
+      <EditorTabs
+        editors={this.context.editors}
+        activeEditor={this.context.activeEditor}
+      />
+    ) : (
+      <div></div>
+    );
+  }
 }

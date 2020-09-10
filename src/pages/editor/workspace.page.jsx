@@ -37,10 +37,10 @@ class WorkspacePage extends React.Component {
     }
   }
 
-//   componentWillMount() {
-//     if (typeof this.props.history.location.state === "undefined") {
-//     }
-//   }
+  //   componentWillMount() {
+  //     if (typeof this.props.history.location.state === "undefined") {
+  //     }
+  //   }
 
   componentDidMount() {
     // const data = this.props.history.location.state
@@ -58,13 +58,19 @@ class WorkspacePage extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    const projData = this.state.projectData;
+    projData.projectModel.close();
+    projData.activity.leave();
+    projData.chatRoom.leave();
+  }
+
   tryAutoLogin = (user) => {
-      console.log(user)
     if (user) {
       // console.log(user)
       Convergence.connectAnonymously(this.domainUrl, JSON.stringify(user)).then(
         (d) => {
-          console.log(d)
+          console.log(d);
           this.setState({ domain: d });
           this.context.setDomain(d);
           this.createOrJoinProject(d);
@@ -76,7 +82,6 @@ class WorkspacePage extends React.Component {
   };
 
   createOrJoinProject = (domain) => {
-      console.log(this.room)
     domain
       .models()
       .openAutoCreate({
@@ -98,15 +103,15 @@ class WorkspacePage extends React.Component {
       .then((model) => {
         console.log("project model open");
         // use the model
-        this.openProject(model, domain);
+        this.openProject(model);
       })
       .catch((error) => {
         console.log("Could not open the project model", error);
       });
   };
 
-  openProject = (projectModel, domain) => {
-    // const domain = this.state.domain;
+  openProject = (projectModel) => {
+    const domain = this.state.domain;
 
     let activity = null;
     let chatRoom = null;

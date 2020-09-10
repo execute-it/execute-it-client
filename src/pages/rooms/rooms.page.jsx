@@ -227,7 +227,6 @@ class RoomPage extends React.Component {
                     {rooms.map((x) => (
                         
                         <Col key={x.inviteCode} span={6}>
-                            <h3>{x.roomId}</h3>
                             <RoomCardComponent
                                 roomName={x.roomName}
                                 inviteCode={x.inviteCode}
