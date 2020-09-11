@@ -10,104 +10,95 @@ import newFile from "../../assets/file.svg";
 const { TabPane } = Tabs;
 
 export default class EditorTabsComponent extends React.Component {
-    static contextType = GlobalContext;
+  static contextType = GlobalContext;
 
-    constructor(props) {
-        super(props);
-        this.newTabIndex = 0;
-        const panes = [];
-        this.state = {
-            activeKey: null,
-            panes,
-            loading: true,
-        };
-    }
-
-    onChange = (activeKey) => {
-        this.context.setActiveKey(activeKey);
+  constructor(props) {
+    super(props);
+    this.newTabIndex = 0;
+    const panes = [];
+    this.state = {
+      activeKey: null,
+      panes,
+      loading: true,
     };
+  }
 
-    onEdit = (targetKey, action) => {
-        this[action](targetKey);
-    };
+  onChange = (activeKey) => {
+    this.context.setActiveKey(activeKey);
+  };
 
-    add = () => {
-        this.context
-            .CreateFile()
-            .then(() => {
-                const { panes } = this.state;
-                const activeKey = `newTab${this.newTabIndex}`;
+  onEdit = (targetKey, action) => {
+    this[action](targetKey);
+  };
 
-                panes.push({
-                    title: this.context.editors[this.newTabIndex].title,
-                    content: (
-                        <Editor
-                            fileName={
-                                this.context.editors[this.newTabIndex].title
-                            }
-                            fileModel={
-                                this.context.editors[this.newTabIndex].model
-                            }
-                            historical={
-                                this.context.editors[this.newTabIndex]
-                                    .historical
-                            }
-                            // key={pane.key}
-                        />
-                    ),
-                    key: activeKey,
-                });
-                this.newTabIndex++;
+  add = () => {
+    this.context
+      .CreateFile()
+      .then(() => {
+        const { panes } = this.state;
+        const activeKey = `newTab${this.newTabIndex}`;
 
-                this.setState({ panes, activeKey });
-            })
-            .catch((e) => {
-                console.log(e);
-            });
-    };
+        panes.push({
+          title: this.context.editors[this.newTabIndex].title,
+          content: (
+            <Editor
+              fileName={this.context.editors[this.newTabIndex].title}
+              fileModel={this.context.editors[this.newTabIndex].model}
+              historical={this.context.editors[this.newTabIndex].historical}
+              // key={pane.key}
+            />
+          ),
+          key: activeKey,
+        });
+        this.newTabIndex++;
 
-    remove = (targetKey) => {
-        this.context.tabRemove(targetKey);
-    };
+        this.setState({ panes, activeKey });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
-    render() {
-        console.log(
-            this.context.editors &&
-                this.context.editors.map((pane) => pane.modelId)
-        );
+  remove = (targetKey) => {
+    this.context.tabRemove(targetKey);
+  };
 
-        return (
-            <>
-                {this.props.editors.length > 0 ? (
-                    <div>
-                        <Tabs
-                            hideAdd
-                            onChange={this.onChange}
-                            activeKey={this.context.activeKey}
-                            type="editable-card"
-                            onEdit={this.onEdit}>
-                            {this.context.editors &&
-                                this.context.editors.map((pane) => (
-                                    <TabPane
-                                        key={pane.modelId}
-                                        tab={pane.title}>
-                                        <Editor
-                                            fileName={pane.title}
-                                            fileModel={pane.model}
-                                            historical={pane.historical}
-                                            key={pane.modelId}
-                                        />
-                                    </TabPane>
-                                ))}
-                        </Tabs>
-                    </div>
-                ) : (
-                    <Result
-                        title="Create or Open New File"
-                        icon={<img alt="banner" width={600} src={newFile} />}
+  render() {
+    console.log(
+      this.context.editors && this.context.editors.map((pane) => pane.modelId)
+    );
+
+    return (
+      <>
+        {this.props.editors.length > 0 ? (
+          <div>
+            <Tabs
+              hideAdd
+              onChange={this.onChange}
+              activeKey={this.context.activeKey}
+              type="editable-card"
+              onEdit={this.onEdit}>
+              {this.context.editors &&
+                this.context.editors.map((pane) => (
+                  <TabPane key={pane.modelId} tab={pane.title}>
+                    <Editor
+                      fileName={pane.title}
+                      fileModel={pane.model}
+                      historical={pane.historical}
+                      key={pane.modelId}
                     />
-                )}
-            </>
-        );
-    }
+                    {/* {this.context.setTerm(pane.model, pane.title)} */}
+                  </TabPane>
+                ))}
+            </Tabs>
+          </div>
+        ) : (
+          <Result
+            title="Create or Open New File"
+            icon={<img alt="banner" width={600} src={newFile} />}
+          />
+        )}
+      </>
+    );
+  }
 }

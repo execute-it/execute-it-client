@@ -5,7 +5,7 @@ const UserContext = React.createContext();
 class UserProvider extends Component {
     // Context state
     state = {
-        user: {},
+        user: null,
         domain: null,
         projectData: null,
     };
@@ -25,7 +25,7 @@ class UserProvider extends Component {
 
     dispose = () => {
         this.setState({
-            user:{},
+            user:null,
             domain: null,
             projectData: null
         })

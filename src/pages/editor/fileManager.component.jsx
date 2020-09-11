@@ -103,7 +103,8 @@ export default class FileManagerComponent extends React.Component {
 
         this.context.setSelectedId(keys[0])
 
-        if((!isNodeFolder(this.props.rtModel.elementAt(['tree', 'nodes']), keys[0]))){
+        if((!isNodeFolder(this.props.rtModel.elementAt(['tree', 'nodes']), keys[0]))  ){
+          
             this.context.openFile(keys[0])
         }
     };

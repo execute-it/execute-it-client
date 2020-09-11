@@ -34,10 +34,11 @@ class RoomPage extends React.Component {
     componentDidMount() {
         axios.get(`${process.env.REACT_APP_MAIN_SERVER}/rooms`).then((res) => {
             this.setState({ rooms: res.data.rooms });
+            console.log(this.state.rooms)
         });
     }
 
-    showModal = () => {
+    showModal = () => {     
         this.setState({
             visible: true,
         });
@@ -124,6 +125,7 @@ class RoomPage extends React.Component {
 
     joinRoom = () => {
         if (validator.isUUID(this.state.joinRoomData)) {
+            console.log(this.state.joinRoomData)
             axios
                 .post(
                     `${process.env.REACT_APP_MAIN_SERVER}/rooms/join?inviteCode=${this.state.joinRoomData}`
@@ -171,6 +173,7 @@ class RoomPage extends React.Component {
 
     render() {
         const rooms = this.state.rooms;
+        console.log(rooms)
         return (
             <div style={{ padding: "3rem" }}>
                 <Typography.Title style={{ marginLeft: "1rem" }}>
@@ -222,6 +225,7 @@ class RoomPage extends React.Component {
                 <br />
                 <Row>
                     {rooms.map((x) => (
+                        
                         <Col key={x.inviteCode} span={6}>
                             <RoomCardComponent
                                 roomName={x.roomName}
@@ -229,6 +233,7 @@ class RoomPage extends React.Component {
                                 isAdmin={x.isHost}
                                 roomId={x.roomId}
                                 roomURL={x.roomURL}
+                                x={x}
                             />
                         </Col>
                     ))}

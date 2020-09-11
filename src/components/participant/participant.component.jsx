@@ -1,6 +1,6 @@
 import React from 'react';
 import { Avatar, Space, Typography, Popover } from 'antd'
-import VoiceChatMainComponent from '../voiceChannel/voiceChatMain.component'
+// import VoiceChatMainComponent from '../voiceChannel/voiceChatMain.component'
 
 const { Text } = Typography
 
@@ -39,7 +39,7 @@ const Participant = function (props) {
         <Space>
           <Avatar style={{ borderWidth: 4, borderColor: props.color, borderStyle: 'solid' }} size={45} src={JSON.parse(props.displayName).image} />
           <Typography.Text>{JSON.parse(props.displayName).displayName}</Typography.Text>
-          {props.isSelf && <VoiceChatMainComponent />}
+          {/* {props.isSelf && <VoiceChatMainComponent />} */}
         </Space>
       </Popover>
     </div>

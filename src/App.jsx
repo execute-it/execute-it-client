@@ -31,12 +31,12 @@ const App = (props) => {
         // eslint-disable-next-line
     }, []);
 
-    const checkCookie = async () => {
-        const token = await cookie.load("jwt");
+    const checkCookie = () => {
+        const token = cookie.load("jwt");
 
         if (props.history.location.pathname === "/login") return;
 
-        if (token) {
+        if (typeof token !== "undefined") {
             //verify token
             axios
                 .get(`${process.env.REACT_APP_MAIN_SERVER}/auth/verify`, {

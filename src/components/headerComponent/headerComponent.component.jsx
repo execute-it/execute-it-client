@@ -12,7 +12,7 @@ const { Title } = Typography;
 
 const HeaderComponent = (props) => {
 
-  const { isDarkMode, toggleTheme, history } = props
+  const { isDarkMode, toggleTheme} = props
   const globalContext = useContext(GlobalContext)
   const userContext = useContext(UserContext);
 
@@ -50,7 +50,7 @@ const HeaderComponent = (props) => {
           onChange={toggleTheme}
         />
 
-        {history.location.pathname !== "/login" ? (
+        {user !== null ? (
           <Dropdown overlay={menu}>
             <Avatar size={50} src={user.image} />
           </Dropdown>

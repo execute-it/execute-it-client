@@ -23,7 +23,7 @@ class HomepageComponent extends React.Component{
     checkCookie = async ()=>{
         const token = await cookie.load('jwt')
 
-        if(token){
+        if(typeof token !== "undefined"){
             //verify token
             axios.get(`${process.env.REACT_APP_MAIN_SERVER}/auth/verify`,{
                 headers: {
