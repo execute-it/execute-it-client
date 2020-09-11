@@ -1,15 +1,15 @@
 import React from "react";
 import UserContext from "../../context/UserContext";
-import { Convergence } from "@convergence/convergence";
+import {Convergence} from "@convergence/convergence";
 import SplitPane from "react-split-pane";
 import EditorGoupComponent from "./editorGroup.component";
 import ChatComponent from "../../components/chatComponent/chat.component";
-import { Spin, Col, Row, notification } from "antd";
+import {Col, notification, Row, Spin} from "antd";
 import TerminalComponent from "../../components/terminalComponent/terminal.component";
 import FileManagerComponent from "./fileManager.component";
 import ParticipantsList from "../../components/participantsList/participantsList.component";
 import RoomInfo from "../../components/roomInfo/roomInfo.component";
-import { withRouter } from "react-router-dom";
+import {withRouter} from "react-router-dom";
 
 class WorkspacePage extends React.Component {
     static contextType = UserContext;
@@ -51,7 +51,7 @@ class WorkspacePage extends React.Component {
         // const data = this.props.history.location.state
         // console.log(this.props)
         if (typeof this.props.history.location.state !== "undefined") {
-            const { user } = this.context;
+            const {user} = this.context;
             // console.log(user)
             this.tryAutoLogin(user);
         }
@@ -65,7 +65,7 @@ class WorkspacePage extends React.Component {
                 JSON.stringify(user)
             ).then((d) => {
                 // console.log(d)
-                this.setState({ domain: d });
+                this.setState({domain: d});
                 this.context.setDomain(d);
                 this.createOrJoinProject(d);
             });
@@ -132,12 +132,12 @@ class WorkspacePage extends React.Component {
                     chatRoom,
                     user: projectModel.session().user(),
                 };
-                this.setState({ projectData });
+                this.setState({projectData});
                 console.log(this.state.projectData, "11lkjasl");
                 this.context.setProjectData(projectData);
             })
             .then(() => {
-                this.setState({ isLoading: false });
+                this.setState({isLoading: false});
             })
             .catch((e) => {
                 console.error(e);
@@ -149,15 +149,15 @@ class WorkspacePage extends React.Component {
         return (
             <div>
                 {loading ? (
-                    <div id="spinner" style={{ fontSize: "110px" }}>
-                        <Spin size="large" />
+                    <div id="spinner" style={{fontSize: "110px"}}>
+                        <Spin size="large"/>
                     </div>
                 ) : (
                     <div>
                         <SplitPane
                             split="vertical"
                             minSize="70vw"
-                            style={{ position: "relative" }}>
+                            style={{position: "relative"}}>
                             <div>
                                 <Row>
                                     <Col
@@ -221,7 +221,7 @@ class WorkspacePage extends React.Component {
                             </div>
                         </SplitPane>
                         <ChatComponent
-                            style={{ zIndex: "100000" }}
+                            style={{zIndex: "100000"}}
                             chatRoom={this.context.projectData.chatRoom}
                             domain={this.context.domain}
                             user={this.context.projectData.user}

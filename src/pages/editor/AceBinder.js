@@ -1,5 +1,10 @@
-import { Range } from 'ace-builds/';
-import { AceMultiSelectionManager, AceRadarView, AceViewportUtil, AceMultiCursorManager } from '@convergence/ace-collab-ext';
+import {Range} from 'ace-builds/';
+import {
+    AceMultiCursorManager,
+    AceMultiSelectionManager,
+    AceRadarView,
+    AceViewportUtil
+} from '@convergence/ace-collab-ext';
 import colorAssigner from '../../utils/color-util';
 
 const cursorKey = "cursor";
@@ -71,7 +76,7 @@ export default class AceBinder {
             this._suppressEvents = false;
         });
 
-        this._model.on("value", function(e) {
+        this._model.on("value", function (e) {
             this._suppressEvents = true;
             doc.setValue(e.value);
             this._suppressEvents = false;
@@ -103,7 +108,7 @@ export default class AceBinder {
         this._cursorManager = new AceMultiCursorManager(this._editor.getSession());
         this._cursorReference = this._model.indexReference(cursorKey);
 
-        const references = this._model.references({ key: cursorKey });
+        const references = this._model.references({key: cursorKey});
         references.forEach((reference) => {
             if (!reference.isLocal()) {
                 this._addCursor(reference);
@@ -158,7 +163,7 @@ export default class AceBinder {
 
         this._session.selection.on('changeSelection', () => this._setLocalSelection());
 
-        const references = this._model.references({ key: selectionKey });
+        const references = this._model.references({key: selectionKey});
         references.forEach((reference) => {
             if (!reference.isLocal()) {
                 this._addSelection(reference);
@@ -178,7 +183,7 @@ export default class AceBinder {
             const indexRanges = aceRanges.map((aceRagne) => {
                 const start = this._document.positionToIndex(aceRagne.start, 0);
                 const end = this._document.positionToIndex(aceRagne.end, 0);
-                return { start: start, end: end };
+                return {start: start, end: end};
             });
 
             this._selectionReference.set(indexRanges);
@@ -228,7 +233,7 @@ export default class AceBinder {
         this._radarView = new AceRadarView(this._radarViewElement, this._editor);
         this._viewReference = this._model.rangeReference(viewKey);
 
-        const references = this._model.references({ key: viewKey });
+        const references = this._model.references({key: viewKey});
         references.forEach((reference) => {
             if (!reference.isLocal()) {
                 this._addView(reference);
@@ -253,7 +258,7 @@ export default class AceBinder {
 
     _setLocalView() {
         const viewportIndices = AceViewportUtil.getVisibleIndexRange(this._editor);
-        this._viewReference.set({ start: viewportIndices.start, end: viewportIndices.end });
+        this._viewReference.set({start: viewportIndices.start, end: viewportIndices.end});
     }
 
     _addView(reference) {

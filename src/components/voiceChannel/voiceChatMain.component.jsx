@@ -54,7 +54,7 @@ class VoiceChatMainComponent extends React.Component {
     }
 
     render() {
-        return (<div >
+        return (<div>
             {this.state.socket && <VoiceChannelComponent socket={this.state.socket} username={this.username}/>}
         </div>)
     }

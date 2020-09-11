@@ -10,8 +10,8 @@ const Callback = () => {
             // close the popup
             window.close();
         }
-    },[]);
-    return(
+    }, []);
+    return (
         <div>
             <h2>Redirecting Please wait...</h2>
         </div>

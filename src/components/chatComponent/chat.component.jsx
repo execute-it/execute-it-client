@@ -2,6 +2,7 @@ import React from 'react'
 import {Launcher} from 'react-chat-window'
 
 import 'react-chat-widget/lib/styles.css';
+
 class ChatComponent extends React.Component {
     constructor(props) {
         super(props)
@@ -13,10 +14,10 @@ class ChatComponent extends React.Component {
     }
 
     componentDidMount() {
-        const { user } = this.props
+        const {user} = this.props
         const displayName = user.displayName ? user.displayName : user.username;
         this.props.chatRoom.on("message", this._onRemoteMessage);
-        this.setState({profilePhoto: JSON.parse(displayName).image,displayName:JSON.parse(displayName).image})
+        this.setState({profilePhoto: JSON.parse(displayName).image, displayName: JSON.parse(displayName).image})
         console.log(this.props)
     }
 
@@ -27,8 +28,8 @@ class ChatComponent extends React.Component {
     _onRemoteMessage = (event) => {
         const messages = this.state.messages.slice(0);
         let author = JSON.parse(event.user.displayName).displayName
-        
-        if(JSON.parse(event.user.displayName).displayName === this.state.displayName){
+
+        if (JSON.parse(event.user.displayName).displayName === this.state.displayName) {
             author = 'me'
         }
 
@@ -36,7 +37,7 @@ class ChatComponent extends React.Component {
             {
                 author: author,
                 type: 'text',
-                data: {text:event.message}
+                data: {text: event.message}
             }
             // <ChatMessage
             //     username={event.user.displayName}
@@ -48,7 +49,7 @@ class ChatComponent extends React.Component {
             //     local={false}
             // />
         );
-        this.setState({ messages: messages });
+        this.setState({messages: messages});
     }
 
     _onMessageWasSent(message) {
@@ -57,22 +58,22 @@ class ChatComponent extends React.Component {
         // this.setState({
         //   messages: [...this.state.messages, message]
         // })
-      }
+    }
 
     render() {
         return (
             <div>
-            <Launcher
-            style={{zIndex: 1000000}}
-            agentProfile={{
-              teamName: 'react-chat-window',
-              imageUrl: this.state.profilePhoto
-            }}
-            onMessageWasSent={this._onMessageWasSent.bind(this)}
-            messageList={this.state.messages}
-            showEmoji
-          />
-          </div>
+                <Launcher
+                    style={{zIndex: 1000000}}
+                    agentProfile={{
+                        teamName: 'react-chat-window',
+                        imageUrl: this.state.profilePhoto
+                    }}
+                    onMessageWasSent={this._onMessageWasSent.bind(this)}
+                    messageList={this.state.messages}
+                    showEmoji
+                />
+            </div>
         )
     }
 }

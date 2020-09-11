@@ -2,19 +2,10 @@ import React from "react";
 import axios from "axios";
 import cookie from "react-cookies";
 import RoomCardComponent from "../../components/roomCard/roomCard.component";
-import {
-    Row,
-    Col,
-    Button,
-    Space,
-    Input,
-    Modal,
-    notification,
-    Typography,
-} from "antd";
-import { PlusOutlined, CodeOutlined } from "@ant-design/icons";
+import {Button, Col, Input, Modal, notification, Row, Space, Typography,} from "antd";
+import {CodeOutlined, PlusOutlined} from "@ant-design/icons";
 import qs from "querystring";
-import { withRouter } from "react-router-dom";
+import {withRouter} from "react-router-dom";
 import validator from "validator";
 
 class RoomPage extends React.Component {
@@ -33,7 +24,7 @@ class RoomPage extends React.Component {
 
     componentDidMount() {
         axios.get(`${process.env.REACT_APP_MAIN_SERVER}/rooms`).then((res) => {
-            this.setState({ rooms: res.data.rooms });
+            this.setState({rooms: res.data.rooms});
         });
     }
 
@@ -71,7 +62,7 @@ class RoomPage extends React.Component {
                     message: "Room Created",
                     description: `Room ${res.data.roomName} was created successfully, Now invite paritcipants using invite link`,
                 });
-                this.setState({ joinRoomData: "" });
+                this.setState({joinRoomData: ""});
                 return res.data;
             })
             .then((data) => {
@@ -97,7 +88,7 @@ class RoomPage extends React.Component {
                         message: "Duplicate Room Name",
                         description: `Please enter new room name`,
                     });
-                    this.setState({ visible: true });
+                    this.setState({visible: true});
                 } else {
                     notification.error({
                         message: "Error",
@@ -115,11 +106,11 @@ class RoomPage extends React.Component {
     };
 
     changeRoomName = (e) => {
-        this.setState({ roomName: e.target.value });
+        this.setState({roomName: e.target.value});
     };
 
     changeJoinRoomName = (e) => {
-        this.setState({ joinRoomData: e.target.value });
+        this.setState({joinRoomData: e.target.value});
     };
 
     joinRoom = () => {
@@ -172,13 +163,13 @@ class RoomPage extends React.Component {
     render() {
         const rooms = this.state.rooms;
         return (
-            <div style={{ padding: "3rem" }}>
-                <Typography.Title style={{ marginLeft: "1rem" }}>
+            <div style={{padding: "3rem"}}>
+                <Typography.Title style={{marginLeft: "1rem"}}>
                     Rooms
                 </Typography.Title>
 
-                <br />
-                <br />
+                <br/>
+                <br/>
 
                 {rooms.length > 4 ? (
                     <Typography.Text>
@@ -189,11 +180,11 @@ class RoomPage extends React.Component {
                 <Space size={50}>
                     <Button
                         onClick={() => {
-                            this.setState({ visible: true });
+                            this.setState({visible: true});
                         }}
                         type="primary"
                         size="large"
-                        icon={<PlusOutlined />}
+                        icon={<PlusOutlined/>}
                         disabled={rooms.length > 4}>
                         Create Room
                     </Button>
@@ -201,7 +192,7 @@ class RoomPage extends React.Component {
                         <Input
                             onChange={this.changeJoinRoomName}
                             value={this.state.joinRoomData}
-                            style={{ width: "30vw" }}
+                            style={{width: "30vw"}}
                             size="large"
                             placeholder="Enter Invite Code"
                         />
@@ -210,16 +201,16 @@ class RoomPage extends React.Component {
                             onClick={this.joinRoom}
                             type="primary"
                             size="large"
-                            icon={<CodeOutlined />}>
+                            icon={<CodeOutlined/>}>
                             Join Room
                         </Button>
                     </Space>
                 </Space>
 
-                <br />
-                <br />
-                <br />
-                <br />
+                <br/>
+                <br/>
+                <br/>
+                <br/>
                 <Row>
                     {rooms.map((x) => (
                         <Col key={x.inviteCode} span={6}>

@@ -1,8 +1,8 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
+import {withRouter} from "react-router-dom";
 import queryString from "query-string";
 import validator from "validator";
-import { Spin, Result, Button, notification } from "antd";
+import {Button, notification, Result, Spin} from "antd";
 import axios from "axios";
 import cookie from "react-cookies";
 
@@ -12,7 +12,7 @@ class JoinPage extends React.Component {
 
         this.inviteCode = queryString.parse(this.props.history.location.search);
         console.log(queryString.parse(this.props.history.location.search)
-        .inviteCode)
+            .inviteCode)
         axios.defaults.headers.common["x-api-key"] = cookie.load("jwt");
         axios.defaults.headers.common["Content-Type"] =
             "application/x-www-form-urlencoded";
@@ -36,7 +36,7 @@ class JoinPage extends React.Component {
                 .get(`${process.env.REACT_APP_MAIN_SERVER}/auth/verify`)
                 .then((res) => {
                     //if successfull then store user details in global state
-                    
+
                     this.checkInviteCode(
                         queryString.parse(this.props.history.location.search).inviteCode
                     );
@@ -65,7 +65,7 @@ class JoinPage extends React.Component {
 
     checkInviteCode = async (inviteCode) => {
         console.log(inviteCode)
-        if (validator.isUUID(this.inviteCode.inviteCode) && typeof this.inviteCode.inviteCode !=="undefined") {
+        if (validator.isUUID(this.inviteCode.inviteCode) && typeof this.inviteCode.inviteCode !== "undefined") {
             //send put request and then redirect to workspace
             console.log('check invite')
             await axios
@@ -98,17 +98,17 @@ class JoinPage extends React.Component {
                         });
                         this.props.history.push("/rooms");
                     }
-                    this.setState({ isValid: false });
+                    this.setState({isValid: false});
                 });
         } else {
-            this.setState({ isValid: false });
+            this.setState({isValid: false});
         }
     };
 
     render() {
         return this.state.isValid ? (
             <div>
-                <Spin />
+                <Spin/>
             </div>
         ) : (
             <div>

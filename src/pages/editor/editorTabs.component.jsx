@@ -1,13 +1,12 @@
 import React from "react";
 
-import { Tabs } from "antd";
+import {Result, Tabs} from "antd";
 
 import GlobalContext from "../../context/GlobalContext";
 import Editor from "./editor.component";
-import { Result } from "antd";
 import newFile from "../../assets/file.svg";
 
-const { TabPane } = Tabs;
+const {TabPane} = Tabs;
 
 export default class EditorTabsComponent extends React.Component {
     static contextType = GlobalContext;
@@ -35,7 +34,7 @@ export default class EditorTabsComponent extends React.Component {
         this.context
             .CreateFile()
             .then(() => {
-                const { panes } = this.state;
+                const {panes} = this.state;
                 const activeKey = `newTab${this.newTabIndex}`;
 
                 panes.push({
@@ -59,7 +58,7 @@ export default class EditorTabsComponent extends React.Component {
                 });
                 this.newTabIndex++;
 
-                this.setState({ panes, activeKey });
+                this.setState({panes, activeKey});
             })
             .catch((e) => {
                 console.log(e);
@@ -73,7 +72,7 @@ export default class EditorTabsComponent extends React.Component {
     render() {
         console.log(
             this.context.editors &&
-                this.context.editors.map((pane) => pane.modelId)
+            this.context.editors.map((pane) => pane.modelId)
         );
 
         return (
@@ -87,24 +86,24 @@ export default class EditorTabsComponent extends React.Component {
                             type="editable-card"
                             onEdit={this.onEdit}>
                             {this.context.editors &&
-                                this.context.editors.map((pane) => (
-                                    <TabPane
+                            this.context.editors.map((pane) => (
+                                <TabPane
+                                    key={pane.modelId}
+                                    tab={pane.title}>
+                                    <Editor
+                                        fileName={pane.title}
+                                        fileModel={pane.model}
+                                        historical={pane.historical}
                                         key={pane.modelId}
-                                        tab={pane.title}>
-                                        <Editor
-                                            fileName={pane.title}
-                                            fileModel={pane.model}
-                                            historical={pane.historical}
-                                            key={pane.modelId}
-                                        />
-                                    </TabPane>
-                                ))}
+                                    />
+                                </TabPane>
+                            ))}
                         </Tabs>
                     </div>
                 ) : (
                     <Result
                         title="Create or Open New File"
-                        icon={<img alt="banner" width={600} src={newFile} />}
+                        icon={<img alt="banner" width={600} src={newFile}/>}
                     />
                 )}
             </>

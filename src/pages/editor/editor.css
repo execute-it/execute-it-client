@@ -3,7 +3,7 @@
     display: flex;
 }
 
-.editor-container>.radar-view {
+.editor-container > .radar-view {
     min-width: 20px;
 }
 

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 
 const UserContext = React.createContext();
 
@@ -12,29 +12,29 @@ class UserProvider extends Component {
 
     // Method to update state
     setUser = (user) => {
-        this.setState({ user });
+        this.setState({user});
     };
 
     setDomain = (domain) => {
-        this.setState({ domain });
+        this.setState({domain});
     };
 
     setProjectData = (projectData) => {
-        this.setState({ projectData });
+        this.setState({projectData});
     };
 
     dispose = () => {
         this.setState({
-            user:{},
+            user: {},
             domain: null,
             projectData: null
         })
     }
 
     render() {
-        const { children } = this.props;
-        const { user, domain, projectData } = this.state;
-        const { setUser, setDomain, setProjectData, dispose } = this;
+        const {children} = this.props;
+        const {user, domain, projectData} = this.state;
+        const {setUser, setDomain, setProjectData, dispose} = this;
 
         return (
             <UserContext.Provider
@@ -56,4 +56,4 @@ class UserProvider extends Component {
 
 export default UserContext;
 
-export { UserProvider };
+export {UserProvider};
