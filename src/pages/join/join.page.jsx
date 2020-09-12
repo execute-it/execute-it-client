@@ -1,122 +1,107 @@
-import React from "react";
-import { withRouter } from "react-router-dom";
-import queryString from "query-string";
-import validator from "validator";
-import { Spin, Result, Button, notification } from "antd";
-import axios from "axios";
-import cookie from "react-cookies";
-import UserContext from "../../context/UserContext";
+import React from 'react'
+import { withRouter } from 'react-router-dom'
+import queryString from 'query-string';
+import validator from 'validator';
+import { Spin, Result, Button, notification } from 'antd'
+import axios from 'axios'
+import cookie from 'react-cookies'
 
 class JoinPage extends React.Component {
-  static contextType = UserContext;
-
   constructor(props) {
-    super(props);
-
-    this.inviteCode = queryString.parse(this.props.history.location.search);
-
-    axios.defaults.headers.common["x-api-key"] = cookie.load("jwt");
-    axios.defaults.headers.common["Content-Type"] =
-      "application/x-www-form-urlencoded";
+    super(props)
+    axios.defaults.headers.common['x-api-key'] = cookie.load('jwt')
+    axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded'
     this.state = {
-      isValid: true,
-    };
+      status: 'loading'
+    }
   }
 
   componentDidMount() {
-    console.log("join room");
-
-    this.correctRedirect();
+    this.checkInviteCode(queryString.parse(this.props.history.location.search).inviteCode);
   }
 
-  correctRedirect =  () => {
-    this.token = cookie.load("jwt");
+  checkInviteCode = async (inviteCode) => {
 
-    console.log(
-      this.context.user, this.token
-    );
-
-    if (typeof this.token !== "undefined") {
-        console.log('inside correct ');
-      this.checkInviteCode(this.inviteCode.inviteCode );
-    } else {
-      this.props.history.push({
-        pathname: "/login",
-        state: {
-          inviteCode: this.inviteCode,
-        },
-      });
-    }
-  };
-
-  checkInviteCode = (inviteCode) => {
-    console.log(inviteCode);
-    if (
-      validator.isUUID(inviteCode) &&
-      typeof inviteCode !== "undefined" &&
-      typeof this.token !== "undefined"
-    ) {
+    if (validator.isUUID(inviteCode)) {
       //send put request and then redirect to workspace
-      console.log("check invite");
-      axios
-        .post(
-          `${process.env.REACT_APP_MAIN_SERVER}/rooms/join?inviteCode=${inviteCode}`
-        )
-        .then((res) => {
-            console.log('res herre')
-          notification.success({
-            message: "Room Joined",
-            description: `Room ${res.data.roomName} was joined successfully.`,
-          });
-          return res.data;
-        })
-        .then((data) => {
-            console.log()
-          this.props.history.push({
-            pathname: "/workspace",
-            state: {
-              roomName: data.roomName,
-              inviteCode: data.inviteCode,
-              roomId: data.roomId,
-              roomURL: data.roomURL,
-            },
-          });
-        })
-        .catch((e) => {
-          if (e.response.data.status === "already_joined") {
-            notification.warning({
-              message: "Room Already Joined",
-              description: `You have already joined the room, find your room in my rooms section and click on enter button`,
+
+      await axios.post(`${process.env.REACT_APP_MAIN_SERVER}/rooms/join?inviteCode=${inviteCode}`)
+          .then(res => {
+            notification.success({
+              message: 'Room Joined',
+              description:
+                  `Room ${res.data.roomName} was joined successfully.`,
             });
-            this.props.history.push("/rooms");
-          }
-          this.setState({ isValid: false });
-        });
+            return res.data
+          })
+          .then(data => {
+            this.props.history.push({
+              pathname: '/workspace',
+              state:
+                  {
+                    roomName: data.roomName,
+                    inviteCode: data.inviteCode,
+                    roomId: data.roomId
+                  }
+            })
+          })
+          .catch((e) => {
+            console.log(e.response.status)
+            if (e.response.data.status === 'already_joined') {
+              notification.warning({
+                message: 'Room Already Joined',
+                description:
+                    `You have already joined the room, find your room in my rooms section and click on enter button`,
+              });
+              this.props.history.push('/rooms')
+            }else if(e.response.status === 401){
+              //not signed in
+                notification.warning({
+                    message: 'Please Login First',
+                    description:
+                        `You are not logged in, please login first and then revisit the link`,
+                });
+                this.setState({status: "login"})
+            }else{
+                //invalid invite code
+              this.setState({ status: "invalid" })
+            }
+          })
+
     } else {
-      this.setState({ isValid: false });
+      this.setState({ isValid: false })
     }
-  };
+
+  }
 
   render() {
-    return this.state.isValid ? (
-      <div>
-        <Spin />
-      </div>
-    ) : (
-      <div>
-        {" "}
-        <Result
-          status="404"
-          title="Invalid Invite Code"
-          extra={
-            <Button type="primary" href="/rooms">
-              Back to Rooms
-            </Button>
-          }
-        />
-      </div>
-    );
+      if(this.state.status==='invalid'){
+          return (
+                  <div>
+                      <Result
+                      status="404"
+                      title="Invalid Invite Code"
+                      extra={<Button type="primary" href="/rooms">Back to Rooms</Button>}
+                  />
+                  </div>
+          )
+      }else if(this.state.status === 'login'){
+          return(
+              <div>
+                  <Result
+                      status="401"
+                      title="Please Login First"
+                      description="You are not logged in, please login first and then revisit the link"
+                      extra={<Button type="primary" href="/login">Login</Button>}
+                  />
+              </div>
+          )
+
+      }else{
+          return (<div><Spin /></div>)
+      }
+
   }
 }
 
-export default withRouter(JoinPage);
+export default withRouter(JoinPage)

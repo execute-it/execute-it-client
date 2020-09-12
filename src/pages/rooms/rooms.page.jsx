@@ -197,7 +197,8 @@ class RoomPage extends React.Component {
                         type="primary"
                         size="large"
                         icon={<PlusOutlined />}
-                        disabled={rooms.length > 4}>
+                        // disabled={rooms.length > 4}
+                        >
                         Create Room
                     </Button>
                     <Space size="middle">

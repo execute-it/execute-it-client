@@ -60,9 +60,11 @@ class WorkspacePage extends React.Component {
 
   componentWillUnmount() {
     const projData = this.state.projectData;
-    projData.projectModel.close();
-    projData.activity.leave();
-    projData.chatRoom.leave();
+    if (projData) {
+      projData.projectModel.close();
+      projData.activity.leave();
+      projData.chatRoom.leave();
+    }
   }
 
   tryAutoLogin = (user) => {
@@ -160,67 +162,67 @@ class WorkspacePage extends React.Component {
             <Spin size="large" />
           </div>
         ) : (
-          <div>
-            <SplitPane
-              split="vertical"
-              minSize="70vw"
-              style={{ position: "relative" }}>
-              <div>
-                <Row>
-                  <Col
-                    span={5}
-                    style={{
-                      borderRight: "2px solid #505050",
-                    }}>
-                    <FileManagerComponent
-                      rtModel={this.context.projectData.projectModel}
-                      roomName={this.props.history.location.state.roomName}
-                    />
-                  </Col>
-                  <Col
-                    span={19}
-                    style={{
-                      height: "calc(100vh - 64px)",
-                    }}>
-                    <EditorGoupComponent
-                      rtModel={this.context.projectData.projectModel}
-                    />
-                  </Col>
-                </Row>
-              </div>
-              <div>
-                <SplitPane
-                  split="horizontal"
-                  minSize="47vh"
-                  allowResize={false}>
-                  <div>
-                    <SplitPane
-                      allowResize={false}
-                      split="vertical"
-                      minSize="50%">
-                      <ParticipantsList
-                        activity={this.context.projectData.activity}
+            <div>
+              <SplitPane
+                split="vertical"
+                minSize="70vw"
+                style={{ position: "relative" }}>
+                <div>
+                  <Row>
+                    <Col
+                      span={5}
+                      style={{
+                        borderRight: "2px solid #505050",
+                      }}>
+                      <FileManagerComponent
+                        rtModel={this.context.projectData.projectModel}
+                        roomName={this.props.history.location.state.roomName}
                       />
-                      <RoomInfo
-                        roomName={this.room.name}
-                        inviteCode={this.inviteCode}
+                    </Col>
+                    <Col
+                      span={19}
+                      style={{
+                        height: "calc(100vh - 64px)",
+                      }}>
+                      <EditorGoupComponent
+                        rtModel={this.context.projectData.projectModel}
                       />
-                    </SplitPane>
-                  </div>
-                  <div>
-                    <TerminalComponent roomUrl={this.state.roomURL} />
-                  </div>
-                </SplitPane>
-              </div>
-            </SplitPane>
-            <ChatComponent
-              style={{ zIndex: "100000" }}
-              chatRoom={this.context.projectData.chatRoom}
-              domain={this.context.domain}
-              user={this.context.projectData.user}
-            />
-          </div>
-        )}
+                    </Col>
+                  </Row>
+                </div>
+                <div>
+                  <SplitPane
+                    split="horizontal"
+                    minSize="47vh"
+                    allowResize={false}>
+                    <div>
+                      <SplitPane
+                        allowResize={false}
+                        split="vertical"
+                        minSize="50%">
+                        <ParticipantsList
+                          activity={this.context.projectData.activity}
+                        />
+                        <RoomInfo
+                          roomName={this.room.name}
+                          inviteCode={this.inviteCode}
+                        />
+                      </SplitPane>
+                    </div>
+                    <div>
+                      <TerminalComponent roomUrl={this.state.roomURL} />
+                    </div>
+                  </SplitPane>
+                </div>
+              </SplitPane>
+              <ChatComponent
+                style={{ zIndex: "100000" }}
+                chatRoom={this.context.projectData.chatRoom}
+                domain={this.context.domain}
+                user={this.context.projectData.user}
+              />
+            </div>
+          )}
       </div>
     );
   }

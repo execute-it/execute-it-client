@@ -18,7 +18,7 @@ class SignIn extends React.Component {
         super(props);
         this.state = {
             windowObjectReference: null,
-            previousUrl: null,
+            previousUrl: null
         };
     }
 
@@ -73,24 +73,14 @@ class SignIn extends React.Component {
         this.setState({ previousUrl: url });
     };
 
-    receiveMessage = (event) => {
+    receiveMessage = async (event) => {
+        console.log(event)
         const { data } = event;
-
-        if (data.source !== "react-devtools-bridge") {
-            const token = queryString.parse(data).token;
-            console.log(data);
-            cookie.save("jwt", token, { path: "/" });
-
-            //If Joinning with with InviteLink and not loogedIn 
-            if (typeof this.props.history.location.state !== "undefined") {
-                this.inviteCode = this.props.history.location.state.inviteCode;
-                window.location.replace(
-                    `join?inviteCode=${this.inviteCode.inviteCode}`
-                );
-            } else {
-                console.log("not join room");
-                window.location.replace("/rooms");
-            }
+        if (data.source !== 'react-devtools-bridge') {
+            const token = await queryString.parse(data).token
+            console.log(data)
+            await cookie.save('jwt', token, {path: '/'})
+            window.location.replace('/rooms')
         }
     };
 
