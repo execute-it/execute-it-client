@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Switch, Space, Avatar, Typography } from "antd";
+import { Space, Avatar, Typography } from "antd";
 import logo from "../../logo.svg";
 import UserContext from "../../context/UserContext";
 import { Menu, Dropdown } from "antd";
@@ -12,7 +12,7 @@ const { Title } = Typography;
 
 const HeaderComponent = (props) => {
 
-  const { isDarkMode, toggleTheme} = props
+  // const { isDarkMode, toggleTheme} = props
   const globalContext = useContext(GlobalContext)
   const userContext = useContext(UserContext);
 
@@ -43,12 +43,12 @@ const HeaderComponent = (props) => {
       </Space>
 
       <Space size="middle" style={{ marginLeft: "70vw" }}>
-        <Switch
-          checkedChildren="Dark Mode On"
-          unCheckedChildren="Dark Mode Off"
-          checked={isDarkMode}
-          onChange={toggleTheme}
-        />
+        {/*<Switch*/}
+        {/*  checkedChildren="Dark Mode On"*/}
+        {/*  unCheckedChildren="Dark Mode Off"*/}
+        {/*  checked={isDarkMode}*/}
+        {/*  onChange={toggleTheme}*/}
+        {/*/>*/}
 
         {user !== null ? (
           <Dropdown overlay={menu}>
