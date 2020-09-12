@@ -1,14 +1,15 @@
 import React from "react";
-import ReactHtmlParser from "react-html-parser";
-import { withRouter } from "react-router-dom";
+import {withRouter} from "react-router-dom";
 import cookie from "react-cookies";
-import { Card, Col, Row, Space, Typography } from "antd";
+import {Card, Col, Row, Space, Typography} from "antd";
 import GoogleButton from "react-google-button";
 import "./signIn.styles.css";
+import data from '../../assets/snscit.json'
+import {Player} from '@lottiefiles/react-lottie-player';
 
 const queryString = require("query-string");
 
-const { Title } = Typography;
+const {Title} = Typography;
 
 // import v from "../../assets/video.mp4"
 class SignIn extends React.Component {
@@ -70,12 +71,12 @@ class SignIn extends React.Component {
             false
         );
         // assign the previous URL
-        this.setState({ previousUrl: url });
+        this.setState({previousUrl: url});
     };
 
     receiveMessage = async (event) => {
         console.log(event)
-        const { data } = event;
+        const {data} = event;
         if (data.source !== 'react-devtools-bridge') {
             const token = await queryString.parse(data).token
             console.log(data)
@@ -90,23 +91,21 @@ class SignIn extends React.Component {
                 <Card id="login-card" bordered={false}>
                     <Row justify="center" align="middle">
                         <Col
-                            style={{ marginLeft: "3rem", marginTop: "1rem" }}
+                            style={{marginLeft: "3rem", marginTop: "1rem"}}
                             span={24}>
                             <Title>{`< Execute It />`}</Title>
                         </Col>
                     </Row>
                     <Row>
                         <Col xs={24} sm={24} md={24} lg={16} xl={16}>
-                            <div style={{ transform: "translate(2rem,-2rem)" }}>
-                                {ReactHtmlParser(`
-                                                        <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_sFBr0l/snscit.json"  
-                                                        background="transparent"  
-                                                        speed="1"  
-                                                        style="width: 600px; height: 600px;"  
-                                                        loop autoplay>
-                                                        </lottie-player>
-
-`)}
+                            <div style={{transform: "translate(2rem,-2rem)"}}>
+                                <Player
+                                    autoplay
+                                    loop
+                                    src={data}
+                                    style={{height: '600px', width: '600px'}}
+                                >
+                                </Player>
                             </div>
                         </Col>
                         <Col
@@ -115,7 +114,7 @@ class SignIn extends React.Component {
                             md={24}
                             lg={8}
                             xl={8}
-                            style={{ position: "relative" }}>
+                            style={{position: "relative"}}>
                             <div
                                 style={{
                                     textAlign: "center",
@@ -125,13 +124,13 @@ class SignIn extends React.Component {
                                     marginRight: "1rem",
                                 }}>
                                 <h2>
-                                    <em style={{ fontSize: "177%" }}>
+                                    <em style={{fontSize: "177%"}}>
                                         Realtime Code Collaboration Platform
                                     </em>
                                 </h2>
-                                <br />
-                                <br />
-                                <br />
+                                <br/>
+                                <br/>
+                                <br/>
                                 <Space align="end">
                                     {" "}
                                     <GoogleButton

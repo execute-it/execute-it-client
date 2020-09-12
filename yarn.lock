@@ -8065,6 +8065,11 @@ lottie-api@^1.0.2:
   resolved "https://registry.yarnpkg.com/lottie-api/-/lottie-api-1.0.2.tgz#4de8c27b35a565604f643543bcf092e60dce3c99"
   integrity sha512-v9I2fYYDCEIPOSWUwvaVl9rVTuMU2iRRXZXmNFiw6zzTFe8aQAQHr/Vun4Oblr+sxFIxIUdvZMZXB+NbeG/3eQ==
 
+lottie-player@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/lottie-player/-/lottie-player-1.0.0.tgz#6bd11738418e2816bcee5511a67474e22a2d60a8"
+  integrity sha512-XrwIIUCDtA2GJ/yH6Ql3y2m4aqfOHt7HKGyZAfk5BuA0wvU/ahJ/E/ZN5/5PTD7FpTdYLF+k20ZmemLNY58NKg==
+
 lottie-react-web@^2.1.4:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/lottie-react-web/-/lottie-react-web-2.2.2.tgz#4bcf799fa76cad06accb568370e01815c550bf27"
