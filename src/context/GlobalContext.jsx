@@ -196,6 +196,7 @@ class GlobalProvider extends Component {
     editors = editors.filter((editor) => editor.modelId !== id);
     this.setState({
       activeKey: editors.length > 0 ? editors[0].modelId : null,
+      selectedId: editors.length > 0 ? editors[0].modelId : null,
       editors,
     });
   };
