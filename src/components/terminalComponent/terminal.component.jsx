@@ -1,6 +1,8 @@
 import React from 'react'
 import { XTerm } from "xterm-for-react"
 import { AttachAddon } from 'xterm-addon-attach';
+import {FitAddon} from 'xterm-addon-fit';
+import ReconnectingWebSocket from 'reconnecting-websocket';
 import cookie from 'react-cookies'
 import GlobalContext from '../../context/GlobalContext';
 
