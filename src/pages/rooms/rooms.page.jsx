@@ -177,96 +177,96 @@ class RoomPage extends React.Component {
     console.log(rooms);
     return (
       <Row>
-<Col  xs={24} align="middle">
-            <div style={{ padding: "3%" }}>
-          <Typography.Title >
-            Rooms
-          </Typography.Title>
+        <Col xs={24} align="middle">
+          <div style={{ padding: "3%" }}>
+            <Typography.Title>Rooms</Typography.Title>
 
-          <br />
-          <br />
-        <Row justify="center">
-        <Col  xs={24} align="middle">
-          <Space size={50}>
-            <Tooltip
-              placement="top"
-              title={
-                rooms.length > 4 ? (
-                  <Typography.Text>You can only create 4 rooms</Typography.Text>
-                ) : (
-                  <Typography.Text>Create new room</Typography.Text>
-                )
-              }>
-              <Button
-                onClick={() => {
-                  this.setState({ visible: true });
-                }}
-                type="primary"
-                size="large"
-                icon={<PlusOutlined />}
-                disabled={rooms.length >= 4}>
-                Create Room
-              </Button>
-            </Tooltip>
-            <Space size="middle">
-              <Input
-                onChange={this.changeJoinRoomName}
-                value={this.state.joinRoomData}
-                style={{ width: "30vw" }}
-                size="large"
-                placeholder="Enter Invite Code"
-              />
-              <Button
-                disabled={this.state.joinRoomData.length === 0}
-                onClick={this.joinRoom}
-                type="primary"
-                size="large"
-                icon={<CodeOutlined />}>
-                Join Room
-              </Button>
-            </Space>
-          </Space>
-          </Col>  
-          </Row>     
-          <br />
-          <br />
-          <br />
-          <br />
-          <Row justify="center" gutter={[10, 24]}>
-            {rooms.map((x) => (
-              <Col
-                key={x.inviteCode}
-                xs={24}
-                md={12}
-                lg={8}
-                xl={6}
-                align="middle">
-                <RoomCardComponent
-                  roomName={x.roomName}
-                  inviteCode={x.inviteCode}
-                  isAdmin={x.isHost}
-                  roomId={x.roomId}
-                  roomURL={x.roomURL}
-                />
+            <br />
+            <br />
+            <Row justify="center">
+              <Col xs={24} align="middle">
+                <Space size={50}>
+                  <Tooltip
+                    placement="top"
+                    title={
+                      rooms.length > 4 ? (
+                        <Typography.Text>
+                          You can only create 4 rooms
+                        </Typography.Text>
+                      ) : (
+                        <Typography.Text>Create new room</Typography.Text>
+                      )
+                    }>
+                    <Button
+                      onClick={() => {
+                        this.setState({ visible: true });
+                      }}
+                      type="primary"
+                      size="large"
+                      icon={<PlusOutlined />}
+                      disabled={rooms.length >= 4}>
+                      Create Room
+                    </Button>
+                  </Tooltip>
+                  <Space size="middle">
+                    <Input
+                      onChange={this.changeJoinRoomName}
+                      value={this.state.joinRoomData}
+                      style={{ width: "30vw" }}
+                      size="large"
+                      placeholder="Enter Invite Code"
+                    />
+                    <Button
+                      disabled={this.state.joinRoomData.length === 0}
+                      onClick={this.joinRoom}
+                      type="primary"
+                      size="large"
+                      icon={<CodeOutlined />}>
+                      Join Room
+                    </Button>
+                  </Space>
+                </Space>
               </Col>
-            ))}
-          </Row>
-          <Modal
-            title="Create Room"
-            visible={this.state.visible}
-            onOk={this.handleOk}
-            confirmLoading={this.state.confirmLoading}
-            onCancel={this.handleCancel}
-            okButtonProps={{
-              disabled: this.state.roomName.length === 0,
-            }}>
-            <Input
-              value={this.state.roomName}
-              onChange={this.changeRoomName}
-              placeholder="Room Name"
-            />
-          </Modal>
-        </div>
+            </Row>
+            <br />
+            <br />
+            <br />
+            <br />
+            <Row justify="center" gutter={[10, 24]}>
+              {rooms.map((x) => (
+                <Col
+                  key={x.inviteCode}
+                  xs={24}
+                  md={12}
+                  lg={8}
+                  xl={6}
+                  align="middle">
+                  <RoomCardComponent
+                    roomName={x.roomName}
+                    inviteCode={x.inviteCode}
+                    isAdmin={x.isHost}
+                    roomId={x.roomId}
+                    roomURL={x.roomURL}
+                  />
+                </Col>
+              ))}
+            </Row>
+            <Modal
+              title="Create Room"
+              visible={this.state.visible}
+              onOk={this.handleOk}
+              confirmLoading={this.state.confirmLoading}
+              onCancel={this.handleCancel}
+              okButtonProps={{
+                disabled: this.state.roomName.length === 0,
+              }}>
+              <Input
+                value={this.state.roomName}
+                onChange={this.changeRoomName}
+                placeholder="Room Name"
+              />
+            </Modal>
+          </div>
         </Col>
       </Row>
     );

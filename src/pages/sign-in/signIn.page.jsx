@@ -117,7 +117,7 @@ class SignIn extends React.Component {
                     <div style={{ padding: "5%" }}>
                       <h2
                         style={{
-                        //   color: "white",
+                          //   color: "white",
                           fontStyle: "italic",
                           fontWeight: "bold",
                           letterSpacing: "3px",
@@ -126,7 +126,7 @@ class SignIn extends React.Component {
                         <em>{`Realtime Code Collaboration Platform`}</em>
                       </h2>
                     </div>
-                    <br/>
+                    <br />
                   </Col>
                 </Row>
 
