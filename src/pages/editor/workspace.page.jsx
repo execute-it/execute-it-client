@@ -164,7 +164,9 @@ class WorkspacePage extends React.Component {
         ) : (
             <div>
               <SplitPane
-                split="vertical"
+                  allowResize={false}
+
+                  split="vertical"
                 minSize="70vw"
                 style={{ position: "relative" }}>
                 <div>
