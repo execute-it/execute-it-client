@@ -16,7 +16,7 @@ import { withRouter } from "react-router-dom";
 import HeaderComponent from "./components/headerComponent/headerComponent.component";
 import JoinPage from "./pages/join/join.page";
 
-const { Header, Content } = Layout;
+const { Header } = Layout;
 const App = (props) => {
     const [loading, setLoading] = useState(true);
 
@@ -80,14 +80,13 @@ const App = (props) => {
 
     return (
         <>
-            <Layout className="layout">
-                <Header>
+                <Header >
                     <HeaderComponent
                         isDarkMode={isDarkMode}
                         toggleTheme={toggleTheme}
                     />
                 </Header>
-                <Content>
+                
                     <Switch>
                         <Route exact path="/login">
                             <SignIn />
@@ -117,8 +116,7 @@ const App = (props) => {
                             </>
                         )}
                     </Switch>
-                </Content>
-            </Layout>
+                
         </>
     );
 };

@@ -24,10 +24,11 @@ const RoomCardComponent = ({ roomName, inviteCode, isAdmin,roomId,history,roomUR
     const inviteLink = `https://executeit.ml/join?inviteCode=${inviteCode}`
 
   return (
+    
     <Card
       size="small"
       title={roomName}
-      style={{ width: 300 }}
+      style={{ width: 300 ,     boxShadow:' 0 0px 0px 0 rgba(0, 0, 0, 0.2), 0 3px 6px 0 rgba(0, 0, 0, 0.19)'}}
       // actions={[
       //   <SettingOutlined key="setting" />,
       //   <EditOutlined key="edit" />,
