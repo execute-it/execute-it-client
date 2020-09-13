@@ -197,6 +197,7 @@ class WorkspacePage extends React.Component {
                   split="horizontal"
                   minSize="47vh"
                   allowResize={false}>
+
                   <Row>
                     <SplitPane
                       allowResize={false}
