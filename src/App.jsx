@@ -15,6 +15,7 @@ import { withRouter } from "react-router-dom";
 // import TestPage from './pages/test/test.page'
 import HeaderComponent from "./components/headerComponent/headerComponent.component";
 import JoinPage from "./pages/join/join.page";
+import GA from './utils/GoogleAnalytics'
 
 const { Header } = Layout;
 const App = (props) => {
@@ -80,10 +81,10 @@ const App = (props) => {
 
   return (
     <>
+      { GA.init() && <GA.RouteTracker /> }
       <Header>
         <HeaderComponent isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
       </Header>
-
       <Switch>
         <Route exact path="/login">
           <SignIn />
