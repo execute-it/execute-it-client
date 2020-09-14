@@ -5,6 +5,8 @@ import MonacoBinder from "./MonacoBinder.js"
 import {Spin} from 'antd'
 import Editor from '@monaco-editor/react';
 
+import '@convergencelabs/monaco-collab-ext/css/monaco-collab-ext.css'
+
 const fileTypes= {
         css: 'css',
         js: 'javascript',
