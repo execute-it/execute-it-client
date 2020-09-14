@@ -71,12 +71,12 @@ class WorkspacePage extends React.Component {
     if (user) {
       // console.log(user)
       Convergence.connectAnonymously(this.domainUrl, JSON.stringify(user)).then(
-        (d) => {
-          console.log(d);
-          this.setState({ domain: d });
-          this.context.setDomain(d);
-          this.createOrJoinProject(d);
-        }
+          (d) => {
+            console.log(d);
+            this.setState({ domain: d });
+            this.context.setDomain(d);
+            this.createOrJoinProject(d);
+          }
       );
     } else {
       this.props.history.push("/login");
@@ -85,31 +85,31 @@ class WorkspacePage extends React.Component {
 
   createOrJoinProject = (domain) => {
     domain
-      .models()
-      .openAutoCreate({
-        id: this.room.id,
-        collection: "executeit",
-        ephemeral: true,
-        data: {
-          name: this.room.name,
-          tree: {
-            nodes: {
-              root: {
-                name: this.room.name,
-                children: [],
+        .models()
+        .openAutoCreate({
+          id: this.room.id,
+          collection: "executeit",
+          ephemeral: true,
+          data: {
+            name: this.room.name,
+            tree: {
+              nodes: {
+                root: {
+                  name: this.room.name,
+                  children: [],
+                },
               },
             },
           },
-        },
-      })
-      .then((model) => {
-        console.log("project model open");
-        // use the model
-        this.openProject(model);
-      })
-      .catch((error) => {
-        console.log("Could not open the project model", error);
-      });
+        })
+        .then((model) => {
+          console.log("project model open");
+          // use the model
+          this.openProject(model);
+        })
+        .catch((error) => {
+          console.log("Could not open the project model", error);
+        });
   };
 
   openProject = (projectModel) => {
@@ -120,110 +120,114 @@ class WorkspacePage extends React.Component {
 
     Promise.all([
       domain
-        .activities()
-        .join(projectModel.modelId())
-        .then((a) => (activity = a)),
+          .activities()
+          .join(projectModel.modelId())
+          .then((a) => (activity = a)),
       domain
-        .chat()
-        .create({
-          id: projectModel.modelId(),
-          type: "room",
-          membership: "public",
-          ignoreExistsError: true,
-        })
-        .then((channelId) => domain.chat().join(channelId))
-        .then((c) => (chatRoom = c)),
+          .chat()
+          .create({
+            id: projectModel.modelId(),
+            type: "room",
+            membership: "public",
+            ignoreExistsError: true,
+          })
+          .then((channelId) => domain.chat().join(channelId))
+          .then((c) => (chatRoom = c)),
     ])
-      .then(() => {
-        const projectData = {
-          projectModel,
-          activity,
-          chatRoom,
-          user: projectModel.session().user(),
-        };
-        this.setState({ projectData });
-        console.log(this.state.projectData, "11lkjasl");
-        this.context.setProjectData(projectData);
-      })
-      .then(() => {
-        this.setState({ isLoading: false });
-      })
-      .catch((e) => {
-        console.error(e);
-      });
+        .then(() => {
+          const projectData = {
+            projectModel,
+            activity,
+            chatRoom,
+            user: projectModel.session().user(),
+          };
+          this.setState({ projectData });
+          console.log(this.state.projectData, "11lkjasl");
+          this.context.setProjectData(projectData);
+        })
+        .then(() => {
+          this.setState({ isLoading: false });
+        })
+        .catch((e) => {
+          console.error(e);
+        });
   };
 
   render() {
     const loading = this.state.isLoading;
     return (
-      <div>
-        {loading ? (
-          <div id="spinner" style={{ fontSize: "110px" }}>
-            <Spin size="large" />
-          </div>
-        ) : (
-            <div>
-              <SplitPane
-                split="vertical"
-                minSize="70vw"
-                style={{ position: "relative" }}>
-                <div>
-                  <Row>
-                    <Col
-                      span={5}
-                      style={{
-                        borderRight: "2px solid #505050",
-                      }}>
-                      <FileManagerComponent
-                        rtModel={this.context.projectData.projectModel}
-                        roomName={this.props.history.location.state.roomName}
-                      />
-                    </Col>
-                    <Col
-                      span={19}
-                      style={{
-                        height: "calc(100vh - 64px)",
-                      }}>
-                      <EditorGoupComponent
-                        rtModel={this.context.projectData.projectModel}
-                      />
-                    </Col>
-                  </Row>
-                </div>
-                <div>
-                  <SplitPane
-                    split="horizontal"
-                    minSize="47vh"
-                    allowResize={false}>
-                    <div>
-                      <SplitPane
-                        allowResize={false}
-                        split="vertical"
-                        minSize="50%">
-                        <ParticipantsList
-                          activity={this.context.projectData.activity}
+        <div>
+          {loading ? (
+              <div id="spinner" style={{ fontSize: "110px" }}>
+                <Spin size="large" />
+              </div>
+          ) : (
+              <Row>
+                <SplitPane
+                    split="vertical"
+                    minSize="70vw"
+                    style={{ position: "relative" }}>
+                  <div>
+                    {" "}
+                    <Row>
+                      <Col
+                          xs={5}
+                          style={{
+                            borderRight: "2px solid #505050",
+                          }}>
+                        <FileManagerComponent
+                            rtModel={this.context.projectData.projectModel}
+                            roomName={this.props.history.location.state.roomName}
                         />
-                        <RoomInfo
-                          roomName={this.room.name}
-                          inviteCode={this.inviteCode}
+                      </Col>
+                      <Col
+                          align="middle"
+                          xs={19}
+                          style={{
+                            height: "calc(100vh - 64px)",
+                          }}>
+                        <EditorGoupComponent
+                            rtModel={this.context.projectData.projectModel}
                         />
-                      </SplitPane>
-                    </div>
-                    <div>
-                      <TerminalComponent roomUrl={this.state.roomURL} />
-                    </div>
-                  </SplitPane>
-                </div>
-              </SplitPane>
-              <ChatComponent
-                style={{ zIndex: "100000" }}
-                chatRoom={this.context.projectData.chatRoom}
-                domain={this.context.domain}
-                user={this.context.projectData.user}
-              />
-            </div>
+                      </Col>
+                    </Row>
+                  </div>
+                  <div>
+                    <SplitPane
+                        split="horizontal"
+                        minSize="47vh"
+                        allowResize={false}>
+
+                      <Row>
+                        <SplitPane
+                            allowResize={false}
+                            split="vertical"
+                            minSize="50%">
+                          <ParticipantsList
+                              activity={this.context.projectData.activity}
+                          />
+
+                          <RoomInfo
+                              roomName={this.room.name}
+                              inviteCode={this.inviteCode}
+                          />
+                        </SplitPane>
+                      </Row>
+                      <Row>
+                        <TerminalComponent roomId={this.room.id} />
+                      </Row>
+                    </SplitPane>
+                  </div>
+                </SplitPane>
+                <ChatComponent
+                    style={{ zIndex: "100000" }}
+                    chatRoom={this.context.projectData.chatRoom}
+                    domain={this.context.domain}
+                    user={this.context.projectData.user}
+                />
+              </Row>
           )}
-      </div>
+        </div>
     );
   }
 }

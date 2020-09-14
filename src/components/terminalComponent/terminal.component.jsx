@@ -13,19 +13,6 @@ export default class TerminalComponent extends React.Component {
 
     constructor(props) {
         super(props);
-        if (process.env.REACT_APP_ENV === 'prod') {
-            this.state = {
-                ws: `wss://${this.props.roomUrl}`,
-                http: `https://${this.props.roomUrl}`
-            }
-
-        } else {
-            this.state = {
-                ws: `ws://${this.props.roomUrl}`,
-                http: `http://${this.props.roomUrl}`
-            }
-        }
-
         this.xtermRef = React.createRef();
     }
 
@@ -39,7 +26,7 @@ export default class TerminalComponent extends React.Component {
             }, 8 * 1000)
         }
     }
-    
+
     handleResize = (size) => {
         console.log("Resize")
         console.log(size)
@@ -59,7 +46,7 @@ export default class TerminalComponent extends React.Component {
         terminal.loadAddon(this.fitAddon)
         this.fitAddon.fit()
 
-        const ws = new ReconnectingWebSocket(`${this.state.ws}?token=${cookie.load('jwt')}`, 'terminal-connect');
+        const ws = new ReconnectingWebSocket(`${process.env.REACT_APP_MAIN_SERVER_WS}?roomId=${this.props.roomId}&token=${cookie.load('jwt')}`, 'terminal-connect');
         this.ws = ws;
 
         ws.onopen = () => {
@@ -71,7 +58,6 @@ export default class TerminalComponent extends React.Component {
 
             const attachAddon = new AttachAddon(ws);
             terminal.loadAddon(attachAddon);
-            this.context.setWS(ws, this.state.http)
             this.sendPings(ws);
         }
 
