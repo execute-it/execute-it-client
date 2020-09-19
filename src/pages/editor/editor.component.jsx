@@ -1,93 +1,93 @@
 import React from "react";
 import GlobalContext from "../../context/GlobalContext";
-import * as ace from "ace-builds";
-import AceBinder from "./AceBinder.js";
-
-import "ace-builds/webpack-resolver";
-import "ace-builds/src-noconflict/ext-modelist";
-
 import "./editor.css";
+import MonacoBinder from "./MonacoBinder.js"
+import {Spin} from 'antd'
+import Editor from '@monaco-editor/react';
+
+import '@convergencelabs/monaco-collab-ext/css/monaco-collab-ext.css'
+
+const fileTypes= {
+        css: 'css',
+        js: 'javascript',
+        json: 'json',
+        md: 'markdown',
+        mjs: 'javascript',
+        ts: 'typescript',
+        py: 'python',
+        c: 'cpp',
+        cpp: 'cpp',
+        go: 'go',
+        java: 'java',
+        html: 'html'
+}
 
 export default class EditorComponent extends React.Component {
-  static contextType = GlobalContext;
+    static contextType = GlobalContext;
 
-  constructor(props) {
-    super(props);
-    console.log(props);
+    constructor(props) {
+        super(props);
+        console.log(props);
 
-    this.state = {
-      cursor: {
-        row: 0,
-        column: 0,
-      },
-      participants: [],
-    };
-  }
+        this.lang = fileTypes[this.props.fileName.split('.').pop()]
+        console.log(this.lang)
 
-  componentDidMount() {
-    this.initEditor();
-  }
-
-  componentWillUnmount() {
-    if (this._participantsSubscription !== undefined) {
-      this._participantsSubscription.unsubscribe();
+        this.state = {
+            editor: null,
+            cursor: {
+                row: 0,
+                column: 0,
+            },
+            participants: []
+        };
     }
-  }
 
-  handleCursorMove = (cursor) => {
-    console.log(cursor, this.state.cursor);
-    this.setState({ cursor: cursor });
-  };
+    componentDidMount() {
+        // this.initEditor();
+    }
 
-  initEditor() {
-    const contentModel = this.props.fileModel.root().get("content");
-    console.log(contentModel);
+    componentWillUnmount() {
+        if (this._participantsSubscription !== undefined) {
+            this._participantsSubscription.unsubscribe();
+        }
+    }
 
-    this._editor = ace.edit(this._container);
-    this._editor.setTheme("ace/theme/vibrant_ink");
+    handleCursorMove = (cursor) => {
+        console.log(cursor, this.state.cursor);
+        this.setState({cursor: cursor});
+    };
 
-    const modeList = ace.require("ace/ext/modelist");
-    const mode = modeList.getModeForPath(this.props.fileName);
-    console.log(mode.mode);
-    this._editor.getSession().setMode(mode.mode);
+    initEditor = ()=>{
+        const contentModel = this.props.fileModel.root().get("content");
+        const editor = this.state.editor
+       editor.getModel().setValue(contentModel.value());
+        const monacoBinder = new MonacoBinder(this.state.editor,contentModel,!this.props.historical)
+        monacoBinder.bind()
+    }
 
-    this._editor.getSession().setValue(contentModel.value());
+    handleEditorDidMount = async (_, editor) => {
+        await this.setState({ editor: editor })
+        await this.initEditor()
+    }
 
-    this._editor.getSession().selection.on("changeCursor", () => {
-      const cursorPosition = this._editor.getCursorPosition();
-      this.handleCursorMove(cursorPosition);
-    });
+    render() {
+        return this.props.fileModel !== undefined ? (
+              <div className="editor-container">
+                  <Editor
+                      className="editor"
+                      language={this.lang}
+                      loading={<Spin size="large" />}
+                      editorDidMount={this.handleEditorDidMount}
+                      theme='dark'
+                      options={{
+                          automaticLayout: true,
+                          fontSize: 16,
+                      }}
+                  />
+              </div>
 
-    this._editor.setReadOnly(this.props.historical);
-
-    const aceBinder = new AceBinder(
-      this._editor,
-      contentModel,
-      !this.props.historical,
-      this._radarViewElement
-    );
-    aceBinder.bind();
-  }
-
-  render() {
-    return this.props.fileModel !== undefined ? (
-      <div className="editor-container">
-        <div
-          className="editor"
-          ref={(div) => {
-            this._container = div;
-          }}
-        />
-        <div
-          className="radar-view"
-          ref={(div) => {
-            this._radarViewElement = div;
-          }}
-        />
-        {/* <div><button onClick={this.runFunction}>RUN</button></div> */}
-      </div>
-    ) : (
-      <div>loading...</div>
-    );
-  }
+        ) : (
+            <div>loading...</div>
+        );
+    }
 }

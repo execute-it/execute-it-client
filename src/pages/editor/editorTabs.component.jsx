@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Tabs } from "antd";
+import { Row, Tabs, Col } from "antd";
 
 import GlobalContext from "../../context/GlobalContext";
 import Editor from "./editor.component";
@@ -71,32 +71,38 @@ export default class EditorTabsComponent extends React.Component {
     return (
       <>
         {this.props.editors.length > 0 ? (
-          <div>
-            <Tabs
-              hideAdd
-              onChange={this.onChange}
-              activeKey={this.context.activeKey}
-              type="editable-card"
-              onEdit={this.onEdit}>
-              {this.context.editors &&
-                this.context.editors.map((pane) => (
-                  <TabPane key={pane.modelId} tab={pane.title}>
-                    <Editor
-                      fileName={pane.title}
-                      fileModel={pane.model}
-                      historical={pane.historical}
-                      key={pane.modelId}
-                    />
-                    {/* {this.context.setTerm(pane.model, pane.title)} */}
-                  </TabPane>
-                ))}
-            </Tabs>
-          </div>
+          <Row>
+            <Col align="middle" xs={24}>
+              <Tabs
+                hideAdd
+                onChange={this.onChange}
+                activeKey={this.context.activeKey}
+                type="editable-card"
+                onEdit={this.onEdit}>
+                {this.context.editors &&
+                  this.context.editors.map((pane) => (
+                    <TabPane key={pane.modelId} tab={pane.title}>
+                      <Editor
+                        fileName={pane.title}
+                        fileModel={pane.model}
+                        historical={pane.historical}
+                        key={pane.modelId}
+                      />
+                      {/* {this.context.setTerm(pane.model, pane.title)} */}
+                    </TabPane>
+                  ))}
+              </Tabs>
+            </Col>
+          </Row>
         ) : (
-          <Result
-            title="Create or Open New File"
-            icon={<img alt="banner" width={600} src={newFile} />}
-          />
+          <Row>
+            <Col align="middle" xs={24}>
+              <Result
+                title="Create or Open New File"
+                icon={<img alt="banner" width={600} src={newFile} />}
+              />
+            </Col>
+          </Row>
         )}
       </>
     );
