@@ -14,6 +14,7 @@ import {
 import {
   QuestionCircleOutlined,
   FileAddOutlined,
+  FolderAddOutlined,
   DeleteOutlined,
   CaretRightOutlined,
 } from "@ant-design/icons";
