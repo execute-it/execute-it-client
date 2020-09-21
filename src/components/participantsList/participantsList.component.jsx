@@ -19,7 +19,13 @@ export default class ParticipantsList extends React.Component {
     this.subscription = this.props.activity
       .participantsAsObservable()
       .subscribe((participants) => {
-        this.setState({ participants: participants });
+        // Remove bots (autoCull checking)
+        let filteredParticipants = []
+        participants.forEach((participant)=>{
+          if(!JSON.parse(participant.user.displayName).isBot)
+            filteredParticipants.push(participant)
+        })
+        this.setState({ participants: filteredParticipants });
       });
   }
 

@@ -14,6 +14,7 @@ import {
 import {
   QuestionCircleOutlined,
   FileAddOutlined,
+  FolderAddOutlined,
   DeleteOutlined,
   CaretRightOutlined,
 } from "@ant-design/icons";
@@ -123,7 +124,7 @@ export default class FileManagerComponent extends React.Component {
     // keys[0] reqd ID
 
     this.context.setSelectedId(keys[0]);
-
+    
     if (
       !isNodeFolder(this.props.rtModel.elementAt(["tree", "nodes"]), keys[0])
     ) {
@@ -171,7 +172,7 @@ export default class FileManagerComponent extends React.Component {
                 File{" "}
               </Button>
             </Col>
-            {/* <Button size="small"  icon={<FolderAddOutlined/>} type="primary" onClick={_=>this.setState({visibleNewFolderModal: true})} > Folder </Button> */}
+            {<Button size="small"  icon={<FolderAddOutlined/>} type="primary" onClick={_=>this.setState({visibleNewFolderModal: true})} > Folder </Button>}
             <Col lg={24} xl={8}>
               <Popconfirm
                 disabled={

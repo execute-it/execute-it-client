@@ -71,12 +71,12 @@ class WorkspacePage extends React.Component {
     if (user) {
       // console.log(user)
       Convergence.connectAnonymously(this.domainUrl, JSON.stringify(user)).then(
-        (d) => {
-          console.log(d);
-          this.setState({ domain: d });
-          this.context.setDomain(d);
-          this.createOrJoinProject(d);
-        }
+          (d) => {
+            console.log(d);
+            this.setState({ domain: d });
+            this.context.setDomain(d);
+            this.createOrJoinProject(d);
+          }
       );
     } else {
       this.props.history.push("/login");
@@ -85,31 +85,31 @@ class WorkspacePage extends React.Component {
 
   createOrJoinProject = (domain) => {
     domain
-      .models()
-      .openAutoCreate({
-        id: this.room.id,
-        collection: "executeit",
-        ephemeral: true,
-        data: {
-          name: this.room.name,
-          tree: {
-            nodes: {
-              root: {
-                name: this.room.name,
-                children: [],
+        .models()
+        .openAutoCreate({
+          id: this.room.id,
+          collection: "executeit",
+          ephemeral: true,
+          data: {
+            name: this.room.name,
+            tree: {
+              nodes: {
+                root: {
+                  name: this.room.name,
+                  children: [],
+                },
               },
             },
           },
-        },
-      })
-      .then((model) => {
-        console.log("project model open");
-        // use the model
-        this.openProject(model);
-      })
-      .catch((error) => {
-        console.log("Could not open the project model", error);
-      });
+        })
+        .then((model) => {
+          console.log("project model open");
+          // use the model
+          this.openProject(model);
+        })
+        .catch((error) => {
+          console.log("Could not open the project model", error);
+        });
   };
 
   openProject = (projectModel) => {
@@ -120,37 +120,37 @@ class WorkspacePage extends React.Component {
 
     Promise.all([
       domain
-        .activities()
-        .join(projectModel.modelId())
-        .then((a) => (activity = a)),
+          .activities()
+          .join(projectModel.modelId())
+          .then((a) => (activity = a)),
       domain
-        .chat()
-        .create({
-          id: projectModel.modelId(),
-          type: "room",
-          membership: "public",
-          ignoreExistsError: true,
-        })
-        .then((channelId) => domain.chat().join(channelId))
-        .then((c) => (chatRoom = c)),
+          .chat()
+          .create({
+            id: projectModel.modelId(),
+            type: "room",
+            membership: "public",
+            ignoreExistsError: true,
+          })
+          .then((channelId) => domain.chat().join(channelId))
+          .then((c) => (chatRoom = c)),
     ])
-      .then(() => {
-        const projectData = {
-          projectModel,
-          activity,
-          chatRoom,
-          user: projectModel.session().user(),
-        };
-        this.setState({ projectData });
-        console.log(this.state.projectData, "11lkjasl");
-        this.context.setProjectData(projectData);
-      })
-      .then(() => {
-        this.setState({ isLoading: false });
-      })
-      .catch((e) => {
-        console.error(e);
-      });
+        .then(() => {
+          const projectData = {
+            projectModel,
+            activity,
+            chatRoom,
+            user: projectModel.session().user(),
+          };
+          this.setState({ projectData });
+          console.log(this.state.projectData, "11lkjasl");
+          this.context.setProjectData(projectData);
+        })
+        .then(() => {
+          this.setState({ isLoading: false });
+        })
+        .catch((e) => {
+          console.error(e);
+        });
   };
 
   render() {
@@ -214,7 +214,7 @@ class WorkspacePage extends React.Component {
                     </SplitPane>
                   </Row>
                   <Row>
-                    <TerminalComponent roomUrl={this.state.roomURL} />
+                    <TerminalComponent roomId={this.room.id} />
                   </Row>
                 </SplitPane>
               </div>
