@@ -1,10 +1,8 @@
-import React  from 'react'
+import React from 'react'
 import {Button, Input, Typography} from 'antd'
-import {DeleteOutlined} from "@ant-design/icons";
-import {isNodeFolder} from "../../utils/utils";
 import cookie from "react-cookies";
 
-const { Text } = Typography
+const {Text} = Typography
 
 const RoomInfo = (props) => {
     const [portFwd, setPortFwd] = React.useState()
@@ -19,7 +17,7 @@ const RoomInfo = (props) => {
     }
 
     return (
-        <div style={{ padding: '1rem' }}>
+        <div style={{padding: '1rem'}}>
             <Typography.Title level={3}>Room Info</Typography.Title>
             <div>
                 <Text strong>Room Name: </Text><Typography.Text>{props.roomName}</Typography.Text>
@@ -44,15 +42,15 @@ const RoomInfo = (props) => {
                 />
                 <br/>
                 <Button
-                size="small"
-                type="primary"
-                disabled={
-                    !portFwd
-                }
-                onClick={handlePortFwd}
-                style={{float: 'right', marginTop: '0.5rem'}}>
-                Connect
-            </Button>
+                    size="small"
+                    type="primary"
+                    disabled={
+                        !portFwd
+                    }
+                    onClick={handlePortFwd}
+                    style={{float: 'right', marginTop: '0.5rem'}}>
+                    Connect
+                </Button>
             </div>
 
         </div>
