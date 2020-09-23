@@ -13,7 +13,7 @@ const RoomInfo = (props) => {
     }
 
     function handlePortFwd() {
-        window.open(`http://rooms.localhost/port-fwd-auth?token=${cookie.load('jwt')}&redirect=/${props.roomId}/${portFwd}/`)
+        window.open(`http://rooms.executeit.ml/port-fwd-auth?token=${cookie.load('jwt')}&redirect=/${props.roomId}/${portFwd}/`)
     }
 
     return (
