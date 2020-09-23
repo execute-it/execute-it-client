@@ -210,6 +210,7 @@ class WorkspacePage extends React.Component {
                       <RoomInfo
                         roomName={this.room.name}
                         inviteCode={this.inviteCode}
+                        roomId={this.room.id}
                       />
                     </SplitPane>
                   </Row>
