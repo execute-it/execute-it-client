@@ -55,6 +55,13 @@ export default class ParticipantsList extends React.Component {
     );
   }
 
+  getVoiceStatus = (status)=>{
+    if(status)
+      return <Typography.Text style={{color: "#58e411", fontWeight: "bold"}} level={4}>{"Voice Connected"}</Typography.Text>
+    else
+      return <Typography.Text style={{color: "#e4ab0a", fontWeight: "bold"}} level={4}>{"Connecting Voice..."}</Typography.Text>
+  }
+
   render() {
     const participants = this.state.participants.map((participant, i) => {
       return this.createParticipant(participant, i === 0);
@@ -63,7 +70,7 @@ export default class ParticipantsList extends React.Component {
     return (
       <div style={{ padding: "1rem" }}>
         <Typography.Title level={3}>Participants</Typography.Title>
-
+        {this.getVoiceStatus(this.context.isVoiceConnected)}
         <div className="participants-list">{participants}</div>
       </div>
     );

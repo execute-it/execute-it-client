@@ -1,11 +1,14 @@
 import React from 'react';
 import VoiceChannelComponent from "./voiceChannel.component";
+import UserContext from "../../context/UserContext";
 
 
 const socket = require('socket.io-client')
 
 
 class VoiceChatMainComponent extends React.Component {
+    static contextType = UserContext;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -45,13 +48,19 @@ class VoiceChatMainComponent extends React.Component {
             // Handle successful auth
             this.socket.on('authenticated', () => {
                 console.log("Logged In!");
+                this.context.setVoiceConnected(true)
                 this.setState({socket: this.socket})
             });
+
+            this.socket.on('disconnect', ()=>{
+                this.context.setVoiceConnected(false)
+            })
         });
     }
 
     componentWillUnmount() {
         this.socket.disconnect()
+        this.context.setVoiceConnected(false)
     }
 
     render() {
