@@ -140,6 +140,13 @@ export default class VoiceChannelComponent extends React.Component {
                     this.setState({audioProducer: this.room.createProducer(this.audioTrack)});
                     this.setState({selfAudioOn: true});
 
+                    // Also store stream in user context audio streams
+                    let streams = this.context.audioStreams
+                    if (!streams[this.props.username])
+                        streams[this.props.username] = {}
+                    streams[this.props.username].audio = stream
+                    this.context.setAudioStreams(streams)
+
                     // Send our audio.
                     this.state.audioProducer.send(this.sendTransport);
                 });
@@ -150,6 +157,11 @@ export default class VoiceChannelComponent extends React.Component {
             })
             this.setState({audioProducer: null});
             this.setState({selfAudioOn: false});
+
+            // Also delete stream from user context audio streams
+            let streams = this.context.audioStreams
+            delete streams[this.props.username]
+            this.context.setAudioStreams(streams)
         }
     }
 
