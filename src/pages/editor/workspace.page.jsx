@@ -205,6 +205,7 @@ class WorkspacePage extends React.Component {
                       minSize="50%">
                       <ParticipantsList
                         activity={this.context.projectData.activity}
+                        room={this.room}
                       />
 
                       <RoomInfo
@@ -225,6 +226,7 @@ class WorkspacePage extends React.Component {
               chatRoom={this.context.projectData.chatRoom}
               domain={this.context.domain}
               user={this.context.projectData.user}
+              roomName={this.room.name}
             />
           </Row>
         )}

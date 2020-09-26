@@ -8,6 +8,7 @@ class UserProvider extends Component {
         user: null,
         domain: null,
         projectData: null,
+        audioStreams: {}
     };
 
     // Method to update state
@@ -31,10 +32,14 @@ class UserProvider extends Component {
         })
     }
 
+    setAudioStreams = (streams)=>{
+        this.setState({audioStreams: streams})
+    }
+
     render() {
         const { children } = this.props;
-        const { user, domain, projectData } = this.state;
-        const { setUser, setDomain, setProjectData, dispose } = this;
+        const { user, domain, projectData, audioStreams } = this.state;
+        const { setUser, setDomain, setProjectData, dispose, setAudioStreams } = this;
 
         return (
             <UserContext.Provider
@@ -42,10 +47,12 @@ class UserProvider extends Component {
                     user,
                     domain,
                     projectData,
+                    audioStreams,
                     setUser,
                     setDomain,
                     setProjectData,
-                    dispose
+                    dispose,
+                    setAudioStreams
                 }}>
                 {" "}
                 {children}{" "}

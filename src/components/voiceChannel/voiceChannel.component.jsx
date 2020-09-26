@@ -2,11 +2,14 @@ import React from "react";
 import PeerAudioComponent from "./peerAudio.component";
 import {Button} from "antd"
 import {AudioOutlined, AudioMutedOutlined} from "@ant-design/icons"
+import UserContext from "../../context/UserContext";
 
 
 const mediasoupClient = require('mediasoup-client');
 
 export default class VoiceChannelComponent extends React.Component {
+    static contextType = UserContext;
+    
     constructor(props) {
         super(props);
         this.state = {
@@ -49,7 +52,7 @@ export default class VoiceChannelComponent extends React.Component {
                     // Success response, so pass the mediasoup response to the local Room.
                     callback(response);
                 } else {
-                    errback(err);
+                    console.error(err, errback)
                 }
             });
         });
@@ -75,10 +78,10 @@ export default class VoiceChannelComponent extends React.Component {
 
         // Event fired when the remote Room or Peer is closed.
         peer.on('close', () => {
-            console.log('Remote Peer closed');
-            let streams = this.state.streams;
+            console.log('Remote Peer closed', peer.name);
+            let streams = this.context.audioStreams;
             delete streams[peer.name]
-            this.setState({streams})
+            this.context.setAudioStreams(streams)
         });
 
         // Event fired when the remote Peer sends a new media to mediasoup server.
@@ -104,16 +107,19 @@ export default class VoiceChannelComponent extends React.Component {
                 //    Do nothing, video not supported for now
                 }
                 if (consumer.kind === 'audio') {
-                    let streams = this.state.streams
+                    let streams = this.context.audioStreams
                     if (!streams[peerName])
                         streams[peerName] = {}
                     streams[peerName].audio = stream
-                    this.setState({streams})
+                    this.context.setAudioStreams(streams)
                 }
             });
 
         // Event fired when the Consumer is closed.
         consumer.on('close', () => {
+            let streams = this.context.audioStreams
+            delete streams[peerName].audio
+            this.context.setAudioStreams(streams)
             console.log('Consumer closed');
         });
     }
@@ -155,8 +161,8 @@ export default class VoiceChannelComponent extends React.Component {
     render() {
         return <div>
             {/* Actual Audios component */}
-            {Object.keys(this.state.streams).map((peerName) => {
-                return <PeerAudioComponent key={peerName} stream={this.state.streams[peerName]}/>
+            {Object.keys(this.context.audioStreams).map((peerName) => {
+                return <PeerAudioComponent key={peerName} stream={this.context.audioStreams[peerName]}/>
             })}
             <Button type="primary" shape="circle" onClick={_=>this.handleAudioToggle()} icon={
             this.state.selfAudioOn ? <AudioOutlined /> : <AudioMutedOutlined />

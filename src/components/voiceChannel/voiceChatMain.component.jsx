@@ -12,12 +12,13 @@ class VoiceChatMainComponent extends React.Component {
             socket: null
         }
         this.socket = null
-        this.username = `user${Math.random() * 1000}`;
-        this.room = 'room11'
+        this.username = this.props.username;
+        this.room = this.props.roomId
     }
 
     componentDidMount() {
-        this.socket = socket(`${process.env.REACT_APP_MEDIASOUP_URL}`, {
+        this.socket = socket(`http://128.199.29.204:8000`, {
+            path: '/socket.io/socket.io',
             query: {
                 roomId: this.room,
                 peerName: this.username

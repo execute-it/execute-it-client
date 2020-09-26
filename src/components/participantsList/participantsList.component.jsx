@@ -11,7 +11,7 @@ export default class ParticipantsList extends React.Component {
     super(props);
 
     this.state = {
-      participants: [],
+      participants: []
     };
   }
 
@@ -22,7 +22,11 @@ export default class ParticipantsList extends React.Component {
         // Remove bots (autoCull checking)
         let filteredParticipants = []
         participants.forEach((participant)=>{
-          if(!JSON.parse(participant.user.displayName).isBot)
+          if(!JSON.parse(participant.user.displayName).isBot && JSON.parse(participant.user.displayName).email === this.context.user.email)
+            filteredParticipants.push(participant)
+        })
+        participants.forEach((participant)=>{
+          if(!JSON.parse(participant.user.displayName).isBot && JSON.parse(participant.user.displayName).email !== this.context.user.email)
             filteredParticipants.push(participant)
         })
         this.setState({ participants: filteredParticipants });
@@ -37,12 +41,16 @@ export default class ParticipantsList extends React.Component {
 
   createParticipant(participant, isSelf) {
     console.log(participant.user);
+    const streams = this.context.audioStreams[JSON.parse(participant.user.displayName).email]
     return (
       <Participant
         key={participant.sessionId}
         displayName={participant.user.displayName}
         isSelf={isSelf}
         color={colorAssigner.getColorAsHex(participant.sessionId)}
+        room={this.props.room}
+        isMicOn={!(!(this.context.audioStreams[JSON.parse(participant.user.displayName).email] && this.context.audioStreams[JSON.parse(participant.user.displayName).email].audio))}
+        stream={streams ? streams.audio : null}
       />
     );
   }
