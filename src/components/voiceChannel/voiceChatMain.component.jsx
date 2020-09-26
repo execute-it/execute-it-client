@@ -21,7 +21,7 @@ class VoiceChatMainComponent extends React.Component {
 
     componentDidMount() {
         // TODO: Remove hardcoded URL later
-        const voiceURL = process.env.REACT_APP_MEDIASOUP_URL || "https://voice.executeit.ml";
+        const voiceURL = "https://voice.executeit.ml";
         this.socket = socket(voiceURL, {
             path: '/socket.io',
             query: {
