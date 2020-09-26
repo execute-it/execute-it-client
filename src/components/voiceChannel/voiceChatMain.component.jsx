@@ -20,8 +20,10 @@ class VoiceChatMainComponent extends React.Component {
     }
 
     componentDidMount() {
-        this.socket = socket(`http://128.199.29.204:8000`, {
-            path: '/socket.io/socket.io',
+        // TODO: Remove hardcoded URL later
+        const voiceURL = process.env.REACT_APP_MEDIASOUP_URL || "https://voice.executeit.ml";
+        this.socket = socket(voiceURL, {
+            path: '/socket.io',
             query: {
                 roomId: this.room,
                 peerName: this.username

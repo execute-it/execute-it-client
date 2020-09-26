@@ -13,7 +13,9 @@ const RoomInfo = (props) => {
     }
 
     function handlePortFwd() {
-        window.open(`http://rooms.executeit.ml/port-fwd-auth?token=${cookie.load('jwt')}&redirect=/${props.roomId}/${portFwd}/`)
+        // TODO: Remove hardcoded URL later
+        const roomURL = process.env.REACT_APP_ROOMS_URL || "https://rooms.executeit.ml";
+        window.open(`${roomURL}/port-fwd-auth?token=${cookie.load('jwt')}&redirect=/${props.roomId}/${portFwd}/`)
     }
 
     return (
