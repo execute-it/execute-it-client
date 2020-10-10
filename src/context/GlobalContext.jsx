@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { findChildParentId, isNodeFolder, generateUUID } from "../utils/utils";
 import EditorData from "../utils/editorData";
-import axios from "axios";
-import cookie from "react-cookies";
 
 const GlobalContext = React.createContext();
 
@@ -61,39 +59,22 @@ class GlobalProvider extends Component {
 
     this.state.editors.map((editor) => {
       if (editor.modelId === this.state.selectedId) {
-        let data = editor.model.root().get("content").value();
-        data = btoa(data);
-
         const type = editor.title.split(".")[1];
-        console.log(type);
-        axios
-          .post(
-            `${this.state.roomUrl}/file?token=${cookie.load("jwt")}`,
-            { data: data, fileName: editor.title },
-            { "Content-Type": "application/json" }
-          )
-          .then((res) => {
-            console.log(res.data);
-
-            this.state.ws.send("\x03\n"); // Simulate ^C to terminate previously running command if any
-            this.state.ws.send("clear\n"); // Clear Console
-            setTimeout(() => {
-              if (type === "py") {
-                this.state.ws.send(`python3 ${editor.title}\n`);
-              } else if (type === "js") {
-                this.state.ws.send(`node ${editor.title}\n`);
-              } else if (type === "c") {
-                this.state.ws.send(`gcc ${editor.title} && ./a.out\n`);
-              } else if (type === "cpp") {
-                this.state.ws.send(`g++ ${editor.title} && ./a.out\n`);
-              } else {
-                this.state.ws.send('echo "FileNotSupported" ');
-              }
-            }, 400);
-          })
-          .catch((e) => {
-            console.log(e, "term error");
-          });
+        this.state.ws.send("\x03\n"); // Simulate ^C to terminate previously running command if any
+        this.state.ws.send("clear\n"); // Clear Console
+        setTimeout(() => {
+          if (type === "py") {
+            this.state.ws.send(`python3 ${editor.title}\n`);
+          } else if (type === "js") {
+            this.state.ws.send(`node ${editor.title}\n`);
+          } else if (type === "c") {
+            this.state.ws.send(`gcc ${editor.title} && ./a.out\n`);
+          } else if (type === "cpp") {
+            this.state.ws.send(`g++ ${editor.title} && ./a.out\n`);
+          } else {
+            this.state.ws.send('echo "FileNotSupported" ');
+          }
+        }, 400);
       }
       return editor;
     });

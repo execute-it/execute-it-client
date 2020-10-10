@@ -1,7 +1,7 @@
 import React from 'react'
 import { XTerm } from "xterm-for-react"
 import { AttachAddon } from 'xterm-addon-attach';
-import {FitAddon} from 'xterm-addon-fit';
+import { FitAddon } from 'xterm-addon-fit';
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import cookie from 'react-cookies'
 import GlobalContext from '../../context/GlobalContext';
@@ -48,6 +48,7 @@ export default class TerminalComponent extends React.Component {
 
         const ws = new ReconnectingWebSocket(`${process.env.REACT_APP_MAIN_SERVER_WS}?roomId=${this.props.roomId}&token=${cookie.load('jwt')}`, 'terminal-connect');
         this.ws = ws;
+        this.context.setWS(ws)
 
         ws.onopen = () => {
             // Resize terminal
