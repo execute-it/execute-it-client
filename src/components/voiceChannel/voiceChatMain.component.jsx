@@ -1,7 +1,7 @@
 import React from 'react';
 import VoiceChannelComponent from "./voiceChannel.component";
 import UserContext from "../../context/UserContext";
-
+import cookie from 'react-cookies'
 
 const socket = require('socket.io-client')
 
@@ -26,7 +26,8 @@ class VoiceChatMainComponent extends React.Component {
             path: '/socket.io',
             query: {
                 roomId: this.room,
-                peerName: this.username
+                peerName: this.username,
+                token: cookie.load('jwt')
             },
         });
 
