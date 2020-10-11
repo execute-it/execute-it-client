@@ -99,7 +99,7 @@ export default class EditorTabsComponent extends React.Component {
             <Col align="middle" xs={24}>
               <Result
                 title="Create or Open New File"
-                icon={<img alt="banner" width={600} src={newFile} />}
+                icon={<img alt="banner" width={"80%"} src={newFile} />}
               />
             </Col>
           </Row>

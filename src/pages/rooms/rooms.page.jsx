@@ -32,9 +32,20 @@ class RoomPage extends React.Component {
     };
   }
 
+
+
   componentDidMount() {
+    this.fetchRooms();
+  }
+
+  fetchRooms() {
     axios.get(`${process.env.REACT_APP_MAIN_SERVER}/rooms`).then((res) => {
       this.setState({ rooms: res.data.rooms });
+      let count = 0
+      for(let x in res.data.rooms){
+        if(res.data.rooms[x].isHost)
+        this.setState({ hostRooms: ++count});
+      }
       console.log(this.state.rooms);
     });
   }
@@ -124,6 +135,27 @@ class RoomPage extends React.Component {
     this.setState({ joinRoomData: e.target.value });
   };
 
+  onDeleteRoom = (roomId) => {
+    axios.delete(`${process.env.REACT_APP_MAIN_SERVER}/rooms/${roomId}`)
+      .then(() => {
+        this.fetchRooms();
+      }
+      )
+      .then(() => {
+        notification.success({
+          message: "Room Delete",
+          description: `Room was deleted successfully!!`,
+        })
+
+      })
+      .catch(() => {
+        notification.error({
+          message: "Error",
+          description: `Some Error Occurred`,
+        });
+      })
+  }
+
   joinRoom = () => {
     if (validator.isUUID(this.state.joinRoomData)) {
       console.log(this.state.joinRoomData);
@@ -189,13 +221,13 @@ class RoomPage extends React.Component {
                   <Tooltip
                     placement="top"
                     title={
-                      rooms.length > 4 ? (
+                      this.state.hostRooms >= 2 ? (
                         <Typography.Text>
-                          You can only create 4 rooms
+                          You can only create 2 rooms
                         </Typography.Text>
                       ) : (
-                        <Typography.Text>Create new room</Typography.Text>
-                      )
+                          <Typography.Text>Create new room</Typography.Text>
+                        )
                     }>
                     <Button
                       onClick={() => {
@@ -204,7 +236,7 @@ class RoomPage extends React.Component {
                       type="primary"
                       size="large"
                       icon={<PlusOutlined />}
-                      disabled={rooms.length >= 4}>
+                      disabled={this.state.hostRooms >= 2}>
                       Create Room
                     </Button>
                   </Tooltip>
@@ -247,6 +279,7 @@ class RoomPage extends React.Component {
                     isAdmin={x.isHost}
                     roomId={x.roomId}
                     roomURL={x.roomURL}
+                    onConfirm={this.onDeleteRoom}
                   />
                 </Col>
               ))}

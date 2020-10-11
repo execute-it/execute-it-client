@@ -7,16 +7,17 @@ class ChatComponent extends React.Component {
         super(props)
         this.state = {
             messages: [],
-            messageList: []
+            messageList: [],
+            displayName:''
         }
 
     }
 
     componentDidMount() {
         const { user } = this.props
-        const displayName = user.displayName ? user.displayName : user.username;
+        const displayName = user.displayName ? user.displayName : '' ;
         this.props.chatRoom.on("message", this._onRemoteMessage);
-        this.setState({profilePhoto: JSON.parse(displayName).image,displayName:JSON.parse(displayName).image})
+        this.setState({profilePhoto: JSON.parse(displayName).image,displayName:JSON.parse(displayName).displayName})
         console.log(this.props)
     }
 
@@ -25,9 +26,9 @@ class ChatComponent extends React.Component {
     }
 
     _onRemoteMessage = (event) => {
-        const messages = this.state.messages.slice(0);
-        let author = JSON.parse(event.user.displayName).displayName
-        
+        let messages = this.state.messages.slice(0);
+        let author = 'them'
+
         if(JSON.parse(event.user.displayName).displayName === this.state.displayName){
             author = 'me'
         }
@@ -48,8 +49,11 @@ class ChatComponent extends React.Component {
             //     local={false}
             // />
         );
+      
         this.setState({ messages: messages });
     }
+
+
 
     _onMessageWasSent(message) {
         console.log('sent', message)
@@ -61,11 +65,10 @@ class ChatComponent extends React.Component {
 
     render() {
         return (
-            <div>
+            <div style={{ zIndex:'9999999' }}>
             <Launcher
-            style={{zIndex: 1000000}}
             agentProfile={{
-              teamName: 'react-chat-window',
+              teamName: this.state.displayName,
               imageUrl: this.state.profilePhoto
             }}
             onMessageWasSent={this._onMessageWasSent.bind(this)}

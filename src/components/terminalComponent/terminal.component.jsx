@@ -1,11 +1,11 @@
 import React from 'react'
-import { XTerm } from "xterm-for-react"
+import { Terminal } from 'xterm';
 import { AttachAddon } from 'xterm-addon-attach';
 import { FitAddon } from 'xterm-addon-fit';
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import cookie from 'react-cookies'
 import GlobalContext from '../../context/GlobalContext';
-
+import 'xterm/css/xterm.css'
 
 export default class TerminalComponent extends React.Component {
 
@@ -40,11 +40,21 @@ export default class TerminalComponent extends React.Component {
     }
 
     componentDidMount() {
-        const terminal = this.xtermRef.current.terminal;
+        const termOptions = {
+            convertEol: true,
+            cursorBlink: true
+        }
+        const terminal = new Terminal(termOptions);
+
+        terminal.open(this.xtermRef)
 
         this.fitAddon = new FitAddon()
         terminal.loadAddon(this.fitAddon)
         this.fitAddon.fit()
+
+        terminal.onResize((size)=>{console.log("Resize")})
+
+        new ResizeObserver(this.handleResize).observe(this.xtermRef)
 
         const ws = new ReconnectingWebSocket(`${process.env.REACT_APP_MAIN_SERVER_WS}?roomId=${this.props.roomId}&token=${cookie.load('jwt')}`, 'terminal-connect');
         this.ws = ws;
@@ -69,7 +79,7 @@ export default class TerminalComponent extends React.Component {
 
     render() {
         return (
-            <XTerm ref={this.xtermRef} className={this.props.className} />
+            <div ref={r => this.xtermRef = r} style={{width: "100%", height: "400px"}} className={"this.props.className"} />
         )
     }
 }
