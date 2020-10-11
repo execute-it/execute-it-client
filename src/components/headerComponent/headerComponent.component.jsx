@@ -36,45 +36,39 @@ const HeaderComponent = (props) => {
 
   return (
     <Row justify="center" align="middle">
-      <Col xs={12} >
-      <Space align="center" >
-        <img
-          width={70}
-          src={logo}
-          style={{marginBottom:'15px'}}
-          alt=""
-          href="/"
-        />
-        </Space>
-
-        <Space style={{ marginTop: "1rem", marginLeft: "1rem" }}>
+      <Col xs={24} md={12} >
+        <Space size='large' align="center"  >
+          <img
+            width={70}
+            src={logo}
+            alt=""
+            href="/"
+          />
           <Title
-            style={{ color: "white", fontSize:'200%', cursor:'pointer' }}
+            id="title"
+            style={{ color: "white", fontSize: '200%', cursor: 'pointer',marginTop: '1rem' }}
             level={3}
             onClick={() => {
               props.history.push("/rooms");
             }}>{`< Execute It />`}</Title>
         </Space>
-      </Col>
-      <Col xs={12}>
-        <Row justify="end">
-          <Col xs={24} style={{ textAlign: "right" }}>
-            <Switch
-              checkedChildren="Dark Mode On"
-              unCheckedChildren="Dark Mode Off"
-              checked={isDarkMode}
-              onChange={toggleTheme}
-              style={{ marginRight: "5%" }}
-            />
 
-            {user !== null ? (
-              <Dropdown overlay={menu}>
-                <Avatar size={50} src={user.image} />
-              </Dropdown>
-            ) : null}
-          </Col>
-        </Row>
+
       </Col>
+      {user !== null ? (
+        <Col xs={12}>
+          <Row justify="end">
+            <Col xs={24} style={{ textAlign: "right" }}>
+
+
+              <Dropdown overlay={menu}>
+                <Avatar size={50} src={JSON.parse(user.displayName).image} />
+              </Dropdown>
+
+            </Col>
+          </Row>
+        </Col>
+      ) : <Col xs={12}></Col>}
     </Row>
   );
 };

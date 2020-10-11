@@ -37,7 +37,7 @@ class WorkspacePage extends React.Component {
             content: 'This is my awesome feature!',
           },
           {
-            target: '.my-other-step',
+            target: '.terminal',
             content: 'This another awesome feature!',
           }
         ]

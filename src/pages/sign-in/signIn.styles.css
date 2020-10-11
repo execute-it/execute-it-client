@@ -1,21 +1,74 @@
 /* #homepage {
     /* background-color: #d9d9d9; */
-    /* height: 100%; */
-    /*background-image: linear-gradient( #fdfbfb, #ebedee);*/
 
+
+/* height: 100%; */
+
+
+/*background-image: linear-gradient( #fdfbfb, #ebedee);*/
 
 #login-card {
     box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2), 0 3px 6px 0 rgba(0, 0, 0, 0.19);
     position: absolute;
-    /* top: 53%; */
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 62vw;
-     /* max-height: 70vh;  */
+    width: 65vw;
+    /* max-height: 70vh;  */
     border-radius: 10px;
     padding: 1%;
 }
 
 #animation-video {
     width: 75%;
+}
+
+#mobileBanner {
+    display: none
+}
+
+@media screen and (max-width: 600px) {
+    #login-card {
+        top: 53%;
+        width: 85vw;
+        margin-bottom: 2rem;
+    }
+    #googleButton {
+        display: none !important;
+    }
+    #mobileBanner {
+        display: block
+    }
+}
+
+@media screen and (max-width: 380px) {
+    #login-card {
+        top: 60%;
+        width: 95vw;
+    }
+    #title {
+        font-size: 170% !important;
+    }
+    #mobileBanner {
+        display: block
+    }
+}
+
+@media screen and (max-width: 320px) {
+    #login-card {
+        top: 55%;
+        width: 100vw;
+    }
+    #title {
+        font-size: 130% !important;
+    }
+    .h1.ant-typography {
+        font-size: 100% !important;
+    }
+    .iphone {
+        font-size: 180% !important;
+    }
+    #mobileBanner {
+        display: block
+    }
 }

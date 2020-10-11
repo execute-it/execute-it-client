@@ -79,8 +79,8 @@ class SignIn extends React.Component {
 
   render() {
     return (
-      <Row justify="center" align="middle" style={{ marginTop: "48vh" }}>
-        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+      <Row justify="center" align="middle">
+        <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{height: "calc(100vh - 64px)"}}>
           <Card id="login-card" bordered={false}>
             <Row justify="center" align="middle">
               <Col
@@ -90,7 +90,7 @@ class SignIn extends React.Component {
                 md={24}
                 lg={24}
                 xl={24}>
-                <Title>{`< Execute It />`}</Title>
+                <Title >{`< Execute It />`}</Title>
               </Col>
             </Row>
 
@@ -116,6 +116,7 @@ class SignIn extends React.Component {
                   <Col xs={24}>
                     <div style={{ padding: "5%" }}>
                       <h2
+                        class="iphone"
                         style={{
                           //   color: "white",
                           fontStyle: "italic",
@@ -133,8 +134,9 @@ class SignIn extends React.Component {
                 <Row justify="center">
                   <Col xs={24}>
                     <Space align="end">
-                      {" "}
+                      <h3 id="mobileBanner">Mobile Display Not Supported</h3>
                       <GoogleButton
+                        id="googleButton"
                         onClick={() => {
                           this.openSignInWindow(this.url, "Sign In");
                         }}
