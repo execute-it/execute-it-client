@@ -37,25 +37,40 @@ class Participant extends React.Component {
         }
     }
 
+    getAvgVolumeLevel = (soundMeters)=>{
+        let totalLevel = 0.000;
+        soundMeters.forEach(soundMeter=>{
+            totalLevel += parseFloat(soundMeter.volume.toFixed(1)) * 20
+        })
+        // Restrict value betn 2 and 6
+        return Math.max(2, Math.min(totalLevel, 6))
+    }
+
     componentDidUpdate(prevProps, prevStates, ss) {
-        if(this.props.stream !== prevProps.stream) {
+        if(this.props !== prevProps) {
+            if(this.interval) {
+                clearInterval(this.interval)
+            }
             try {
-                if (this.props.stream) {
-                    window.AudioContext = window.AudioContext || window.webkitAudioContext;
-                    let audioContext = new AudioContext();
-                    let soundMeter = new SoundMeter(audioContext);
-                    soundMeter.connectToSource(this.props.stream);
+                if (this.props.streams) {
+                    // Getting multiple streams here, avg. or add their volume
+                    let soundMeters = []
+                    for(let i in this.props.streams){
+                        const stream = this.props.streams[i].audio
+                        window.AudioContext = window.AudioContext || window.webkitAudioContext;
+                        let audioContext = new AudioContext();
+                        let soundMeter = new SoundMeter(audioContext);
+                        soundMeter.connectToSource(stream);
+                        soundMeters.push(soundMeter)
+                    }
                     this.interval = setInterval(() => {
                         // console.log("Volume:", soundMeter.volume.toFixed(2))
-                        this.setState({border: Math.max(2, Math.min(parseFloat(soundMeter.volume.toFixed(1)) * 20, 6))})
+                        this.setState({border: this.getAvgVolumeLevel(soundMeters)})
                     }, 100)
                 }
             } catch (e) {
                 console.error(e)
             }
-        } else {
-            if(!this.props.stream && this.interval)
-                clearInterval(this.interval)
         }
     }
 
@@ -66,6 +81,12 @@ class Participant extends React.Component {
 
     render() {
         const border = this.props.isMicOn ? this.state.border : 4;
+
+        const username = JSON.stringify({
+            username: JSON.parse(this.props.displayName).email,
+            sessionId: `${Math.random()}`
+        })
+
         return (
             <div style={{marginTop: '1rem'}}>
                 <Popover content={() => (menu(this.props.displayName))} placement='left'
@@ -75,7 +96,7 @@ class Participant extends React.Component {
                                 src={JSON.parse(this.props.displayName).image}/>
                         <Typography.Text>{JSON.parse(this.props.displayName).displayName}</Typography.Text>
                         {this.props.isSelf &&
-                        <VoiceChatMainComponent username={JSON.parse(this.props.displayName).email}
+                        <VoiceChatMainComponent username={username}
                                                 roomId={this.props.room.id}/>}
                         {!this.props.isSelf && (this.props.isMicOn ? <AudioOutlined/> : <AudioMutedOutlined/>)}
                     </Space>
