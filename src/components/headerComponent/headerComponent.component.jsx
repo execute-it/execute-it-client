@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Space, Avatar, Typography, Row, Col } from "antd";
 import logo from "../../logo.svg";
 import UserContext from "../../context/UserContext";
-import { Menu, Dropdown, Switch } from "antd";
+import { Menu, Dropdown} from "antd";
 import { withRouter } from "react-router-dom";
 import cookie from "react-cookies";
 import GlobalContext from "../../context/GlobalContext";
@@ -10,7 +10,7 @@ import GlobalContext from "../../context/GlobalContext";
 const { Title } = Typography;
 
 const HeaderComponent = (props) => {
-  const { isDarkMode, toggleTheme } = props;
+  // const { isDarkMode, toggleTheme } = props;
   const globalContext = useContext(GlobalContext);
   const userContext = useContext(UserContext);
 

@@ -11,7 +11,7 @@ import ParticipantsList from "../../components/participantsList/participantsList
 import RoomInfo from "../../components/roomInfo/roomInfo.component";
 import { withRouter } from "react-router-dom";
 import cookie from "react-cookies";
-import Joyride from 'react-joyride';
+// import Joyride from 'react-joyride';
 
 class WorkspacePage extends React.Component {
   static contextType = UserContext;
@@ -83,7 +83,6 @@ class WorkspacePage extends React.Component {
     if (user) {
       // console.log(user)
       const reconnectToken = window.sessionStorage.getItem('convergence-reconnect-token');
-      let domain;
       if (reconnectToken != null) {
         Convergence.reconnect(this.domainUrl, reconnectToken)
           .then((d) => {
@@ -179,7 +178,7 @@ class WorkspacePage extends React.Component {
 
   render() {
     const loading = this.state.isLoading;
-    const { steps } = this.state;
+    // const { steps } = this.state;
 
     return (
       <div>
