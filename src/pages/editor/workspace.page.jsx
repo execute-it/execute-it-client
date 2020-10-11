@@ -11,6 +11,7 @@ import ParticipantsList from "../../components/participantsList/participantsList
 import RoomInfo from "../../components/roomInfo/roomInfo.component";
 import { withRouter } from "react-router-dom";
 import cookie from "react-cookies";
+import Joyride from 'react-joyride';
 
 class WorkspacePage extends React.Component {
   static contextType = UserContext;
@@ -30,6 +31,16 @@ class WorkspacePage extends React.Component {
         projectData: null,
         isLoading: true,
         roomURL: this.props.history.location.state.roomURL,
+        steps: [
+          {
+            target: 'body',
+            content: 'This is my awesome feature!',
+          },
+          {
+            target: '.my-other-step',
+            content: 'This another awesome feature!',
+          }
+        ]
       };
     } else {
       this.state = {
@@ -168,14 +179,19 @@ class WorkspacePage extends React.Component {
 
   render() {
     const loading = this.state.isLoading;
+    const { steps } = this.state;
+
     return (
       <div>
+        
         {loading ? (
           <div id="spinner" style={{ fontSize: "110px" }}>
             <Spin size="large" />
           </div>
         ) : (
             <Row>
+              {/* <Joyride
+          steps={steps}        /> */}
               <SplitPane
                 split="vertical"
                 minSize="70vw"
@@ -229,7 +245,7 @@ class WorkspacePage extends React.Component {
                       </SplitPane>
                     </Row>
                     <Row>
-                      <TerminalComponent roomId={this.room.id} />
+                      <TerminalComponent class='terminal' roomId={this.room.id} />
                     </Row>
                   </SplitPane>
                 </div>

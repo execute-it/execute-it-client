@@ -39,6 +39,7 @@
         "react-ga": "^3.1.2",
         "react-google-button": "^0.7.1",
         "react-html-parser": "^2.0.2",
+        "react-joyride": "^2.2.1",
         "react-lottie": "^1.2.3",
         "react-monaco-editor": "^0.40.0",
         "react-router-dom": "^5.2.0",
