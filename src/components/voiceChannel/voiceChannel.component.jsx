@@ -17,6 +17,7 @@ export default class VoiceChannelComponent extends React.Component {
             selfAudioOn: false,
             audioProducer: null
         }
+        this.mySessionId = `${Math.random()}`
     }
 
     componentDidMount() {
@@ -38,7 +39,7 @@ export default class VoiceChannelComponent extends React.Component {
 
         // Event fired by local room when a new remote Peer joins the Room
         this.room.on('newpeer', (peer) => {
-            console.log('A new Peer joined the Room:', peer.name);
+            console.log('A new Peer joined the Room:', JSON.parse(peer.name).username);
 
             // Handle the Peer.
             this.handlePeer(peer);
@@ -74,13 +75,13 @@ export default class VoiceChannelComponent extends React.Component {
         console.log('newPeer')
 
         // Handle all the Consumers in the Peer.
-        peer.consumers.forEach(consumer => this.handleConsumer(consumer, peer.name));
+        peer.consumers.forEach(consumer => this.handleConsumer(consumer, JSON.parse(peer.name).username));
 
         // Event fired when the remote Room or Peer is closed.
         peer.on('close', () => {
-            console.log('Remote Peer closed', peer.name);
+            console.log('Remote Peer closed', JSON.parse(peer.name).username);
             let streams = this.context.audioStreams;
-            delete streams[peer.name]
+            delete streams[JSON.parse(this.props.displayName).email][JSON.parse(this.props.displayName).sessionId]
             this.context.setAudioStreams(streams)
         });
 
@@ -89,7 +90,7 @@ export default class VoiceChannelComponent extends React.Component {
             console.log('Got a new remote Consumer');
 
             // Handle the Consumer.
-            this.handleConsumer(consumer, peer.name);
+            this.handleConsumer(consumer, JSON.parse(peer.name));
         });
     }
 
@@ -108,9 +109,11 @@ export default class VoiceChannelComponent extends React.Component {
                 }
                 if (consumer.kind === 'audio') {
                     let streams = this.context.audioStreams
-                    if (!streams[peerName])
-                        streams[peerName] = {}
-                    streams[peerName].audio = stream
+                    if (!streams[peerName.username])
+                        streams[peerName.username] = {}
+                    if(!streams[peerName.username][peerName.sessionId])
+                        streams[peerName.username][peerName.sessionId] = {}
+                    streams[peerName.username][peerName.sessionId].audio = stream
                     this.context.setAudioStreams(streams)
                 }
             });
@@ -118,7 +121,7 @@ export default class VoiceChannelComponent extends React.Component {
         // Event fired when the Consumer is closed.
         consumer.on('close', () => {
             let streams = this.context.audioStreams
-            delete streams[peerName].audio
+            delete streams[peerName.username][peerName.sessionId]
             this.context.setAudioStreams(streams)
             console.log('Consumer closed');
         });
@@ -126,6 +129,10 @@ export default class VoiceChannelComponent extends React.Component {
 
     handleAudioToggle = () => {
         console.log('toggle audio')
+
+        // username from props is JSON of "{username, sessionId}", extract only username from that
+        const username = JSON.parse(this.props.username).username
+
         if (!this.state.audioProducer) {
             // Get our mic and camera
             navigator.mediaDevices.getUserMedia({
@@ -142,9 +149,11 @@ export default class VoiceChannelComponent extends React.Component {
 
                     // Also store stream in user context audio streams
                     let streams = this.context.audioStreams
-                    if (!streams[this.props.username])
-                        streams[this.props.username] = {}
-                    streams[this.props.username].audio = stream
+                    if (!streams[username])
+                        streams[username] = {}
+                    if (!streams[username][this.mySessionId])
+                        streams[username][this.mySessionId] = {}
+                    streams[username][this.mySessionId].audio = stream
                     this.context.setAudioStreams(streams)
 
                     // Send our audio.
@@ -160,7 +169,7 @@ export default class VoiceChannelComponent extends React.Component {
 
             // Also delete stream from user context audio streams
             let streams = this.context.audioStreams
-            delete streams[this.props.username]
+            delete streams[username][this.mySessionId]
             this.context.setAudioStreams(streams)
         }
     }
@@ -171,11 +180,16 @@ export default class VoiceChannelComponent extends React.Component {
     }
 
     render() {
+        let audioStreams = []
+        Object.keys(this.context.audioStreams).forEach(peerName=>{
+            Object.keys(this.context.audioStreams[peerName]).forEach(sessionId=>{
+                audioStreams.push(<PeerAudioComponent key={`${peerName}:${sessionId}`} stream={this.context.audioStreams[peerName][sessionId]}/>)
+            })
+        })
+
         return <div>
             {/* Actual Audios component */}
-            {Object.keys(this.context.audioStreams).map((peerName) => {
-                return <PeerAudioComponent key={peerName} stream={this.context.audioStreams[peerName]}/>
-            })}
+            {audioStreams}
             <Button type="primary" shape="circle" onClick={_=>this.handleAudioToggle()} icon={
             this.state.selfAudioOn ? <AudioOutlined /> : <AudioMutedOutlined />
             } />

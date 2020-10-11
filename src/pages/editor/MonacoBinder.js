@@ -84,7 +84,7 @@ export default class MonacoBinder {
     }
 
     _addRemoteCursor(reference) {
-        const color = colorAssigner.getColorAsHex(reference.sessionId());
+        const color = colorAssigner.getColorAsHex(reference.user().displayName);
         const remoteCursor = this._remoteCursorManager.addCursor(reference.sessionId(), color, JSON.parse(reference.user().displayName).displayName);
 
         reference.on("cleared", () => remoteCursor.hide());
@@ -132,7 +132,7 @@ export default class MonacoBinder {
     }
 
     _addRemoteSelection(reference) {
-        const color = colorAssigner.getColorAsHex(reference.sessionId())
+        const color = colorAssigner.getColorAsHex(reference.user().displayName)
         const remoteSelection = this._remoteSelectionManager.addSelection(reference.sessionId(), color);
 
         if (reference.isSet()) {
