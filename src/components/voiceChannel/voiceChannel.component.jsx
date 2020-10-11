@@ -129,6 +129,10 @@ export default class VoiceChannelComponent extends React.Component {
 
     handleAudioToggle = () => {
         console.log('toggle audio')
+
+        // username from props is JSON of "{username, sessionId}", extract only username from that
+        const username = JSON.parse(this.props.username).username
+
         if (!this.state.audioProducer) {
             // Get our mic and camera
             navigator.mediaDevices.getUserMedia({
@@ -145,11 +149,11 @@ export default class VoiceChannelComponent extends React.Component {
 
                     // Also store stream in user context audio streams
                     let streams = this.context.audioStreams
-                    if (!streams[this.props.username])
-                        streams[this.props.username] = {}
-                    if (!streams[this.props.username][this.mySessionId])
-                        streams[this.props.username][this.mySessionId] = {}
-                    streams[this.props.username][this.mySessionId].audio = stream
+                    if (!streams[username])
+                        streams[username] = {}
+                    if (!streams[username][this.mySessionId])
+                        streams[username][this.mySessionId] = {}
+                    streams[username][this.mySessionId].audio = stream
                     this.context.setAudioStreams(streams)
 
                     // Send our audio.
@@ -165,7 +169,7 @@ export default class VoiceChannelComponent extends React.Component {
 
             // Also delete stream from user context audio streams
             let streams = this.context.audioStreams
-            delete streams[this.props.username][this.mySessionId]
+            delete streams[username][this.mySessionId]
             this.context.setAudioStreams(streams)
         }
     }
