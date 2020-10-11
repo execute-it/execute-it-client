@@ -10,6 +10,7 @@ import FileManagerComponent from "./fileManager.component";
 import ParticipantsList from "../../components/participantsList/participantsList.component";
 import RoomInfo from "../../components/roomInfo/roomInfo.component";
 import { withRouter } from "react-router-dom";
+import cookie from "react-cookies";
 
 class WorkspacePage extends React.Component {
   static contextType = UserContext;
@@ -23,7 +24,7 @@ class WorkspacePage extends React.Component {
         id: this.props.history.location.state.roomId,
       };
       this.inviteCode = this.props.history.location.state.inviteCode;
-      this.domainUrl = process.env.REACT_APP_DOMAIN_URL;
+      this.domainUrl = `${process.env.REACT_APP_DOMAIN_URL}?roomId=${this.room.id}&token=${cookie.load('jwt')}`;
       this.state = {
         domain: null,
         projectData: null,
@@ -70,14 +71,26 @@ class WorkspacePage extends React.Component {
   tryAutoLogin = (user) => {
     if (user) {
       // console.log(user)
-      Convergence.connectAnonymously(this.domainUrl, JSON.stringify(user)).then(
+      const reconnectToken = window.sessionStorage.getItem('convergence-reconnect-token');
+      let domain;
+      if (reconnectToken != null) {
+        Convergence.reconnect(this.domainUrl, reconnectToken)
+          .then((d) => {
+            d.presence().presence('pratikdai7866@gmail.com').then((d)=>console.log(d, typeof d))
+            this.setState({ domain: d });
+            this.context.setDomain(d);
+            this.createOrJoinProject(d);
+          });
+      } else {
+        Convergence.connectWithJwt(this.domainUrl, cookie.load("jwt")).then(
           (d) => {
-            console.log(d);
+            window.sessionStorage.setItem("convergence-reconnect-token", d.session().reconnectToken());
             this.setState({ domain: d });
             this.context.setDomain(d);
             this.createOrJoinProject(d);
           }
-      );
+        );
+      }
     } else {
       this.props.history.push("/login");
     }
@@ -85,31 +98,31 @@ class WorkspacePage extends React.Component {
 
   createOrJoinProject = (domain) => {
     domain
-        .models()
-        .openAutoCreate({
-          id: this.room.id,
-          collection: "executeit",
-          ephemeral: true,
-          data: {
-            name: this.room.name,
-            tree: {
-              nodes: {
-                root: {
-                  name: this.room.name,
-                  children: [],
-                },
+      .models()
+      .openAutoCreate({
+        id: this.room.id,
+        collection: "executeit",
+        ephemeral: true,
+        data: {
+          name: this.room.name,
+          tree: {
+            nodes: {
+              root: {
+                name: this.room.name,
+                children: [],
               },
             },
           },
-        })
-        .then((model) => {
-          console.log("project model open");
-          // use the model
-          this.openProject(model);
-        })
-        .catch((error) => {
-          console.log("Could not open the project model", error);
-        });
+        },
+      })
+      .then((model) => {
+        console.log("project model open");
+        // use the model
+        this.openProject(model);
+      })
+      .catch((error) => {
+        console.log("Could not open the project model", error);
+      });
   };
 
   openProject = (projectModel) => {
@@ -120,37 +133,37 @@ class WorkspacePage extends React.Component {
 
     Promise.all([
       domain
-          .activities()
-          .join(projectModel.modelId())
-          .then((a) => (activity = a)),
+        .activities()
+        .join(projectModel.modelId())
+        .then((a) => (activity = a)),
       domain
-          .chat()
-          .create({
-            id: projectModel.modelId(),
-            type: "room",
-            membership: "public",
-            ignoreExistsError: true,
-          })
-          .then((channelId) => domain.chat().join(channelId))
-          .then((c) => (chatRoom = c)),
+        .chat()
+        .create({
+          id: projectModel.modelId(),
+          type: "room",
+          membership: "public",
+          ignoreExistsError: true,
+        })
+        .then((channelId) => domain.chat().join(channelId))
+        .then((c) => (chatRoom = c)),
     ])
-        .then(() => {
-          const projectData = {
-            projectModel,
-            activity,
-            chatRoom,
-            user: projectModel.session().user(),
-          };
-          this.setState({ projectData });
-          console.log(this.state.projectData, "11lkjasl");
-          this.context.setProjectData(projectData);
-        })
-        .then(() => {
-          this.setState({ isLoading: false });
-        })
-        .catch((e) => {
-          console.error(e);
-        });
+      .then(() => {
+        const projectData = {
+          projectModel,
+          activity,
+          chatRoom,
+          user: projectModel.session().user(),
+        };
+        this.setState({ projectData });
+        console.log(this.state.projectData, "11lkjasl");
+        this.context.setProjectData(projectData);
+      })
+      .then(() => {
+        this.setState({ isLoading: false });
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   };
 
   render() {
@@ -162,74 +175,74 @@ class WorkspacePage extends React.Component {
             <Spin size="large" />
           </div>
         ) : (
-          <Row>
-            <SplitPane
-              split="vertical"
-              minSize="70vw"
-              style={{ position: "relative" }}>
-              <div>
-                {" "}
-                <Row>
-                  <Col
-                    xs={5}
-                    style={{
-                      borderRight: "2px solid #505050",
-                    }}>
-                    <FileManagerComponent
-                      rtModel={this.context.projectData.projectModel}
-                      roomName={this.props.history.location.state.roomName}
-                    />
-                  </Col>
-                  <Col
-                    align="middle"
-                    xs={19}
-                    style={{
-                      height: "calc(100vh - 64px)",
-                    }}>
-                    <EditorGoupComponent
-                      rtModel={this.context.projectData.projectModel}
-                    />
-                  </Col>
-                </Row>
-              </div>
-              <div>
-                <SplitPane
-                  split="horizontal"
-                  minSize="47vh"
-                  allowResize={false}>
-
+            <Row>
+              <SplitPane
+                split="vertical"
+                minSize="70vw"
+                style={{ position: "relative" }}>
+                <div>
+                  {" "}
                   <Row>
-                    <SplitPane
-                      allowResize={false}
-                      split="vertical"
-                      minSize="50%">
-                      <ParticipantsList
-                        activity={this.context.projectData.activity}
-                        room={this.room}
+                    <Col
+                      xs={5}
+                      style={{
+                        borderRight: "2px solid #505050",
+                      }}>
+                      <FileManagerComponent
+                        rtModel={this.context.projectData.projectModel}
+                        roomName={this.props.history.location.state.roomName}
                       />
+                    </Col>
+                    <Col
+                      align="middle"
+                      xs={19}
+                      style={{
+                        height: "calc(100vh - 64px)",
+                      }}>
+                      <EditorGoupComponent
+                        rtModel={this.context.projectData.projectModel}
+                      />
+                    </Col>
+                  </Row>
+                </div>
+                <div>
+                  <SplitPane
+                    split="horizontal"
+                    minSize="47vh"
+                    allowResize={false}>
 
-                      <RoomInfo
-                        roomName={this.room.name}
-                        inviteCode={this.inviteCode}
-                        roomId={this.room.id}
-                      />
-                    </SplitPane>
-                  </Row>
-                  <Row>
-                    <TerminalComponent roomId={this.room.id} />
-                  </Row>
-                </SplitPane>
-              </div>
-            </SplitPane>
-            <ChatComponent
-              style={{ zIndex: "100000" }}
-              chatRoom={this.context.projectData.chatRoom}
-              domain={this.context.domain}
-              user={this.context.projectData.user}
-              roomName={this.room.name}
-            />
-          </Row>
-        )}
+                    <Row>
+                      <SplitPane
+                        allowResize={false}
+                        split="vertical"
+                        minSize="50%">
+                        <ParticipantsList
+                          activity={this.context.projectData.activity}
+                          room={this.room}
+                        />
+
+                        <RoomInfo
+                          roomName={this.room.name}
+                          inviteCode={this.inviteCode}
+                          roomId={this.room.id}
+                        />
+                      </SplitPane>
+                    </Row>
+                    <Row>
+                      <TerminalComponent roomId={this.room.id} />
+                    </Row>
+                  </SplitPane>
+                </div>
+              </SplitPane>
+              <ChatComponent
+                style={{ zIndex: "100000" }}
+                chatRoom={this.context.projectData.chatRoom}
+                domain={this.context.domain}
+                user={this.context.projectData.user}
+                roomName={this.room.name}
+              />
+            </Row>
+          )}
       </div>
     );
   }
