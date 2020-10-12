@@ -16,7 +16,7 @@ import { withRouter } from "react-router-dom";
 import HeaderComponent from "./components/headerComponent/headerComponent.component";
 import JoinPage from "./pages/join/join.page";
 import GA from './utils/GoogleAnalytics'
-
+import AboutUs from './pages/about/about.page'
 const { Header } = Layout;
 const App = (props) => {
   const [loading, setLoading] = useState(true);
@@ -35,7 +35,7 @@ const App = (props) => {
   const checkCookie = () => {
     const token = cookie.load("jwt");
 
-    if (props.history.location.pathname === "/login") return;
+    if (props.history.location.pathname === "/login" || props.history.location.pathname === "/about") return;
 
     if (typeof token !== "undefined") {
       //verify token
@@ -94,6 +94,9 @@ const App = (props) => {
         </Route>
         <Route path="/join">
           <JoinPage />
+        </Route>
+        <Route path="/about">
+          <AboutUs />
         </Route>
         {loading ? (
           <div></div>

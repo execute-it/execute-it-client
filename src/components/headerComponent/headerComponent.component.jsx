@@ -2,12 +2,12 @@ import React, { useContext } from "react";
 import { Space, Avatar, Typography, Row, Col } from "antd";
 import logo from "../../logo.svg";
 import UserContext from "../../context/UserContext";
-import { Menu, Dropdown} from "antd";
-import { withRouter } from "react-router-dom";
+import { Menu, Dropdown } from "antd";
+import { withRouter, Link } from "react-router-dom";
 import cookie from "react-cookies";
 import GlobalContext from "../../context/GlobalContext";
 
-const { Title } = Typography;
+const { Title} = Typography;
 
 const HeaderComponent = (props) => {
   // const { isDarkMode, toggleTheme } = props;
@@ -46,7 +46,7 @@ const HeaderComponent = (props) => {
           />
           <Title
             id="title"
-            style={{ color: "white", fontSize: '200%', cursor: 'pointer',marginTop: '1rem' }}
+            style={{ color: "white", fontSize: '200%', cursor: 'pointer', marginTop: '1rem' }}
             level={3}
             onClick={() => {
               props.history.push("/rooms");
@@ -60,10 +60,21 @@ const HeaderComponent = (props) => {
           <Row justify="end">
             <Col xs={24} style={{ textAlign: "right" }}>
 
+              <Space>
+                <Dropdown overlay={menu}>
+                  <Avatar size={50} src={JSON.parse(user.displayName).image} />
+                </Dropdown>
 
-              <Dropdown overlay={menu}>
-                <Avatar size={50} src={JSON.parse(user.displayName).image} />
-              </Dropdown>
+                <Link
+  to={{
+    pathname: "/about",
+
+  }}
+>About Us</Link>
+
+
+
+              </Space>
 
             </Col>
           </Row>
