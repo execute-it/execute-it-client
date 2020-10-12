@@ -71,7 +71,7 @@ const HeaderComponent = (props) => {
                   pathname: "/about",
 
                 }}
-              >About Us</Link>
+              id="aboutus">About Us</Link>
 
 
 

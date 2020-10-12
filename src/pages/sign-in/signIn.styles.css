@@ -28,6 +28,9 @@
 }
 
 @media screen and (max-width: 600px) {
+    #aboutus {
+        display: none;
+    }
     #login-card {
         top: 53%;
         width: 85vw;
@@ -42,6 +45,9 @@
 }
 
 @media screen and (max-width: 380px) {
+    #aboutus {
+        display: none;
+    }
     #login-card {
         top: 60%;
         width: 95vw;
@@ -55,6 +61,9 @@
 }
 
 @media screen and (max-width: 320px) {
+    #aboutus {
+        display: none;
+    }
     #login-card {
         top: 55%;
         width: 100vw;
