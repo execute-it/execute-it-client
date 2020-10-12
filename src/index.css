@@ -13,6 +13,10 @@ code {
     width: 70px;
 }
 
+.ant-layout-header {
+    height: 70px !important;
+}
+
 #spinner {
     display: block;
     position: fixed;

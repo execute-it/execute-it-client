@@ -37,6 +37,7 @@ const HeaderComponent = (props) => {
   return (
     <Row justify="center" align="middle">
       <Col xs={24} md={12} >
+      <a href="/rooms">
         <Space size='large' align="center"  >
           <img
             width={70}
@@ -50,6 +51,7 @@ const HeaderComponent = (props) => {
             level={3}
             >{`< Execute It />`}</Title>
         </Space>
+        </a>
 
 
       </Col>
