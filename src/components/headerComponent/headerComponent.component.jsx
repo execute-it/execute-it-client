@@ -7,7 +7,7 @@ import { withRouter, Link } from "react-router-dom";
 import cookie from "react-cookies";
 import GlobalContext from "../../context/GlobalContext";
 
-const { Title} = Typography;
+const { Title } = Typography;
 
 const HeaderComponent = (props) => {
   // const { isDarkMode, toggleTheme } = props;
@@ -55,31 +55,32 @@ const HeaderComponent = (props) => {
 
 
       </Col>
-      {user !== null ? (
-        <Col xs={12}>
-          <Row justify="end">
-            <Col xs={24} style={{ textAlign: "right" }}>
 
-              <Space>
+      <Col xs={12}>
+        <Row justify="end">
+          <Col xs={24} style={{ textAlign: "right" }}>
+
+            <Space>
+              {user !== null ? (
                 <Dropdown overlay={menu}>
                   <Avatar size={50} src={JSON.parse(user.displayName).image} />
                 </Dropdown>
+              ) : null}
+              <Link
+                to={{
+                  pathname: "/about",
 
-                <Link
-  to={{
-    pathname: "/about",
-
-  }}
->About Us</Link>
+                }}
+              >About Us</Link>
 
 
 
-              </Space>
+            </Space>
 
-            </Col>
-          </Row>
-        </Col>
-      ) : <Col xs={12}></Col>}
+          </Col>
+        </Row>
+      </Col>
+
     </Row>
   );
 };
