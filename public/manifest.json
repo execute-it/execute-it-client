@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Execute It",
+  "name": "Realtime code collaboration and execution",
   "icons": [
     {
       "src": "favicon.ico",
