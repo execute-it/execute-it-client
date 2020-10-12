@@ -48,9 +48,7 @@ const HeaderComponent = (props) => {
             id="title"
             style={{ color: "white", fontSize: '200%', cursor: 'pointer', marginTop: '1rem' }}
             level={3}
-            onClick={() => {
-              props.history.push("/rooms");
-            }}>{`< Execute It />`}</Title>
+            >{`< Execute It />`}</Title>
         </Space>
 
 
