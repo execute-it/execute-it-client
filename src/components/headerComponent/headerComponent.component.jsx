@@ -15,10 +15,10 @@ const HeaderComponent = (props) => {
   const userContext = useContext(UserContext);
 
   const { user } = userContext;
-  console.log(user, "sdfdlfkdfjlskjf");
+//   console.log(user, "sdfdlfkdfjlskjf");
 
   const logout = () => {
-    console.log("logout");
+    // console.log("logout");
     cookie.remove("jwt", { path: "/" });
     userContext.dispose();
     globalContext.dispose();

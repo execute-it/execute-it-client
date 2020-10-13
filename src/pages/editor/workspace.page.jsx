@@ -87,7 +87,7 @@ class WorkspacePage extends React.Component {
             if (reconnectToken != null) {
                 Convergence.reconnect(this.domainUrl, reconnectToken)
                     .then((d) => {
-                        d.presence().presence('pratikdai7866@gmail.com').then((d) => console.log(d, typeof d))
+                        // d.presence().presence('pratikdai7866@gmail.com').then((d) => console.log(d, typeof d))
                         this.setState({domain: d});
                         this.context.setDomain(d);
                         this.createOrJoinProject(d);
