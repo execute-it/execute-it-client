@@ -6,8 +6,7 @@ import SoundMeter from "../../utils/SoundMeter";
 
 const {Text} = Typography
 
-const menu = (props) =>
-{
+const menu = (props) => {
     const data = JSON.parse(props)
 
     return (
@@ -16,8 +15,7 @@ const menu = (props) =>
 
 }
 
-const title = (props) =>
-{
+const title = (props) => {
     const data = JSON.parse(props)
     return (
         <Space size='large'>
@@ -37,9 +35,9 @@ class Participant extends React.Component {
         }
     }
 
-    getAvgVolumeLevel = (soundMeters)=>{
+    getAvgVolumeLevel = (soundMeters) => {
         let totalLevel = 0.000;
-        soundMeters.forEach(soundMeter=>{
+        soundMeters.forEach(soundMeter => {
             totalLevel += parseFloat(soundMeter.volume.toFixed(1)) * 20
         })
         // Restrict value betn 2 and 6
@@ -47,15 +45,15 @@ class Participant extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevStates, ss) {
-        if(this.props !== prevProps) {
-            if(this.interval) {
+        if (this.props !== prevProps) {
+            if (this.interval) {
                 clearInterval(this.interval)
             }
             try {
                 if (this.props.streams) {
                     // Getting multiple streams here, avg. or add their volume
                     let soundMeters = []
-                    for(let i in this.props.streams){
+                    for (let i in this.props.streams) {
                         const stream = this.props.streams[i].audio
                         window.AudioContext = window.AudioContext || window.webkitAudioContext;
                         let audioContext = new AudioContext();
@@ -75,7 +73,7 @@ class Participant extends React.Component {
     }
 
     componentWillUnmount() {
-        if(this.interval)
+        if (this.interval)
             clearInterval(this.interval)
     }
 
@@ -92,7 +90,8 @@ class Participant extends React.Component {
                 <Popover content={() => (menu(this.props.displayName))} placement='left'
                          title={() => (title(this.props.displayName))}>
                     <Space>
-                        <Avatar style={{borderWidth: border, borderColor: this.props.color, borderStyle: 'solid'}} size={45}
+                        <Avatar style={{borderWidth: border, borderColor: this.props.color, borderStyle: 'solid'}}
+                                size={45}
                                 src={JSON.parse(this.props.displayName).image}/>
                         <Typography.Text>{JSON.parse(this.props.displayName).displayName}</Typography.Text>
                         {this.props.isSelf &&

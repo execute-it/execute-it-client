@@ -1,7 +1,7 @@
 import React from 'react'
-import { Terminal } from 'xterm';
-import { AttachAddon } from 'xterm-addon-attach';
-import { FitAddon } from 'xterm-addon-fit';
+import {Terminal} from 'xterm';
+import {AttachAddon} from 'xterm-addon-attach';
+import {FitAddon} from 'xterm-addon-fit';
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import cookie from 'react-cookies'
 import GlobalContext from '../../context/GlobalContext';
@@ -28,8 +28,8 @@ export default class TerminalComponent extends React.Component {
     }
 
     handleResize = (size) => {
-        console.log("Resize")
-        console.log(size)
+        // console.log("Resize")
+        // console.log(size)
         if (this.fitAddon)
             this.fitAddon.fit()
         if (this.ws && this.ws.readyState === WebSocket.OPEN)
@@ -52,7 +52,9 @@ export default class TerminalComponent extends React.Component {
         terminal.loadAddon(this.fitAddon)
         this.fitAddon.fit()
 
-        terminal.onResize((size)=>{console.log("Resize")})
+        terminal.onResize((size) => {
+            // console.log("Resize")
+        })
 
         new ResizeObserver(this.handleResize).observe(this.xtermRef)
 
@@ -79,7 +81,8 @@ export default class TerminalComponent extends React.Component {
 
     render() {
         return (
-            <div ref={r => this.xtermRef = r} style={{width: "100%", height: "400px"}} className={"this.props.className"} />
+            <div ref={r => this.xtermRef = r} style={{width: "100%", height: "400px"}}
+                 className={"this.props.className"}/>
         )
     }
 }

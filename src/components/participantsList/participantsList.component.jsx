@@ -24,7 +24,7 @@ export default class ParticipantsList extends React.Component {
                 let emails = []
                 participants.forEach((participant) => {
                     const userEmail = JSON.parse(participant.user.displayName).email;
-                    console.log(userEmail)
+                    // console.log(userEmail)
                     if (!JSON.parse(participant.user.displayName).isBot && userEmail === this.context.user.email) {
                         if (emails.indexOf(userEmail) === -1) {
                             filteredParticipants.push(participant)
@@ -34,7 +34,7 @@ export default class ParticipantsList extends React.Component {
                 })
                 participants.forEach((participant) => {
                     const userEmail = JSON.parse(participant.user.displayName).email;
-                    console.log(userEmail)
+                    // console.log(userEmail)
                     if (!JSON.parse(participant.user.displayName).isBot && userEmail !== this.context.user.email) {
                         if (emails.indexOf(userEmail) === -1) {
                             filteredParticipants.push(participant)
@@ -54,7 +54,7 @@ export default class ParticipantsList extends React.Component {
     }
 
     createParticipant(participant, isSelf) {
-        console.log(participant.user);
+        // console.log(participant.user);
         const streams = this.context.audioStreams[JSON.parse(participant.user.displayName).email]
         return (
             <Participant

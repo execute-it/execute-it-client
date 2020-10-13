@@ -3,7 +3,7 @@
     display: flex;
 }
 
-.editor-container>.radar-view {
+.editor-container > .radar-view {
     min-width: 20px;
 }
 
@@ -39,8 +39,7 @@
     height: 2px;
     margin: 0 -5px;
     background-color: #adadad;
-    border-left: 2px solid #505050;
-    ;
+    border-left: 2px solid #505050;;
     border-right: 2px solid #505050;
     cursor: row-resize;
 }
@@ -55,8 +54,7 @@
     width: 2px;
     margin: 0 -5px;
     background-color: #adadad;
-    border-left: 2px solid #505050;
-    ;
+    border-left: 2px solid #505050;;
     border-right: 2px solid #505050;
     cursor: col-resize;
 }

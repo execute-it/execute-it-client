@@ -32,7 +32,7 @@ class VoiceChatMainComponent extends React.Component {
         });
 
         this.socket.on('connect', () => {
-            console.log(this.socket.id)
+            // console.log(this.socket.id)
             this.socket.emit('authentication', {
                 token: 'highSekurityToken',
                 roomId: this.room
@@ -40,7 +40,7 @@ class VoiceChatMainComponent extends React.Component {
 
             // Handle unauthorized
             this.socket.on('unauthorized', err => {
-                console.log(err)
+                // console.log(err)
                 this.socket.close()
                 if (err.message.includes('Unauthorized'))
                     alert("Unauthenticated")
@@ -50,12 +50,12 @@ class VoiceChatMainComponent extends React.Component {
 
             // Handle successful auth
             this.socket.on('authenticated', () => {
-                console.log("Logged In!");
+                // console.log("Logged In!");
                 this.context.setVoiceConnected(true)
                 this.setState({socket: this.socket})
             });
 
-            this.socket.on('disconnect', ()=>{
+            this.socket.on('disconnect', () => {
                 this.context.setVoiceConnected(false)
             })
         });
@@ -67,7 +67,7 @@ class VoiceChatMainComponent extends React.Component {
     }
 
     render() {
-        return (<div >
+        return (<div>
             {this.state.socket && <VoiceChannelComponent socket={this.state.socket} username={this.username}/>}
         </div>)
     }

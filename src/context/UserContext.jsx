@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 
 const UserContext = React.createContext();
 
@@ -14,37 +14,37 @@ class UserProvider extends Component {
 
     // Method to update state
     setUser = (user) => {
-        this.setState({ user });
+        this.setState({user});
     };
 
     setDomain = (domain) => {
-        this.setState({ domain });
+        this.setState({domain});
     };
 
     setProjectData = (projectData) => {
-        this.setState({ projectData });
+        this.setState({projectData});
     };
 
     dispose = () => {
         this.setState({
-            user:null,
+            user: null,
             domain: null,
             projectData: null
         })
     }
 
-    setAudioStreams = (streams)=>{
+    setAudioStreams = (streams) => {
         this.setState({audioStreams: streams})
     }
 
-    setVoiceConnected = (isVoiceConnected)=>{
+    setVoiceConnected = (isVoiceConnected) => {
         this.setState({isVoiceConnected})
     }
 
     render() {
-        const { children } = this.props;
-        const { user, domain, projectData, audioStreams, isVoiceConnected } = this.state;
-        const { setUser, setDomain, setProjectData, dispose, setAudioStreams, setVoiceConnected } = this;
+        const {children} = this.props;
+        const {user, domain, projectData, audioStreams, isVoiceConnected} = this.state;
+        const {setUser, setDomain, setProjectData, dispose, setAudioStreams, setVoiceConnected} = this;
 
         return (
             <UserContext.Provider
@@ -70,4 +70,4 @@ class UserProvider extends Component {
 
 export default UserContext;
 
-export { UserProvider };
+export {UserProvider};

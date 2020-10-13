@@ -1,5 +1,6 @@
 import colorAssigner from '../../utils/color-util';
-import {RemoteCursorManager,EditorContentManager,RemoteSelectionManager} from '@convergencelabs/monaco-collab-ext'
+import {EditorContentManager, RemoteCursorManager, RemoteSelectionManager} from '@convergencelabs/monaco-collab-ext'
+
 export default class MonacoBinder {
     constructor(editor, model, collaborative) {
         this._monacoEditor = editor;
@@ -7,9 +8,9 @@ export default class MonacoBinder {
         this._collaborative = collaborative || false;
     }
 
-    bind(){
+    bind() {
         this._bindData()
-        if(this._collaborative){
+        if (this._collaborative) {
             this._bindCursor()
             this._bindSelection()
         }
@@ -48,7 +49,7 @@ export default class MonacoBinder {
         });
     }
 
-    _bindCursor(){
+    _bindCursor() {
         this._remoteCursorManager = new RemoteCursorManager({
             editor: this._monacoEditor,
             tooltips: true,
@@ -147,7 +148,6 @@ export default class MonacoBinder {
             remoteSelection.setOffsets(selection.start, selection.end);
         });
     }
-
 
 
 }

@@ -8,7 +8,7 @@ const RoomInfo = (props) => {
     const [portFwd, setPortFwd] = React.useState()
 
     function handleChangePortFwd(e) {
-        console.log(e.target.value)
+        // console.log(e.target.value)
         setPortFwd(e.target.value)
     }
 

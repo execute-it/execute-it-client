@@ -4,7 +4,7 @@ export default class PeerAudioComponent extends React.Component {
     constructor(props) {
         super(props);
         this.audioRef = React.createRef()
-        console.log("Incoming audio!")
+        // console.log("Incoming audio!")
     }
 
     componentDidMount() {

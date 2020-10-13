@@ -31,14 +31,17 @@
     #aboutus {
         display: none;
     }
+
     #login-card {
         top: 53%;
         width: 85vw;
         margin-bottom: 2rem;
     }
+
     #googleButton {
         display: none !important;
     }
+
     #mobileBanner {
         display: block
     }
@@ -48,13 +51,16 @@
     #aboutus {
         display: none;
     }
+
     #login-card {
         top: 60%;
         width: 95vw;
     }
+
     #title {
         font-size: 170% !important;
     }
+
     #mobileBanner {
         display: block
     }
@@ -64,19 +70,24 @@
     #aboutus {
         display: none;
     }
+
     #login-card {
         top: 55%;
         width: 100vw;
     }
+
     #title {
         font-size: 130% !important;
     }
+
     .h1.ant-typography {
         font-size: 100% !important;
     }
+
     .iphone {
         font-size: 180% !important;
     }
+
     #mobileBanner {
         display: block
     }
