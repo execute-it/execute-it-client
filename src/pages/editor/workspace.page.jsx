@@ -233,6 +233,7 @@ class WorkspacePage extends React.Component {
                                                     split="vertical"
                                                     minSize="50%"
                                                     allowResize={false}
+                                                    style={{overflow: 'scroll'}}
 
                                                 >
 
