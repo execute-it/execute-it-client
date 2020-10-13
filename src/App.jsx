@@ -16,7 +16,6 @@ import HeaderComponent from "./components/headerComponent/headerComponent.compon
 import JoinPage from "./pages/join/join.page";
 import GA from './utils/GoogleAnalytics'
 import AboutUs from './pages/about/about.page'
-import logo from './logo.svg'
 
 const {Header} = Layout;
 const App = (props) => {
