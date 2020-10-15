@@ -81,7 +81,7 @@ export default class TerminalComponent extends React.Component {
 
     render() {
         return (
-            <div ref={r => this.xtermRef = r} style={{width: "100%", height: "100%"}}
+            <div ref={r => this.xtermRef = r} style={{width: "100%", height: "400px"}}
                  className={"this.props.className"}/>
         )
     }
