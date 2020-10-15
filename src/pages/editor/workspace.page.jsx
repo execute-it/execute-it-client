@@ -248,7 +248,7 @@ class WorkspacePage extends React.Component {
                                                     />
                                                 </SplitPane>
                                             </div>
-                                            <div style={{height: '100%'}}>
+                                            <div>
                                                 <TerminalComponent roomId={this.room.id}/>
                                             </div>
                                         </SplitPane>
