@@ -235,7 +235,7 @@ class WorkspacePage extends React.Component {
                                                     allowResize={false}
 
                                                 >
-
+                                                    
                                                     <ParticipantsList
                                                         activity={this.context.projectData.activity}
                                                         room={this.room}

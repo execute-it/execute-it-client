@@ -20,6 +20,7 @@ const HeaderComponent = (props) => {
   const logout = () => {
     // console.log("logout");
     cookie.remove("jwt", { path: "/" });
+    window.sessionStorage.removeItem("convergence-reconnect-token")
     userContext.dispose();
     globalContext.dispose();
   };
