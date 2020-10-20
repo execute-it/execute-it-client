@@ -59,6 +59,7 @@ class GlobalProvider extends Component {
 
         this.state.editors.map((editor) => {
             if (editor.modelId === this.state.selectedId) {
+                // console.log(editor)
                 const type = editor.title.split(".")[1];
                 this.state.ws.send("\x03\n"); // Simulate ^C to terminate previously running command if any
                 this.state.ws.send("clear\n"); // Clear Console
@@ -71,6 +72,8 @@ class GlobalProvider extends Component {
                         this.state.ws.send(`gcc ${editor.title} && ./a.out\n`);
                     } else if (type === "cpp") {
                         this.state.ws.send(`g++ ${editor.title} && ./a.out\n`);
+                    }  else if (type === "sh") {
+                        this.state.ws.send(`bash ${editor.title} \n`);
                     } else {
                         this.state.ws.send('echo "FileNotSupported" ');
                     }

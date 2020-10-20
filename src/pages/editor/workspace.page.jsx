@@ -233,13 +233,13 @@ class WorkspacePage extends React.Component {
                                                     split="vertical"
                                                     minSize="50%"
                                                     allowResize={false}
-                                                    style={{overflow: 'scroll'}}
 
                                                 >
 
                                                     <ParticipantsList
                                                         activity={this.context.projectData.activity}
                                                         room={this.room}
+                                                        style={{overflow: 'scroll'}}
                                                     />
                                                     <RoomInfo
                                                         roomName={this.room.name}
