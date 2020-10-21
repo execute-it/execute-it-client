@@ -15,7 +15,7 @@ import {
   CaretRightOutlined,
   DeleteOutlined,
   FileAddOutlined,
-//   FolderAddOutlined,
+  //   FolderAddOutlined,
   QuestionCircleOutlined,
 } from "@ant-design/icons";
 
@@ -172,13 +172,16 @@ export default class FileManagerComponent extends React.Component {
                 File
               </Button>
             </Col>
-            {/* <Col lg={24} xl={8}>
-                            <Button
-                                size="small"
-                                icon={<FolderAddOutlined/>}
-                                type="primary"
-                                onClick={_ => this.setState({visibleNewFolderModal: true})}> Folder </Button>
-                        </Col> */}
+            <Col lg={24} xl={8}>
+              <Button
+                size="small"
+                icon={<FolderAddOutlined />}
+                type="primary"
+                onClick={(_) => this.setState({ visibleNewFolderModal: true })}>
+                {" "}
+                Folder{" "}
+              </Button>
+            </Col>
             <Col lg={24} xl={8}>
               <Popconfirm
                 disabled={
