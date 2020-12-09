@@ -15,7 +15,7 @@ import axios from "axios";
 import HeaderComponent from "./components/headerComponent/headerComponent.component";
 import JoinPage from "./pages/join/join.page";
 import GA from './utils/GoogleAnalytics'
-import AboutUs from './pages/about/about.page'
+// import AboutUs from './pages/about/about.page'
 
 const {Header} = Layout;
 const App = (props) => {
@@ -119,9 +119,9 @@ const App = (props) => {
                 <Route path="/join">
                     <JoinPage/>
                 </Route>
-                <Route path="/about">
+                {/* <Route path="/about">
                     <AboutUs/>
-                </Route>
+                </Route> */}
                 {loading ? (
                     <div></div>
                 ) : (
