@@ -67,12 +67,12 @@ const HeaderComponent = (props) => {
                   <Avatar size={50} src={JSON.parse(user.displayName).image} />
                 </Dropdown>
               ) : null}
-              {/* <Link
+              <Link
                 to={{
                   pathname: "/about",
 
                 }}
-              id="aboutus">About Us</Link> */}
+              id="aboutus">About Us</Link>
 
 
 
