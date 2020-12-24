@@ -119,9 +119,9 @@ const App = (props) => {
                 <Route path="/join">
                     <JoinPage/>
                 </Route>
-                {/* <Route path="/about">
+                <Route path="/about">
                     <AboutUs/>
-                </Route> */}
+                </Route>
                 {loading ? (
                     <div></div>
                 ) : (
