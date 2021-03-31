@@ -15,6 +15,7 @@ import axios from "axios";
 import HeaderComponent from "./components/headerComponent/headerComponent.component";
 import JoinPage from "./pages/join/join.page";
 import GA from './utils/GoogleAnalytics'
+import AboutUs from "./pages/about/about.page";
 // import AboutUs from './pages/about/about.page'
 
 const {Header} = Layout;
@@ -33,9 +34,8 @@ const App = (props) => {
         // eslint-disable-next-line
     }, []);
 
-    
-    
-    const asciiArt = ()=>{
+
+    const asciiArt = () => {
         console.log(`
         ██╗    ██╗██╗  
        ██╔╝   ██╔╝╚██╗ 
@@ -45,7 +45,7 @@ const App = (props) => {
         ╚═╝╚═╝    ╚═╝  
                        
       `)
-      console.log(`%c 
+        console.log(`%c 
       ███████╗██╗  ██╗███████╗ ██████╗██╗   ██╗████████╗███████╗    ██╗████████╗
       ██╔════╝╚██╗██╔╝██╔════╝██╔════╝██║   ██║╚══██╔══╝██╔════╝    ██║╚══██╔══╝
       █████╗   ╚███╔╝ █████╗  ██║     ██║   ██║   ██║   █████╗      ██║   ██║   
@@ -53,7 +53,7 @@ const App = (props) => {
       ███████╗██╔╝ ██╗███████╗╚██████╗╚██████╔╝   ██║   ███████╗    ██║   ██║   
       ╚══════╝╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═════╝    ╚═╝   ╚══════╝    ╚═╝   ╚═╝   
                                                                                 
-      `,'font-size: 8px;')
+      `, 'font-size: 8px;')
     }
 
     const checkCookie = () => {
@@ -62,6 +62,7 @@ const App = (props) => {
         if (props.history.location.pathname === "/login" || props.history.location.pathname === "/about") return;
 
         if (typeof token !== "undefined") {
+            console.log(token)
             //verify token
             axios
                 .get(`${process.env.REACT_APP_MAIN_SERVER}/auth/verify`, {

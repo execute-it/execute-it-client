@@ -92,6 +92,7 @@
 .terminal.xterm {
     padding: 1rem
 }
-.Pane.vertical.Pane1  {
+
+.Pane.vertical.Pane1 {
     overflow: scroll;
 }

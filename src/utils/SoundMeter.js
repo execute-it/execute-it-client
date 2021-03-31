@@ -5,7 +5,7 @@ function SoundMeter(context) {
     this.clip = 0.0;
     this.script = context.createScriptProcessor(2048, 1, 1);
     let that = this;
-    this.script.onaudioprocess = function(event) {
+    this.script.onaudioprocess = function (event) {
         let input = event.inputBuffer.getChannelData(0);
         let i;
         let sum = 0.0;
@@ -22,7 +22,7 @@ function SoundMeter(context) {
     }
 }
 
-SoundMeter.prototype.connectToSource = function(stream) {
+SoundMeter.prototype.connectToSource = function (stream) {
     // console.log('SoundMeter connecting');
     this.mic = this.context.createMediaStreamSource(stream);
     this.mic.connect(this.script);
@@ -30,7 +30,7 @@ SoundMeter.prototype.connectToSource = function(stream) {
     this.script.connect(this.context.destination);
 }
 
-SoundMeter.prototype.stop = function() {
+SoundMeter.prototype.stop = function () {
     this.mic.disconnect();
     this.script.disconnect();
 }

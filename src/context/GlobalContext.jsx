@@ -72,7 +72,7 @@ class GlobalProvider extends Component {
                         this.state.ws.send(`gcc ${editor.title} && ./a.out\n`);
                     } else if (type === "cpp") {
                         this.state.ws.send(`g++ ${editor.title} && ./a.out\n`);
-                    }  else if (type === "sh") {
+                    } else if (type === "sh") {
                         this.state.ws.send(`bash ${editor.title} \n`);
                     } else {
                         this.state.ws.send('echo "FileNotSupported" ');

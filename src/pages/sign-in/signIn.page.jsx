@@ -69,8 +69,10 @@ class SignIn extends React.Component {
     receiveMessage = async (event) => {
         // console.log(event);
         const {data} = event;
-        if (data.source !== "react-devtools-bridge") {
-            const token = await queryString.parse(data).token;
+        console.log(event, 'asdasdasd');
+
+        if (data.id === "executeit") {
+            const token = await queryString.parse(data.path).token;
             // console.log(data);
             await cookie.save("jwt", token, {path: "/"});
             window.location.replace("/rooms");
@@ -138,6 +140,7 @@ class SignIn extends React.Component {
                                             <GoogleButton
                                                 id="googleButton"
                                                 onClick={() => {
+                                                    console.log(this.url)
                                                     this.openSignInWindow(this.url, "Sign In");
                                                 }}
                                             />

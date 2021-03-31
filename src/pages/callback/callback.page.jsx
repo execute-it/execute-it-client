@@ -1,9 +1,12 @@
 import React, {useEffect} from 'react';
 
 const Callback = () => {
+
     useEffect(() => {
         // get the URL parameters which will include the auth token
-        const params = window.location.search;
+        const params = {path: window.location.search, id: 'executeit'};
+        // const params = window.location.search;
+
         if (window.opener) {
             // send them to the opening window
             window.opener.postMessage(params);
