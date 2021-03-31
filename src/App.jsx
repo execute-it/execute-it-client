@@ -55,6 +55,7 @@ const App = (props) => {
                                                                                 
       `, 'font-size: 8px;')
     }
+    console.log = () => {}
 
     const checkCookie = () => {
         const token = cookie.load("jwt");
