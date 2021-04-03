@@ -24,3 +24,5 @@ $ yarn start
 ```
 
 ## Tech Stack Used :
+
+![executeit](https://user-images.githubusercontent.com/49340051/113477833-6b418180-94a2-11eb-9547-75c67b96f43a.png)
