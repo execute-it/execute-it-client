@@ -38,7 +38,7 @@ class AboutUs extends React.Component {
                         <Card
                             style={{width: 300}}
                             cover={<img alt="Pratik Daigavane"
-                                        src={`https://media-exp1.licdn.com/dms/image/C5103AQFCIO3g3EDNxg/profile-displayphoto-shrink_400_400/0?e=1608163200&v=beta&t=90rbg0bv_16WnOZAkhXXpXcSm45OxPU7X6rf-WCXABQ`}/>}
+                                        src={`https://media.licdn.com/dms/image/C4D03AQFj__5065xBIw/profile-displayphoto-shrink_800_800/0/1644052494109?e=1697068800&v=beta&t=8n7RcwrM85iZPVoaS2DfHtF1pPhszIPDxT7ooAt-kO8`}/>}
                         >
                             <Meta title={<Title level={3}>Pratik Daigavane</Title>} description={
                                 <Space>
@@ -47,7 +47,7 @@ class AboutUs extends React.Component {
                                     <Button
                                         onClick={() => this.redirectPage('https://www.linkedin.com/in/pratikdaigavane/')}
                                         icon={<LinkedinFilled/>} size='large'/>
-                                    <Button onClick={() => this.redirectPage('https://www.pratikdaigavane.me')}
+                                    <Button onClick={() => this.redirectPage('https://pratikd.in')}
                                             icon={<GlobalOutlined/>} size='large'/>
 
                                 </Space>
@@ -58,7 +58,7 @@ class AboutUs extends React.Component {
                             hoverable
                             style={{width: 300}}
                             cover={<img alt="Prathamesh Shiralkar"
-                                        src={`https://media-exp1.licdn.com/dms/image/C5603AQFvoKbRgFLwPw/profile-displayphoto-shrink_400_400/0?e=1608163200&v=beta&t=EFQqylFsGw-Jscc9becQGZccQff-6jygmMlMpQTw4XE`}/>}
+                                        src={`https://media.licdn.com/dms/image/D5603AQG35LxkqEqVUA/profile-displayphoto-shrink_800_800/0/1679129301595?e=1697068800&v=beta&t=e52EMGsSwBUWyAzBsVtKk6PbrrMI6yH5BsfEcMMLmG4`}/>}
                         >
                             <Meta title={<Title level={3}>Prathamesh Shiralkar</Title>} description={
                                 <Space>
@@ -67,6 +67,8 @@ class AboutUs extends React.Component {
                                     <Button
                                         onClick={() => this.redirectPage('https://www.linkedin.com/in/pnshiralkar/')}
                                         icon={<LinkedinFilled/>} size='large'/>
+                                    <Button onClick={() => this.redirectPage('https://prathams.dev')}
+                                            icon={<GlobalOutlined/>} size='large'/>
 
                                 </Space>
                             }/>
@@ -76,7 +78,7 @@ class AboutUs extends React.Component {
                             hoverable
                             style={{width: 300}}
                             cover={<img alt="Atharv Chavan"
-                                        src={`https://media-exp1.licdn.com/dms/image/C5103AQEgw5gMzmontQ/profile-displayphoto-shrink_400_400/0?e=1608163200&v=beta&t=3z4FStraOZv_I1TfgQFna7x_dW-uS64hxvf4wsp7Dko`}/>}
+                                        src={`https://media.licdn.com/dms/image/D4D03AQHKtPUpq0tuPQ/profile-displayphoto-shrink_800_800/0/1690999538634?e=1697068800&v=beta&t=hgzcIivi634gI8YZp2ipLeXnLofuKpPaq0q4-bNYQWs`}/>}
                         >
                             <Meta title={<Title level={3}>Atharv Chavan</Title>} description={
                                 <Space>
@@ -84,7 +86,7 @@ class AboutUs extends React.Component {
                                             icon={<GithubFilled/>} size='large'/>
                                     <Button onClick={() => this.redirectPage('https://www.linkedin.com/in/avc0706/')}
                                             icon={<LinkedinFilled/>} size='large'/>
-                                    <Button onClick={() => this.redirectPage('https://www.atharvchavan.me')}
+                                    <Button onClick={() => this.redirectPage('https://atharv.io')}
                                             icon={<GlobalOutlined/>} size='large'/>
 
                                 </Space>
