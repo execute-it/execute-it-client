@@ -2,7 +2,7 @@
 
 # Realtime Code Collaboration Platform
 
-> This Platform is Deployed at https://executeit.ml
+> This Platform is Deployed at https://executeit.app
 
 > Presentation Link: http://bit.ly/Execute-it
 

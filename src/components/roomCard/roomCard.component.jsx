@@ -22,7 +22,7 @@ const RoomCardComponent = ({roomName, inviteCode, isAdmin, roomId, history, room
     }
 
 
-    const inviteLink = `https://executeit.ml/join?inviteCode=${inviteCode}`
+    const inviteLink = `https://executeit.app/join?inviteCode=${inviteCode}`
 
     return (
 
